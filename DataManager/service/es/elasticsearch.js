@@ -13,4 +13,10 @@ var client = new elasticsearch.Client( {
   ]
 });
 
+this.client.cluster.health({}, function(err, resp, status) {
+	console.log("-- Client Error : [ ", err, " ] --")
+	console.log("-- Client Status : [ ", status, " ] --")
+	console.log("-- Client Health --\n", resp)	
+});
+
 module.exports = client;  
