@@ -15,8 +15,11 @@
     "esUserName":"",
     "esUserPasswd":"",
     "esIP":"192.168.0.118",
-    "esPort":"",
-"<<<<<<<<<<<<<<<<<<        Redis      >>>>>>":"",
+    "esPort":"",    
+"<<<<<<<<<<<<<<<<<<        Redis         >>>>>>":"",
     "redisIP": "192.168.0.111",
-    "redisPort": "6379"    
+    "redisPort": "6379",    
+"<<<<<<<<<<<<<<<<<<        socket.io     >>>>>>":"",
+    "listenPort": "9000"
+
 }

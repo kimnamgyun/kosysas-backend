@@ -4,7 +4,7 @@
 var redis = require('redis');
 var JSON = require('JSON');
 var express = require('express');
-var cfg = require('../../bin/config.json');
+var cfg = require('../../conf/config.json');
 
 var app = express();
  

@@ -1,4 +1,4 @@
-var cfg = require('../../bin/config.json');
+var cfg = require('../../conf/config.json');
 var pg  = require('pg');
 
 let configuration = {
