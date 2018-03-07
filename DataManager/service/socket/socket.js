@@ -32,6 +32,7 @@ io.on('connection', function(socket) {
     io.emit('login', data.name );
   });
 
+  
   // 클라이언트로부터의 메시지가 수신되면
   socket.on('chat', function(data) {
     console.log('Message from %s: %s', socket.name, data.msg);
@@ -67,8 +68,8 @@ io.on('connection', function(socket) {
   });
 });
 
-server.listen(3000, function() {
-  console.log('Socket IO server listening on port 3000');
+server.listen(cfg.listenPort, function() {
+  console.log('Socket IO server listening on port '+cfg.listenPort+' !! ');
 });
  
 
