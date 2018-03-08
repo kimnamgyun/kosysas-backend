@@ -1,5 +1,5 @@
 var elasticsearch=require('elasticsearch');
-var cfg = require('../../conf/config.json');
+var cfg = require('../../bin/config.json');
 
 let configuration = {
   host: cfg.esIP,
