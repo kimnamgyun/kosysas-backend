@@ -14,13 +14,8 @@ router.get('/', function(req, res, next) {
 		console.log("-- Client Health --\n", resp)	
 	});
 	
-//	searchFunctions.matchAll(client, 'metricbeat-*', function(result){
-//		console.log("matchAll\n", result);
-//	});
-	
-	var query = '"_type": "doc"';
-	searchFunctions.match(client, 'metricbeat-*', query, function(result) {
-		console.log("match\n", result);
+	client.count({index: 'metricbeat-*', type: 'doc'}, function(err, resp, status) {
+		console.log(resp);
 	});
 });
 

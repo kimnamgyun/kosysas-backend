@@ -28,9 +28,7 @@ module.exports.match = function(es, idx, searchData, callback) {
 		body: {
 			query: {
 				match: {
-					//_type: searchData
-					//"_type": "doc"
-					searchData
+					_type: searchData
 				}				
 			}
 		}

@@ -10,6 +10,7 @@ let configuration = {
 
 var client = new elasticsearch.Client( {  
   hosts: ["192.168.0.203:9200"
+	  // 'https://[username]:[password]@[server]:[port]/'
   ]
 });
 
