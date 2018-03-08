@@ -40,6 +40,7 @@ module.exports.match = function(es, idx, searchData, callback) {
 	});
 };
 
+/*
 module.exports.freeQuery = function(es, idx, searchData, callback) {
 	
 	es.search({
@@ -54,3 +55,4 @@ module.exports.freeQuery = function(es, idx, searchData, callback) {
 		console.log(err);
 	});
 };
+*/
