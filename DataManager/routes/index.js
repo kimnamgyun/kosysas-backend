@@ -158,9 +158,7 @@ router.get('/cerebro/overview', function(req, res, next) {
 				cb(null);
 			});
 		},
-		function(err) {
-			if(err) console.log(err);
-			
+		function(err) {			
 			let resultObject = "{}";
 			resultObject = jsonFunctions.stringToJsonObject(resultObject);
 						
@@ -171,10 +169,11 @@ router.get('/cerebro/overview', function(req, res, next) {
 			jsonFunctions.addValue(resultObject, "disk", allocation[0]['disk.indices']);
 			
 			console.log(resultObject);
+			res.send(resultObject);
 		}
 	]);		
 	
-	res.render("cerebro", {});
+	//res.render("cerebro", {});
 });
 
 /**
