@@ -30,9 +30,9 @@ exports.hasOwnProperty = function(jsonObject, key) {
 }
 
 // JsonObject에 새로운 key와 value를 추가한다.
-exports.addValueToJsonObject = function(jsonObject, key, value) {
+exports.addValue = function(jsonObject, key, value) {
 	
-	if(this.hasOwnProperty(jsonObject, key)) {
+	if(jsonObject.hasOwnProperty(key)) {
 		console.log("--");
 	}
 	else {
@@ -41,9 +41,9 @@ exports.addValueToJsonObject = function(jsonObject, key, value) {
 }
 
 // JsonObject에 들어있는 특정 key를 삭제한다.
-exports.deleteKeyFromJsonObject = function(jsonObject, key) {
+exports.deleteKey = function(jsonObject, key) {
 	
-	if(this.hasOwnProperty(jsonObject, key)) {
+	if(jsonObject.hasOwnProperty(key)) {
 		delete jsonObject[key];
 	}
 }

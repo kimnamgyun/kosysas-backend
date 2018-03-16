@@ -4,6 +4,7 @@
  */
 
 var request = require('request');
+var json = require('../../utils/json.js');
 
 /**
  * 			
@@ -16,7 +17,7 @@ module.exports.cat = function(host, apiName, callback) {
 		url: urlString,
 	}, function(err, resp, body){
 		//console.log(err);
-		console.log(resp.body);
-		callback(err, resp.body);
+		//console.log(apiName, " : ", Object.keys(resp.body).length);
+		callback(err, json.stringToJsonObject(resp.body));
 	});
 }

@@ -4,7 +4,7 @@ var client = require('../service/es/elasticsearch.js');
 var searchFunctions = require('../service/es/functions/search.js');
 var jsonFunctions = require('../service/utils/json.js');
 var cerebro = require('../service/es/functions/cerebro.js');
-var request = require('request');
+var async = require('async');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -86,48 +86,11 @@ router.get('/cerebro', function(req, res, next) {
 	});
 	cerebro.cat(host, 'shards', function(err, resp){
 		shards = resp;
+		console.log(shards.length);
 	});
 	cerebro.cat(host, 'segments', function(err, resp){
 		segments = resp;
-		
-		res.render('cerebro', {
-			aliases: aliases,
-			allocation: allocation,
-			count: count,
-			//fieldData: fieldData,
-			//health: health,
-			//indices: indices,
-			master: master,
-			//nodeattrs: nodeattrs,
-			//nodes: nodes,
-			//pendingTasks: pendingTasks,
-			//plugins: plugins,
-			//recovery: recovery,
-			//repositories: repositories,
-			//threadPool: threadPool,
-			//shards: shards,
-			//segments: segments
-		});
 	});
-		
-	/*
-	 * let aliases;
-	let allocation;
-	let count;
-	let fieldData;
-	let health;
-	let indices;
-	let master;
-	let nodeattrs;
-	let nodes;
-	let pendingTasks;
-	let plugins;
-	let recovery;
-	let repositories;
-	let threadPool;
-	let shards;
-	let segments;
-	 */
 	
 	/*
 	request.get({
@@ -145,6 +108,108 @@ router.get('/cerebro', function(req, res, next) {
 		console.log(response.body);		
 	});	
 	*/
+});
+
+/**
+ * 	/cerebro/overview
+ * @param req
+ * @param res
+ * @param next
+ * @returns		overview jsonObject Data
+ */
+router.get('/cerebro/overview', function(req, res, next) {
+	
+	let host = 'http://192.168.0.203:9200';
+	
+	let nodes;
+	let indices;
+	let count;
+	let shards;
+	let allocation;
+	
+	async.waterfall([
+		function(cb) {
+			cerebro.cat(host, 'count', function(err, resp){
+				count = resp;
+				cb(null);
+			});
+		},
+		function(cb) {
+			cerebro.cat(host, 'nodes', function(err, resp){
+				nodes = resp;
+				cb(null);
+			});
+		},		
+		function(cb) {
+			cerebro.cat(host, 'indices', function(err, resp){
+				indices = resp;
+				cb(null);
+			});
+		},
+		function(cb) {
+			cerebro.cat(host, 'shards', function(err, resp){
+				shards = resp;
+				cb(null);
+			});
+		},
+		function(cb) {
+			cerebro.cat(host, 'allocation', function(err, resp){
+				allocation = resp;
+				cb(null);
+			});
+		},
+		function(err) {
+			if(err) console.log(err);
+			
+			let resultObject = "{}";
+			resultObject = jsonFunctions.stringToJsonObject(resultObject);
+						
+			jsonFunctions.addValue(resultObject, "node", nodes.length);
+			jsonFunctions.addValue(resultObject, "indices", indices.length);
+			jsonFunctions.addValue(resultObject, "shards", shards.length);
+			jsonFunctions.addValue(resultObject, "docs", count[0].count);
+			jsonFunctions.addValue(resultObject, "disk", allocation[0]['disk.indices']);
+			
+			console.log(resultObject);
+		}
+	]);		
+	
+	res.render("cerebro", {});
+});
+
+/**
+ * 	/cerebro/nodes
+ * @param req
+ * @param res
+ * @param next
+ * @returns	node data ojbect
+ */
+router.get('/cerebro/nodes', function(req, res, next) {
+	
+	let host = 'http://192.168.0.203:9200';
+	
+	let allocation;
+	let nodes;
+	
+	async.waterfall([
+		function(cb) {
+			cerebro.cat(host, 'allocation', function(err, resp){
+				allocation = resp;
+				cb(null);
+			});
+		},
+		function(cb) {
+			cerebro.cat(host, 'nodes', function(err, resp){
+				nodes = resp;
+				cb(null);
+			});
+		},
+		function(err) {
+			if(err) console.log(err);
+			
+			let resultObejct = "{}";
+		}
+	]);
 });
 
 module.exports = router;
