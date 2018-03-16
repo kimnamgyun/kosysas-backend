@@ -1,5 +1,5 @@
 var elasticsearch=require('elasticsearch');
-var cfg = require('../../bin/config.json');
+var cfg = require('../../conf/config.json');
 
 let configuration = {
   host: cfg.esIP,
@@ -9,14 +9,17 @@ let configuration = {
 }
 
 var client = new elasticsearch.Client( {  
-  hosts: [///////////
+  hosts: ["192.168.0.203:9200"
+	  // 'https://[username]:[password]@[server]:[port]/'
   ]
 });
 
-this.client.cluster.health({}, function(err, resp, status) {
-	console.log("-- Client Error : [ ", err, " ] --")
-	console.log("-- Client Status : [ ", status, " ] --")
-	console.log("-- Client Health --\n", resp)	
-});
+module.exports.reConnect = function() {
+	this.client = new elasticsearch.Client( {
+		hosts: [
+			"192.168.0.203:9200"
+		]
+	});
+};
 
 module.exports = client;  

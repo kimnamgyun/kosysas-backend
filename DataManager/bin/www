@@ -7,7 +7,7 @@
 
 var debug = require('debug')('dbtest:server');
 var http = require('http');
-var cfg = require('./config.json');
+var cfg = require('../conf/config.json');
 var app = require('../app');
 
 /**
