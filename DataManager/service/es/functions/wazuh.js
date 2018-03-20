@@ -4,13 +4,18 @@
  */
 
 var request = require('request');
+var json = require('../../utils/json.js')
 
 
 module.exports.get = function(id, pw, host, api, callback){
 	
-	request.get("http://" + id + ":" + pw + "@" + host + api, function(err, res, body) {
+	var options = {
+			url: "http://" + id + ":" + pw + "@" + host + api, 
+			encoding: 'utf-8'
+	};
+	request.get(options, function(err, res, body) {
 		
 		//console.log(res.body);
-		callback(err, res.body);
+		callback(err, json.stringToJsonObject(res.body));
 	});
 }

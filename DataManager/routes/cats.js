@@ -141,8 +141,7 @@ router.get('/overview', function(req, res, next) {
 			});
 		},
 		function(err) {			
-			let resultObject = "{}";
-			resultObject = jsonFunctions.stringToJsonObject(resultObject);
+			let resultObject = jsonFunctions.createJsonObject();
 						
 			jsonFunctions.addValue(resultObject, "node", nodes.length);
 			jsonFunctions.addValue(resultObject, "indices", indices.length);

@@ -4,6 +4,13 @@
  * 		JSON 관련 함수
  */
 
+// 비어있는 json Object를 생성한다.
+exports.createJsonObject = function()
+{
+	let obj = '{}';
+	return this.stringToJsonObject(obj);
+}
+
 // json 확장자 파일을 읽어들인다.
 exports.readJsonFile = function(path, filename) {
 	
