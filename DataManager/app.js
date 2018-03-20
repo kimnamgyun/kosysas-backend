@@ -7,6 +7,10 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var cats = require('./routes/cats');
+var wazuhManager = require('./routes/wazuh/manager');
+var wazuhRules = require('./routes/wazuh/rules');
+var wazuhAgent = require('./routes/wazuh/agent');
 
 var app = express();
 
@@ -40,6 +44,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/cats', cats);
+app.use('/wazuh/manager', wazuhManager);
+app.use('/wazuh/rules', wazuhRules);
+app.use('/wazuh/agents', wazuhAgent);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
