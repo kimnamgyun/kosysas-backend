@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var request = require('request');
-var wazuh = require('../service/es/functions/wazuh.js');
+var wazuh = require('../../service/es/functions/wazuh.js');
 
 var id = "foo";
 var pw = "bar";
