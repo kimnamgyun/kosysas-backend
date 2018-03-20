@@ -47,7 +47,7 @@ app.use('/users', users);
 app.use('/cats', cats);
 app.use('/wazuh/manager', wazuhManager);
 app.use('/wazuh/rules', wazuhRules);
-app.use('/wazuh/agent', wazuhAgent);
+app.use('/wazuh/agents', wazuhAgent);
 
 
 // catch 404 and forward to error handler
