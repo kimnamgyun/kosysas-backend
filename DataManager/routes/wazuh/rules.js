@@ -23,7 +23,8 @@ router.get('/', function(req, res, next) {
 			res.send(err);
 		}
 		
-		res.send(resp);
+		let resultObject = resp.data.items;
+		res.send(resultObject);
 	});  
 });
 
@@ -31,9 +32,10 @@ router.get('/', function(req, res, next) {
  * GET files of rules
  * return files of rules
  */
+/*
 router.get('/files', function(req, res, next) {
 	
-	wazuh.get(id, pw, host, '/files?pretty', function (err, resp) {
+	wazuh.get(id, pw, host, '/rules/files?pretty', function (err, resp) {
 		
 		//console.log(err);
 		//console.log(resp);
@@ -61,7 +63,8 @@ router.get('/groups', function(req, res, next) {
 			res.send(err);
 		}
 		
-		res.send(resp);
+		let resultObject = resp.data.items;
+		res.send(resultObject);
 	});  
 });
 
@@ -80,7 +83,8 @@ router.get('/pci', function(req, res, next) {
 			res.send(err);
 		}
 		
-		res.send(resp);
+		let resultObject = resp.data.items;
+		res.send(resultObject);
 	});  
 });
 
@@ -99,7 +103,8 @@ router.get('/:rule_id', function(req, res, next) {
 			res.send(err);
 		}
 		
-		res.send(resp);
+		let resultObject = resp.data.items;
+		res.send(resultObject);
 	});  
 });
 

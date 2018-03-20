@@ -11,7 +11,7 @@ var host = "192.168.0.110:55000";
  * GET manager configuration 
  * return ossec.conf
  */
-router.get('configuration', function(req, res, next) {
+router.get('/configuration', function(req, res, next) {
 	
 	wazuh.get(id, pw, host, '/manager/configuration?pretty', function (err, resp) {
 		
@@ -22,7 +22,8 @@ router.get('configuration', function(req, res, next) {
 			res.send(err);
 		}
 		
-		res.send(resp);
+		let resultObject = resp.data;
+		res.send(resultObject);
 	});  
 });
 
@@ -30,7 +31,7 @@ router.get('configuration', function(req, res, next) {
  * GET manager info 
  * return basic information
  */
-router.get('info', function(req, res, next) {
+router.get('/info', function(req, res, next) {
 	
 	wazuh.get(id, pw, host, '/manager/info?pretty', function (err, resp) {
 		
@@ -41,7 +42,8 @@ router.get('info', function(req, res, next) {
 			res.send(err);
 		}
 		
-		res.send(resp);
+		let resultObject = resp.data;
+		res.send(resultObject);
 	});  
 });
 
@@ -60,7 +62,8 @@ router.get('/status', function(req, res, next) {
 			res.send(err);
 		}
 		
-		res.send(resp);
+		let resultObject = resp.data;
+		res.send(resultObject);
 	});  
 });
 
@@ -117,7 +120,8 @@ router.get('/stats', function(req, res, next) {
 			res.send(err);
 		}
 		
-		res.send(resp);
+		let resultObject = resp.data;
+		res.send(resultObject);
 	});  
 });
 
@@ -136,7 +140,8 @@ router.get('/stats/hourly', function(req, res, next) {
 			res.send(err);
 		}
 		
-		res.send(resp);
+		let resultObject = resp.data;
+		res.send(resultObject);
 	});  
 });
 
@@ -155,7 +160,8 @@ router.get('/stats/weekly', function(req, res, next) {
 			res.send(err);
 		}
 		
-		res.send(resp);
+		let resultObject = resp.data;
+		res.send(resultObject);
 	});  
 });
 
