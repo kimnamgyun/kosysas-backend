@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var cors = require('cors');	// cors 옵션 적용
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -13,6 +14,7 @@ var wazuhRules = require('./routes/wazuh/rules');
 var wazuhAgent = require('./routes/wazuh/agent');
 
 var app = express();
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));  //__dirname 은 현재  app.js  가 위치한 path
