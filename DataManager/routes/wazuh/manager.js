@@ -5,7 +5,7 @@ var wazuh = require('../../service/es/functions/wazuh.js');
 
 var id = "foo";
 var pw = "bar";
-var host = "192.168.0.110:55000";
+var host = "192.168.0.125:55000";
 
 /* 
  * GET manager configuration 
