@@ -39,10 +39,7 @@ module.exports = function(method, url, form, callback)
 		if(err){
 			console.log(err);
 			
-			let errObj = null;
-			
-			if(err.code == 'ETIMEDOUT') 
-				errObj = json.createErrObject('001');	// 임시 처리 (추후 코드에 따라 변경)
+			let errObj = json.createErrObject('001');
 			
 			callback(errObj, null);						// return err json object;
 		}
