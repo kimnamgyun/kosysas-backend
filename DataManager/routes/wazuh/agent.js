@@ -6,7 +6,33 @@ var json = require('../../service/utils/json.js');
 
 var id = "foo";
 var pw = "bar";
-var host = "192.168.0.125:55000";
+var host = "192.168.0.113:55000";
+
+/**
+ * 		callback 처리 함수
+ */
+function callback(res, err, resp) {
+
+	//console.log(err);
+	//console.log(resp);
+	if(resp) {
+		
+		let resultObject = json.createErrObject('0');
+		let temp = json.getValue(resp, 'data');
+		if(temp) { 
+			json.addValue(resultObject, 'data', temp);
+		}
+		else {
+			json.editValue(resultObject, 'error', '002');
+		}
+		
+		res.send(resultObject);
+	}
+	else {
+		
+		res.send(err);
+	}
+}
 
 /* 
  * GET all agent
@@ -14,17 +40,9 @@ var host = "192.168.0.125:55000";
  */
 router.get('/', function(req, res, next) {
 	
-	wazuh.get(id, pw, host, '/agents?pretty', function (err, resp) {
+	wazuh.get(id, pw, host, '/agents?pretty', function (err, resp) { 
 		
-		//console.log(err);
-		//console.log(resp);
-		
-		if(err) {
-			res.send(err);
-		}
-		
-		let resultObject = resp.data.items;
-		res.send(resultObject);
+		callback(res, err, resp);
 	});  
 });
 
@@ -36,15 +54,7 @@ router.get('/:agent_id', function(req, res, next) {
 	
 	wazuh.get(id, pw, host, '/agents/' + req.params.agent_id + '?pretty', function (err, resp) {
 		
-		//console.log(err);
-		//console.log(resp);
-		
-		if(err) {
-			res.send(err);
-		}
-		
-		let resultObject = resp.data;
-		res.send(resultObject);
+		callback(res, err, resp);
 	});  
 });
 
@@ -56,15 +66,7 @@ router.get('/name/:agent_name', function(req, res, next) {
 	
 	wazuh.get(id, pw, host, '/agents/name/' + req.params.agent_name + '?pretty', function (err, resp) {
 		
-		//console.log(err);
-		//console.log(resp);
-		
-		if(err) {
-			res.send(err);
-		}
-		
-		let resultObject = resp.data;
-		res.send(resultObject);
+		callback(res, err, resp);
 	});  
 });
 
@@ -76,15 +78,7 @@ router.get('/purgeable/:timeframe', function(req, res, next) {
 	
 	wazuh.get(id, pw, host, '/agents/purgeable/' + req.params.timeframe + '?pretty', function (err, resp) {
 		
-		//console.log(err);
-		//console.log(resp);
-		
-		if(err) {
-			res.send(err);
-		}
-		
-		let resultObject = resp.data;
-		res.send(resultObject);
+		callback(res, err, resp);
 	});  
 });
 
@@ -96,18 +90,8 @@ router.get('/:agent_id/key', function(req, res, next) {
 	
 	wazuh.get(id, pw, host, '/agents/' + req.params.agent_id + '/key?pretty', function (err, resp) {
 		
-		//console.log(err);
-		//console.log(resp);
-		
-		if(err) {
-			res.send(err);
-		}
-		
-		let resultObject = json.createJsonObject();
-		json.addValue(resultObject, "key", resp.data);
-		res.send(resultObject);
+		callback(res, err, resp);
 	});  
 });
-
 
 module.exports = router;

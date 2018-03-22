@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var jsonFunctions = require('../service/utils/json.js');
+var json = require('../service/utils/json.js');
 var cerebro = require('../service/es/functions/cerebro.js');
 var async = require('async');
 
@@ -103,54 +103,93 @@ router.get('/overview', function(req, res, next) {
 	
 	let host = 'http://192.168.0.203:9200';
 	
-	let nodes;
-	let indices;
-	let count;
-	let shards;
-	let allocation;
+	let errObj = null;
+	let nodes = null;
+	let indices = null;
+	let count = null;
+	let shards = null;
+	let allocation = null;
 	
 	async.waterfall([
 		function(cb) {
 			cerebro.cat(host, 'count', function(err, resp){
+				if(json.getValue(err, 'error') != '0') errObj = err;
 				count = resp;
 				cb(null);
 			});
 		},
 		function(cb) {
 			cerebro.cat(host, 'nodes', function(err, resp){
+				if(json.getValue(err, 'error') != '0') errObj = err;
 				nodes = resp;
 				cb(null);
 			});
 		},		
 		function(cb) {
 			cerebro.cat(host, 'indices', function(err, resp){
+				if(json.getValue(err, 'error') != '0') errObj = err;
 				indices = resp;
 				cb(null);
 			});
 		},
 		function(cb) {
 			cerebro.cat(host, 'shards', function(err, resp){
+				if(json.getValue(err, 'error') != '0') errObj = err;
 				shards = resp;
 				cb(null);
 			});
 		},
 		function(cb) {
 			cerebro.cat(host, 'allocation', function(err, resp){
+				if(json.getValue(err, 'error') != '0') errObj = err;
 				allocation = resp;
 				cb(null);
 			});
 		},
-		function(err) {			
-			let resultObject = jsonFunctions.createJsonObject();
-						
-			jsonFunctions.addValue(resultObject, "node", nodes.length);
-			jsonFunctions.addValue(resultObject, "indices", indices.length);
-			jsonFunctions.addValue(resultObject, "shards", shards.length);
-			jsonFunctions.addValue(resultObject, "docs", count[0].count);
-			jsonFunctions.addValue(resultObject, "disk", allocation[0]['disk.indices']);
-			
-			console.log(resultObject);
-			res.send(resultObject);
+		function(err) {
+			if(nodes && indices && shards && count && allocation) {
+				
+				let resultObj = json.createErrObject('0');
+				let obj = json.createJsonObject();
+				
+				let temp = json.getValue(nodes, 'length')
+				if(temp) { json.addValue(obj, "node", temp); }
+				else {					
+					json.editValue(resultObj, 'error', '002');
+				}
+				
+				temp = json.getValue(indices, 'length')
+				if(temp) { json.addValue(obj, "indices", temp); }
+				else {					
+					json.editValue(resultObj, 'error', '002');
+				}
+				
+				temp = json.getValue(shards, 'length')
+				if(temp) { json.addValue(obj, "shards", temp); }
+				else {					
+					json.editValue(resultObj, 'error', '002');
+				}
+				
+				temp = json.getValue(count[0], 'count')
+				if(temp) { json.addValue(obj, "docs", temp); }
+				else {					
+					json.editValue(resultObj, 'error', '002');
+				}
+				
+				temp = json.getValue(allocation[0], 'disk.indices')
+				if(temp) { json.addValue(obj, "disk", temp); }
+				else {					
+					json.editValue(resultObj, 'error', '002');
+				}
+	
+				json.addValue(resultObj, 'data', obj);
+				
+				res.send(resultObj);
+			}
+			else {
+				
+				res.send(errObj);
+			}
 		}
 	]);		
 	
