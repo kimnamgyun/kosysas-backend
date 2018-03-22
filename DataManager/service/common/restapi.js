@@ -4,6 +4,7 @@
  */
 
 var request = require('request');
+var json = require('../utils/json.js');
 
 /**
  * 		restful api 통신을 위한 모듈
@@ -35,7 +36,20 @@ module.exports = function(method, url, form, callback)
 	
 	request(options, function(err, res, body) {
 		
-		console.log(err);
-		callback(err, res, body);
+		if(err){
+			console.log(err);
+			
+			let errObj = null;
+			
+			if(err.code == 'ETIMEDOUT') 
+				errObj = json.createErrObject('001');	// 임시 처리 (추후 코드에 따라 변경)
+			
+			callback(errObj, null);						// return err json object;
+		}
+		else {
+			
+			let errObj = json.createErrObject('0');		// no error
+			callback(errObj, res);						// return response string;
+		}		
 	});
 }

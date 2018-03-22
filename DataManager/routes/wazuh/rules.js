@@ -5,8 +5,33 @@ var wazuh = require('../../service/es/functions/wazuh.js');
 
 var id = "foo";
 var pw = "bar";
-var host = "192.168.0.125:55000";
+var host = "192.168.0.113:55000";
 
+/**
+ * 		callback 처리 함수
+ */
+function callback(res, err, resp) {
+
+	//console.log(err);
+	//console.log(resp);
+	if(resp) {
+		
+		let resultObject = json.createErrObject('0');
+		let temp = json.getValue(resp, 'data');
+		if(temp) { 
+			json.addValue(resultObject, 'data', temp);
+		}
+		else {
+			json.editValue(resultObject, 'error', '002');
+		}
+		
+		res.send(resultObject);
+	}
+	else {
+		
+		res.send(err);
+	}
+}
 
 /* 
  * GET all rules
@@ -16,15 +41,7 @@ router.get('/', function(req, res, next) {
 	
 	wazuh.get(id, pw, host, '/rules?pretty', function (err, resp) {
 		
-		//console.log(err);
-		//console.log(resp);
-		
-		if(err) {
-			res.send(err);
-		}
-		
-		let resultObject = resp.data.items;
-		res.send(resultObject);
+		callback(res, err, resp);
 	});  
 });
 
@@ -56,15 +73,7 @@ router.get('/groups', function(req, res, next) {
 	
 	wazuh.get(id, pw, host, '/rules/groups?pretty', function (err, resp) {
 		
-		//console.log(err);
-		//console.log(resp);
-		
-		if(err) {
-			res.send(err);
-		}
-		
-		let resultObject = resp.data.items;
-		res.send(resultObject);
+		callback(res, err, resp);
 	});  
 });
 
@@ -76,15 +85,7 @@ router.get('/pci', function(req, res, next) {
 	
 	wazuh.get(id, pw, host, '/rules/pci?pretty', function (err, resp) {
 		
-		//console.log(err);
-		//console.log(resp);
-		
-		if(err) {
-			res.send(err);
-		}
-		
-		let resultObject = resp.data.items;
-		res.send(resultObject);
+		callback(res, err, resp);
 	});  
 });
 
@@ -96,15 +97,7 @@ router.get('/:rule_id', function(req, res, next) {
 	
 	wazuh.get(id, pw, host, '/rules/' + req.params.rule_id + '?pretty', function (err, resp) {
 		
-		//console.log(err);
-		//console.log(resp);
-		
-		if(err) {
-			res.send(err);
-		}
-		
-		let resultObject = resp.data.items;
-		res.send(resultObject);
+		callback(res, err, resp);
 	});  
 });
 

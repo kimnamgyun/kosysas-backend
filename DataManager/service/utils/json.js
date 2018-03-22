@@ -5,10 +5,17 @@
  */
 
 // 비어있는 json Object를 생성한다.
-exports.createJsonObject = function()
-{
+exports.createJsonObject = function() {
 	let obj = '{}';
 	return this.stringToJsonObject(obj);
+}
+
+// 에러 response용 오브젝트를 생성한다.
+exports.createErrObject = function(errCode) {
+
+	let obj = this.createJsonObject();
+	this.addValue(obj, 'error', errCode);
+	return obj;
 }
 
 // json 확장자 파일을 읽어들인다.
@@ -40,10 +47,18 @@ exports.hasOwnProperty = function(jsonObject, key) {
 exports.addValue = function(jsonObject, key, value) {
 	
 	if(jsonObject.hasOwnProperty(key)) {
-		console.log("--");
+		console.log("json 데이터에 동일한 키가 존재합니다.");
+		return false;
 	}
 	else {
-		jsonObject[key] = value;
+		if(value) {
+			jsonObject[key] = value;
+			return true;
+		}
+		else {
+			console.log('value is null');
+			return false;
+		}		
 	}
 }
 
@@ -52,6 +67,40 @@ exports.deleteKey = function(jsonObject, key) {
 	
 	if(jsonObject.hasOwnProperty(key)) {
 		delete jsonObject[key];
+		return true;
+	}
+	else {
+		console.log("json에 해당 키가 존재하지 않습니다.")
+		return false;
+	}
+}
+
+// JsonObject에 들어있는 특정 값을 리턴한다.
+exports.getValue = function(jsonObject, key) {
+	
+	if(jsonObject.hasOwnProperty(key)) {
+		
+		return jsonObject[key];
+	}
+	else {
+		
+		console.log("json에 해당 키가 존재하지 않습니다.");
+		return null;
+	}
+}
+
+// 특정 key가 존재하면 해당 value를 수정한다.
+exports.editValue = function(jsonObject, key, vlaue) {
+	
+	if(jsonObject.hasOwnProperty(key)) {
+		
+		jsonObject[key] = value;
+		return true;
+	}
+	else {
+		
+		console.log("해당 키가 존재하지 않습니다.");
+		return false;
 	}
 }
 
