@@ -7,7 +7,7 @@
 // 비어있는 json Object를 생성한다.
 exports.createJsonObject = function() {
 	let obj = '{}';
-	return this.stringToJsonObject(obj);
+	return JSON.parse(obj);
 }
 
 // 에러 response용 오브젝트를 생성한다.
@@ -34,7 +34,21 @@ exports.jsonObjectToString = function(jsonObject) {
 // String을 JsonObject로 변환한다.
 exports.stringToJsonObject = function(string) {
 	
-	return JSON.parse(string);
+	if(string) {
+		try {
+			return JSON.parse(string);
+		}
+		catch (e) {
+			let temp = this.createJsonObject();
+			this.addValue(temp, 'data', string);
+			return temp;
+		}
+		finally {
+			
+		}
+	}		
+	else 
+		return null;
 }
 
 // JsonObject가 해당 key 값을 가지고 있는지 체크한다.
@@ -47,7 +61,7 @@ exports.hasOwnProperty = function(jsonObject, key) {
 exports.addValue = function(jsonObject, key, value) {
 	
 	if(jsonObject.hasOwnProperty(key)) {
-		console.log("json 데이터에 동일한 키가 존재합니다.");
+		console.log(key, ":", value, " : json 데이터에 동일한 키가 존재합니다.");
 		return false;
 	}
 	else {
