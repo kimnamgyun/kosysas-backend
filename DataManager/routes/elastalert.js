@@ -80,7 +80,8 @@ router.get('/rules', function(req, res, body) {
  */
 router.post('/rules/:id', function(req, res, body) {
 	
-	let form = "{ yaml:'/opt/elastalert/rules/001.yml'}";
+	let form = req.body.form;//"{ yaml:'/opt/elastalert/rules/001.yml'}";
+	console.log(form);
 	ea.post(host, '/rules/' + req.params.id, form, function(err, resp) {
 		
 		callback(res, err, resp);
@@ -136,7 +137,8 @@ router.get('/templates/:id', function(req, res, body) {
  */
 router.post('/templates/:id', function(req, res, body) {
 	
-	let form;
+	let form = req.body.form;
+	console.log(form);
 	ea.post(host, '/templates/' + req.params.id, form, function(err, resp) {
 		
 		callback(res, err, resp);
