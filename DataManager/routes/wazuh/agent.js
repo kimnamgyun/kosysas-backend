@@ -8,8 +8,8 @@ var id = "foo";
 var pw = "bar";
 var host = "192.168.0.113:55000";
 
-/**
- * 		callback 처리 함수
+/*
+ * 	callback 처리 함수
  */
 function callback(res, err, resp) {
 

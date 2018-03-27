@@ -90,7 +90,7 @@ exports.getValue = function(jsonObject, key) {
 }
 
 // 특정 key가 존재하면 해당 value를 수정한다.
-exports.editValue = function(jsonObject, key, vlaue) {
+exports.editValue = function(jsonObject, key, value) {
 	
 	if(jsonObject.hasOwnProperty(key)) {
 		
