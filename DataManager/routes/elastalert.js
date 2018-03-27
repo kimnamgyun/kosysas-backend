@@ -6,12 +6,12 @@ var ea = require('../service/ea/ea.js');
 var host = '192.168.0.249:3030';
 
 /*
- * 		callback 처리 함수
+ * 		callback 처리 함수 for GET
  */
-function callback(res, err, resp) {
+function callbackGET(res, err, resp) {
 
-	console.log(err);
-	console.log(resp);
+	//console.log(err);
+	//console.log(resp);
 	
 	if(resp) {
 		
@@ -22,7 +22,7 @@ function callback(res, err, resp) {
 		}
 		json.addValue(resultObject, 'data', resp);
 		
-		console.log(resultObject);
+		//console.log(resultObject);
 		res.send(resultObject);
 	}
 	else {
@@ -32,13 +32,68 @@ function callback(res, err, resp) {
 }
 
 /*
+ * 		callback 처리함수 for POST
+ */
+function callbackPOST(res, err, resp) {
+	
+	//console.log(err);
+	//console.log(resp);
+	
+	if(resp) {
+		
+		let resultObject = json.createErrObject('0');
+		let tmp = json.createJsonObject();
+		
+		if(resp.hasOwnProperty('created')) {
+			json.addValue(tmp, 'msg', 'success');
+		}
+		else {
+			json.editValue(resultObject, 'error', '003');
+			json.addValue(tmp, 'msg', 'fail');
+		}
+		json.addValue(resultObject, 'data', tmp);
+		
+		//console.log(resultObject);
+		res.send(resultObject);
+	}
+	else {
+		
+		res.send(err);
+	}
+}
+
+/*
+ * 		callback 처리함수 for DELETE
+ */
+function callbackDELETE(res, err, resp) {
+	
+	//console.log(err);
+	//console.log(resp);
+	
+	let resultObject = json.createErrObject('0');
+	let tmp = json.createJsonObject();
+	
+	if(resp) {	
+		json.editValue(resultObject, 'error', '003');
+		json.addValue(tmp, 'msg', 'fail');
+	}
+	else {
+		json.addValue(tmp, 'msg', 'success');
+	}
+	
+	json.addValue(resultObject, 'data', tmp);
+	//console.log(resultObject);
+	res.send(resultObject);
+}
+
+/*
  * 	GET ElastAlert Infomation
  */
 router.get('/', function(req, res, body) {
 	
 	ea.get(host, '/', function(err, resp) {
 		
-		callback(res, err, resp);
+		callbackGET(res, err, resp);
 	});
 });
 
@@ -49,7 +104,7 @@ router.get('/status', function(req, res, body) {
 	
 	ea.get(host, '/status', function(err, resp) {
 		
-		callback(res, err, resp);
+		callbackGET(res, err, resp);
 	});
 });
 
@@ -60,7 +115,7 @@ router.get('/status/errors', function(req, res, body) {
 	
 	ea.get(host, '/status/errors', function(err, resp) {
 		
-		callback(res, err, resp);
+		callbackGET(res, err, resp);
 	});
 });
 
@@ -71,7 +126,7 @@ router.get('/rules', function(req, res, body) {
 	
 	ea.get(host, '/rules', function(err, resp) {
 		
-		callback(res, err, resp);
+		callbackGET(res, err, resp);
 	});
 });
 
@@ -81,10 +136,10 @@ router.get('/rules', function(req, res, body) {
 router.post('/rules/:id', function(req, res, body) {
 	
 	let form = req.body.form;//"{ yaml:'/opt/elastalert/rules/001.yml'}";
-	console.log(form);
+	
 	ea.post(host, '/rules/' + req.params.id, form, function(err, resp) {
 		
-		callback(res, err, resp);
+		callbackPOST(res, err, resp);
 	})
 });
 
@@ -95,7 +150,7 @@ router.get('/rules/:id', function(req, res, body) {
 	
 	ea.get(host, '/rules/' + req.params.id, function(err, resp) {
 		
-		callback(res, err, resp);
+		callbackGET(res, err, resp);
 	});
 });
 
@@ -106,7 +161,7 @@ router.delete('/rules/:id', function(req, res, body) {
 	
 	ea.delete(host, '/rules/' + req.params.id, function(err, resp) {
 		
-		callback(res, err, resp);
+		callbackDELETE(res, err, resp);
 	});
 })
 
@@ -117,7 +172,7 @@ router.get('/templates', function(req, res, body) {
 	
 	ea.get(host, '/templates', function(err, resp) {
 		
-		callback(res, err, resp);
+		callbackGET(res, err, resp);
 	});
 });
 
@@ -128,7 +183,7 @@ router.get('/templates/:id', function(req, res, body) {
 	
 	ea.get(host, '/templates/' + req.params.id, function(err, resp) {
 		
-		callback(res, err, resp);
+		callbackGET(res, err, resp);
 	});
 });
 
@@ -138,10 +193,10 @@ router.get('/templates/:id', function(req, res, body) {
 router.post('/templates/:id', function(req, res, body) {
 	
 	let form = req.body.form;
-	console.log(form);
+	
 	ea.post(host, '/templates/' + req.params.id, form, function(err, resp) {
 		
-		callback(res, err, resp);
+		callbackPOST(res, err, resp);
 	});
 });
 
@@ -153,7 +208,7 @@ router.delete('/templates/:id', function(req, res, body) {
 	let form;
 	ea.delete(host, '/templates/' + req.params.id, function(err, resp) {
 		
-		callback(res, err, resp);
+		callbackDELETE(res, err, resp);
 	});
 });
 
@@ -164,7 +219,7 @@ router.get('/config', function(req, res, body) {
 	
 	ea.get(host, '/config', function(err, resp) {
 		
-		callback(res, err, resp);
+		callbackGET(res, err, resp);
 	});
 });
 

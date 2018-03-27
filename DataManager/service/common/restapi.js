@@ -46,6 +46,7 @@ module.exports = function(method, url, form, callback)
 		else {
 			
 			let errObj = json.createErrObject('0');		// no error
+			//console.log(res);
 			callback(errObj, res);						// return response string;
 		}		
 	});

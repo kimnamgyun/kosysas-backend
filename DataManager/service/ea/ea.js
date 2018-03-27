@@ -14,7 +14,7 @@ module.exports.get = function(host, api, callback) {
 	request('GET', urlString, null, function(err, res) {
 		
 		if(res) {
-		
+			
 			callback(err, json.stringToJsonObject(res.body));
 		}
 		else {
