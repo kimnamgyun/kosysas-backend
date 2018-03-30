@@ -3,6 +3,7 @@ var router = express.Router();
 var request = require('request');
 var wazuh = require('../../service/es/functions/wazuh.js');
 var json = require('../../service/utils/json.js');
+var common = require('../common.js');
 
 var id = "foo";
 var pw = "bar";
@@ -42,6 +43,7 @@ router.get('/', function(req, res, next) {
 	
 	wazuh.get(id, pw, host, '/agents?pretty', function (err, resp) { 
 		
+		common.setHeader(res);
 		callback(res, err, resp);
 	});  
 });
@@ -54,6 +56,7 @@ router.get('/:agent_id', function(req, res, next) {
 	
 	wazuh.get(id, pw, host, '/agents/' + req.params.agent_id + '?pretty', function (err, resp) {
 		
+		common.setHeader(res);
 		callback(res, err, resp);
 	});  
 });
@@ -66,6 +69,7 @@ router.get('/name/:agent_name', function(req, res, next) {
 	
 	wazuh.get(id, pw, host, '/agents/name/' + req.params.agent_name + '?pretty', function (err, resp) {
 		
+		common.setHeader(res);
 		callback(res, err, resp);
 	});  
 });
@@ -78,6 +82,7 @@ router.get('/purgeable/:timeframe', function(req, res, next) {
 	
 	wazuh.get(id, pw, host, '/agents/purgeable/' + req.params.timeframe + '?pretty', function (err, resp) {
 		
+		common.setHeader(res);
 		callback(res, err, resp);
 	});  
 });
@@ -90,6 +95,7 @@ router.get('/:agent_id/key', function(req, res, next) {
 	
 	wazuh.get(id, pw, host, '/agents/' + req.params.agent_id + '/key?pretty', function (err, resp) {
 		
+		common.setHeader(res);
 		callback(res, err, resp);
 	});  
 });
