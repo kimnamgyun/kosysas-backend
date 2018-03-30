@@ -3,6 +3,7 @@ var router = express.Router();
 var request = require('request');
 var wazuh = require('../../service/es/functions/wazuh.js');
 var json = require('../../service/utils/json.js');
+var common = require('../common.js');
 
 var id = "foo";
 var pw = "bar";
@@ -42,6 +43,8 @@ router.get('/', function(req, res, next) {
 	
 	wazuh.get(id, pw, host, '/rules?pretty', function (err, resp) {
 		
+		common.setHeader(res);
+		
 		callback(res, err, resp);
 	});  
 });
@@ -74,6 +77,7 @@ router.get('/groups', function(req, res, next) {
 	
 	wazuh.get(id, pw, host, '/rules/groups?pretty', function (err, resp) {
 		
+		common.setHeader(res);
 		callback(res, err, resp);
 	});  
 });
@@ -86,6 +90,7 @@ router.get('/pci', function(req, res, next) {
 	
 	wazuh.get(id, pw, host, '/rules/pci?pretty', function (err, resp) {
 		
+		common.setHeader(res);
 		callback(res, err, resp);
 	});  
 });
@@ -98,6 +103,7 @@ router.get('/:rule_id', function(req, res, next) {
 	
 	wazuh.get(id, pw, host, '/rules/' + req.params.rule_id + '?pretty', function (err, resp) {
 		
+		common.setHeader(res);
 		callback(res, err, resp);
 	});  
 });

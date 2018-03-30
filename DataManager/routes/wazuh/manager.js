@@ -3,6 +3,7 @@ var router = express.Router();
 var request = require('request');
 var json = require('../../service/utils/json.js');
 var wazuh = require('../../service/es/functions/wazuh.js');
+var common = require('../common.js');
 
 var id = "foo";
 var pw = "bar";
@@ -42,6 +43,7 @@ router.get('/configuration', function(req, res, next) {
 	
 	wazuh.get(id, pw, host, '/manager/configuration?pretty', function (err, resp) {
 		
+		common.setHeader(res);
 		callback(res, err, resp);
 	});  
 });
@@ -54,6 +56,7 @@ router.get('/info', function(req, res, next) {
 	
 	wazuh.get(id, pw, host, '/manager/info?pretty', function (err, resp) {
 		
+		common.setHeader(res);
 		callback(res, err, resp);
 	});  
 });
@@ -66,6 +69,7 @@ router.get('/status', function(req, res, next) {
 	
 	wazuh.get(id, pw, host, '/manager/status?pretty', function (err, resp) {
 		
+		common.setHeader(res);
 		callback(res, err, resp);
 	});  
 });
@@ -78,6 +82,7 @@ router.get('/logs', function(req, res, next) {
 	
 	wazuh.get(id, pw, host, '/manager/logs?pretty', function (err, resp) {
 		
+		common.setHeader(res);
 		callback(res, err, resp);
 	});  
 });
@@ -90,6 +95,7 @@ router.get('/logs/summary', function(req, res, next) {
 	
 	wazuh.get(id, pw, host, '/manager/logs/summary?pretty', function (err, resp) {
 		
+		common.setHeader(res);
 		callback(res, err, resp);
 	});  
 });
@@ -104,6 +110,7 @@ router.get('/stats', function(req, res, next) {
 		
 		//console.log(err);
 		//console.log(resp);
+		common.setHeader(res);
 		
 		if(resp) {
 			
@@ -135,6 +142,7 @@ router.get('/stats/hourly', function(req, res, next) {
 		
 		//console.log(err);
 		//console.log(resp);
+		common.setHeader(res);
 		
 		if(resp) {
 			
@@ -166,6 +174,7 @@ router.get('/stats/weekly', function(req, res, next) {
 		
 		//console.log(err);
 		//console.log(resp);
+		common.setHeader(res);
 		
 		if(resp) {
 			
