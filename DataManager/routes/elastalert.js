@@ -10,8 +10,8 @@ var host = '192.168.0.249:3030';
  */
 function callbackGET(res, err, resp) {
 
-	console.log(err);
-	console.log(resp);
+	//console.log(err);
+	//console.log(resp);
 	
 	if(resp) {
 		
@@ -22,7 +22,7 @@ function callbackGET(res, err, resp) {
 		}
 		json.addValue(resultObject, 'data', resp);
 		
-		console.log(resultObject);
+		//console.log(resultObject);
 		res.send(resultObject);
 	}
 	else {
@@ -167,7 +167,10 @@ router.get('/rules/:id', function(req, res, body) {
 			let resultObject = json.createErrObject('0');
 			if(json.getValue(err, 'error') == '0') {
 				
-				json.addValue(resultObject, 'data', 'rule file is null');
+				let dataObject = json.createJsonObject();
+				dataObject['data'] = null;
+				//json.addValue(dataObject, 'data', null);
+				json.addValue(resultObject, 'data', dataObject);
 			}
 			res.send(resultObject);
 		}
@@ -220,7 +223,9 @@ if(resp) {
 			let resultObject = json.createErrObject('0');
 			if(json.getValue(err, 'error') == '0') {
 				
-				json.addValue(resultObject, 'data', 'template file is null');
+				let dataObject = json.createJsonObject();
+				json.addValue(dataObject, 'data', '');
+				json.addValue(resultObject, 'data', dataObject);
 			}
 			res.send(resultObject);
 		}
