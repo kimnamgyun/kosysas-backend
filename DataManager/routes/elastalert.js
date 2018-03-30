@@ -10,8 +10,8 @@ var host = '192.168.0.249:3030';
  */
 function callbackGET(res, err, resp) {
 
-	//console.log(err);
-	//console.log(resp);
+	console.log(err);
+	console.log(resp);
 	
 	if(resp) {
 		
@@ -22,7 +22,7 @@ function callbackGET(res, err, resp) {
 		}
 		json.addValue(resultObject, 'data', resp);
 		
-		//console.log(resultObject);
+		console.log(resultObject);
 		res.send(resultObject);
 	}
 	else {
@@ -150,7 +150,27 @@ router.get('/rules/:id', function(req, res, body) {
 	
 	ea.get(host, '/rules/' + req.params.id, function(err, resp) {
 		
-		callbackGET(res, err, resp);
+		if(resp) {
+			
+			let resultObject = json.createErrObject('0');
+			
+			if(resp.hasOwnProperty('error')) {
+				json.editValue(resultObject, 'error', '003');
+			}
+			json.addValue(resultObject, 'data', resp);
+			
+			console.log(resultObject);
+			res.send(resultObject);
+		}
+		else {
+			
+			let resultObject = json.createErrObject('0');
+			if(json.getValue(err, 'error') == '0') {
+				
+				json.addValue(resultObject, 'data', 'rule file is null');
+			}
+			res.send(resultObject);
+		}
 	});
 });
 
@@ -183,7 +203,27 @@ router.get('/templates/:id', function(req, res, body) {
 	
 	ea.get(host, '/templates/' + req.params.id, function(err, resp) {
 		
-		callbackGET(res, err, resp);
+if(resp) {
+			
+			let resultObject = json.createErrObject('0');
+			
+			if(resp.hasOwnProperty('error')) {
+				json.editValue(resultObject, 'error', '003');
+			}
+			json.addValue(resultObject, 'data', resp);
+			
+			console.log(resultObject);
+			res.send(resultObject);
+		}
+		else {
+			
+			let resultObject = json.createErrObject('0');
+			if(json.getValue(err, 'error') == '0') {
+				
+				json.addValue(resultObject, 'data', 'template file is null');
+			}
+			res.send(resultObject);
+		}
 	});
 });
 
