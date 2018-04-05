@@ -1,7 +1,7 @@
 {
 "<<<<<<<<<<<<<<<<<<   Application   >>>>>>>>":"",
     "port": "3001",
-    "debugMode": true,    
+    "debugLevel": "info",    
 "<<<<<<<<<<<<<<<<<<     Database   >>>>>>>>>":"",
     "dbIp": "192.168.0.118",
     "dbPort": "5432", 
