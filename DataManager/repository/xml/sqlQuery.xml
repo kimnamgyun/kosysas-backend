@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<list>
+	<!-- 사용자 로그인 -->	
+	<query id="login">SELECT * FROM public.userinfo</query> 
+	
+	<!-- 사용자 정보 요청 -->
+	<query id="login">SELECT * FROM public.userinfo</query> 
+	
+	<!-- 사용자  정보 수정-->	
+	<query id="chuserinfo/:id">UPDATE public.userinfo SET (%s) = (%s)  WHERE id = %s</query> 
+	
+	<!-- 사용자 패스워드 매칭요청 -->	
+	<query id="chpw/chkpw/:id">SELECT * FROM public.userinfo WHERE id = %s</query> 
+	
+	<!-- 사용자 패스워드 재설정 요청 -->	
+	<query id="chpw/:id">UPDATE public.userinfo SET (%s)  = (%s)  WHERE id = %s</query> 
+	
+	 
+</list>
+
+
