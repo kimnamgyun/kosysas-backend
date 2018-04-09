@@ -13,7 +13,7 @@ var xml2js = require('xml2js');
 var util = require('util');
 var fs = require('fs'); 
 
-var path = '../../repository/xml/sqlQuery.xml'; 
+var path = './repository/xml/sqlQuery.xml'; 
 var querys;
 
 
