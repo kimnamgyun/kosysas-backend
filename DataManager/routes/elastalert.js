@@ -1,10 +1,17 @@
+/**
+ * 		elastealert.js	
+ * 		20180326 정종원
+ * 		elastalert restful api 문서
+ */
+
+
 var express = require('express');
 var router = express.Router();
 var json = require('../service/utils/json.js');
 var ea = require('../service/ea/ea.js');
 var common = require('./common.js');
 
-var host = '192.168.0.249:3030';
+var host = '192.168.0.113:3030';
 
 /*
  * 		callback 처리 함수 for GET

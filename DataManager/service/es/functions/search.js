@@ -2,6 +2,8 @@
  * 		elaticsearch 검색 함수
  * 		20180306 정종원
  */
+var json = require("../../utils/json.js");
+
 
 module.exports.matchAll = function(es, idx, callback) {
 	
@@ -40,19 +42,16 @@ module.exports.match = function(es, idx, searchData, callback) {
 	});
 };
 
-/*
+
 module.exports.freeQuery = function(es, idx, searchData, callback) {
 	
 	es.search({
-		index: idx,
-		body: {
-			searchData
-		}
+		index: idx,		
+		body : searchData	
 	}).then(function(resp) {
-		callback(resp.hits.hits)
+		callback(resp.hits)
 	}, function(err) {
 		callback(err);
-		console.log(err);
+		//console.log(err);
 	});
 };
-*/

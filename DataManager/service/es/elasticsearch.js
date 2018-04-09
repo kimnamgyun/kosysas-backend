@@ -9,7 +9,7 @@ let configuration = {
 }
 
 var client = new elasticsearch.Client( {  
-  hosts: ["192.168.0.203:9200"
+  hosts: ["192.168.0.113:9200"
 	  // 'https://[username]:[password]@[server]:[port]/'
   ]
 });
@@ -17,7 +17,7 @@ var client = new elasticsearch.Client( {
 module.exports.reConnect = function() {
 	this.client = new elasticsearch.Client( {
 		hosts: [
-			"192.168.0.203:9200"
+			"192.168.0.113:9200"
 		]
 	});
 };
