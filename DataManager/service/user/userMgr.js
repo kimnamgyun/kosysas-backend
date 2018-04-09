@@ -36,7 +36,8 @@ function callbackGET(res, err, resp) {
 		json.addValue(resultObject, 'data', resp);
 		
 		console.log('usrMgr.callbackGET().resultObject:'+resultObject);
-		
+
+		common.setHeader(res);
 		res.send(resultObject);
 	}
 	else {
@@ -68,7 +69,8 @@ function callbackPOST(res, err, resp) {
 		json.addValue(resultObject, 'data', tmp);
 		
 		console.log('usrMgr.callbackPOST().resultObject:'+resultObject);
-		
+
+		common.setHeader(res);
 		res.send(resultObject);
 	}
 	else {
@@ -94,7 +96,8 @@ router.get('/userinfo/:id', function(req, res, next) {
 	console.log('usrMgr.router.get(/userinfo/:id) : query : '+query);
 	
 	dbMgr.selectQuery (query);
-	callback(res, err, resp);
+	 
+	callbackGET(res, err, resp);
 	 
 });
 
@@ -116,7 +119,7 @@ router.get('/', function(req, res, next) {
 	
 	dbMgr.selectQuery (query);
 	
-	callback(res, err, resp);
+	callbackGET(res, err, resp);
 	
 });
 
