@@ -7,8 +7,8 @@
 
 var debug = require('debug')('dbtest:server');
 var http = require('http');
-var cfg = require('../conf/config.json');
-var app = require('../app');
+var cfg = require('./conf/config.json');
+var app = require('./app');
 
 /**
  * Get port from environment and store in Express.

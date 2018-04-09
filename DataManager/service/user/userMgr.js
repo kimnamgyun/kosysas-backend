@@ -16,14 +16,15 @@ var router = express.Router();
  
 var dbMgr = require('../../service/db/postgres.js');
 var json = require('../../service/utils/json.js');
+var queryMgr = require('../../service/utils/xmlParser.js');
 
 /*
  * 	callback 처리 함수 for GET
  */
 function callbackGET(res, err, resp) {
 
-	console.log(err);
-	console.log(resp);
+	console.log('usrMgr.callbackGET() :'+err);
+	console.log('usrMgr.callbackGET().resp: '+resp);
 	
 	if(resp) {
 		
@@ -34,8 +35,9 @@ function callbackGET(res, err, resp) {
 		}
 		json.addValue(resultObject, 'data', resp);
 		
-		console.log(resultObject);
-		
+		console.log('usrMgr.callbackGET().resultObject:'+resultObject);
+
+		common.setHeader(res);
 		res.send(resultObject);
 	}
 	else {
@@ -49,8 +51,8 @@ function callbackGET(res, err, resp) {
  */
 function callbackPOST(res, err, resp) {
 	
-	console.log(err);
-	console.log(resp);
+	console.log('usrMgr.callbackPOST():'+err);
+	console.log('usrMgr.callbackPOST().resp:'+resp);
 
 	if(resp) {
 		
@@ -66,8 +68,9 @@ function callbackPOST(res, err, resp) {
 		}
 		json.addValue(resultObject, 'data', tmp);
 		
-		console.log(resultObject);
-		
+		console.log('usrMgr.callbackPOST().resultObject:'+resultObject);
+
+		common.setHeader(res);
 		res.send(resultObject);
 	}
 	else {
@@ -75,10 +78,7 @@ function callbackPOST(res, err, resp) {
 		res.send(err);
 	}
 }
-
-function getItem(key) {
-	
-}
+ 
 
 /* 
  * GET /userinfo/:id
@@ -87,12 +87,40 @@ function getItem(key) {
  */
 router.get('/userinfo/:id', function(req, res, next) {
 	
-	// sqlQuery.xml로 대체 예정
-	var query = "SELECT * FROM public.members;"
 
-	dbMgr.selectQuery (query) {
-		callback(res, err, resp);
-	}
+	var xmlQuery = queryMgr.getQuery('/userinfo/:id');
+	console.log('usrMgr.router.get(/userinfo/:id) : '+xmlQuery);
 	
-	  
+	// query = SELECT * FROM public.userinfo WHERE id = %s
+	var query = util.format(query, req.params.id);
+	console.log('usrMgr.router.get(/userinfo/:id) : query : '+query);
+	
+	dbMgr.selectQuery (query);
+	 
+	callbackGET(res, err, resp);
+	 
 });
+
+
+/* 
+ * GET /userinfo/:id
+
+ * return all rules
+ */
+router.get('/', function(req, res, next) {
+	
+
+	var xmlQuery = queryMgr.getQuery('/login');
+	console.log('usrMgr.router.get(/login) : '+xmlQuery);
+	
+	// 
+	//var query = util.format(query, );
+	console.log('usrMgr.router.get(/login) : query : '+query);
+	
+	dbMgr.selectQuery (query);
+	
+	callbackGET(res, err, resp);
+	
+});
+
+module.exports = router;
