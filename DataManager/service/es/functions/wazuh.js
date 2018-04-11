@@ -5,11 +5,20 @@
 
 var request = require('../../common/restapi.js');
 var json = require('../../utils/json.js')
+var cfg = require('../../../conf/config.json');
+
+let config = {
+		id: cfg.wazuhID,
+		pw: cfg.wazuhPW,
+		ip: cfg.wazuhIP,
+		port: cfg.wazuhPort
+	}
 
 
-module.exports.get = function(id, pw, host, api, callback){
+module.exports.get = function(api, callback){
 	
-	var urlString = "http://" + id + ":" + pw + "@" + host + api;
+	let host = config.ip + ":" + config.port;
+	var urlString = "http://" + config.id + ":" + config.pw + "@" + host + api;
 	
 	request('GET', urlString, null, function(err, res) {
 		

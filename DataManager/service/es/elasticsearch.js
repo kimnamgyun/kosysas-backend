@@ -1,15 +1,15 @@
 var elasticsearch=require('elasticsearch');
 var cfg = require('../../conf/config.json');
 
-let configuration = {
-  host: cfg.esIP,
+let config = {
+  ip: cfg.esIP,
   port: cfg.esPort,
   user: cfg.esUserName, 
   password: cfg.esUserPasswd
 }
 
 var client = new elasticsearch.Client( {  
-  hosts: ["192.168.0.113:9200"
+  hosts: [config.ip + ":" + config.port
 	  // 'https://[username]:[password]@[server]:[port]/'
   ]
 });
@@ -17,7 +17,7 @@ var client = new elasticsearch.Client( {
 module.exports.reConnect = function() {
 	this.client = new elasticsearch.Client( {
 		hosts: [
-			"192.168.0.113:9200"
+			config.ip + ":" + config.port
 		]
 	});
 };

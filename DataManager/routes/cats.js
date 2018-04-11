@@ -3,6 +3,7 @@ var router = express.Router();
 var json = require('../service/utils/json.js');
 var cerebro = require('../service/es/functions/cerebro.js');
 var async = require('async');
+var common = require('./common.js');
 
 router.get('/', function(req, res, next) {
 	
@@ -110,6 +111,7 @@ router.get('/overview', function(req, res, next) {
 	let shards = null;
 	let allocation = null;
 	
+	common.setHeader(res);
 	async.waterfall([
 		function(cb) {
 			cerebro.cat(host, 'count', function(err, resp){
