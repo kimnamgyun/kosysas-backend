@@ -5,10 +5,6 @@ var json = require('../../service/utils/json.js');
 var wazuh = require('../../service/es/functions/wazuh.js');
 var common = require('../common.js');
 
-var id = "foo";
-var pw = "bar";
-var host = "192.168.0.113:55000";
-
 /**
  * 		callback 처리 함수
  */
@@ -41,7 +37,7 @@ function callback(res, err, resp) {
  */
 router.get('/configuration', function(req, res, next) {
 	
-	wazuh.get(id, pw, host, '/manager/configuration?pretty', function (err, resp) {
+	wazuh.get('/manager/configuration?pretty', function (err, resp) {
 		
 		common.setHeader(res);
 		callback(res, err, resp);
@@ -54,7 +50,7 @@ router.get('/configuration', function(req, res, next) {
  */
 router.get('/info', function(req, res, next) {
 	
-	wazuh.get(id, pw, host, '/manager/info?pretty', function (err, resp) {
+	wazuh.get('/manager/info?pretty', function (err, resp) {
 		
 		common.setHeader(res);
 		callback(res, err, resp);
@@ -67,7 +63,7 @@ router.get('/info', function(req, res, next) {
  */
 router.get('/status', function(req, res, next) {
 	
-	wazuh.get(id, pw, host, '/manager/status?pretty', function (err, resp) {
+	wazuh.get('/manager/status?pretty', function (err, resp) {
 		
 		common.setHeader(res);
 		callback(res, err, resp);
@@ -80,7 +76,7 @@ router.get('/status', function(req, res, next) {
  */
 router.get('/logs', function(req, res, next) {
 	
-	wazuh.get(id, pw, host, '/manager/logs?pretty', function (err, resp) {
+	wazuh.get('/manager/logs?pretty', function (err, resp) {
 		
 		common.setHeader(res);
 		callback(res, err, resp);
@@ -93,7 +89,7 @@ router.get('/logs', function(req, res, next) {
  */
 router.get('/logs/summary', function(req, res, next) {
 	
-	wazuh.get(id, pw, host, '/manager/logs/summary?pretty', function (err, resp) {
+	wazuh.get('/manager/logs/summary?pretty', function (err, resp) {
 		
 		common.setHeader(res);
 		callback(res, err, resp);
@@ -106,7 +102,7 @@ router.get('/logs/summary', function(req, res, next) {
  */
 router.get('/stats', function(req, res, next) {
 	
-	wazuh.get(id, pw, host, '/manager/stats?pretty', function (err, resp) {
+	wazuh.get('/manager/stats?pretty', function (err, resp) {
 		
 		//console.log(err);
 		//console.log(resp);
@@ -138,7 +134,7 @@ router.get('/stats', function(req, res, next) {
  */
 router.get('/stats/hourly', function(req, res, next) {
 	
-	wazuh.get(id, pw, host, '/manager/stats/hourly?pretty', function (err, resp) {
+	wazuh.get('/manager/stats/hourly?pretty', function (err, resp) {
 		
 		//console.log(err);
 		//console.log(resp);
@@ -170,7 +166,7 @@ router.get('/stats/hourly', function(req, res, next) {
  */
 router.get('/stats/weekly', function(req, res, next) {
 	
-	wazuh.get(id, pw, host, '/manager/stats/weekly?pretty', function (err, resp) {
+	wazuh.get('/manager/stats/weekly?pretty', function (err, resp) {
 		
 		//console.log(err);
 		//console.log(resp);
