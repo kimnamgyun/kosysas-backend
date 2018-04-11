@@ -11,8 +11,6 @@ var json = require('../service/utils/json.js');
 var ea = require('../service/ea/ea.js');
 var common = require('./common.js');
 
-var host = '192.168.0.113:3030';
-
 /*
  * 		callback 처리 함수 for GET
  */
@@ -111,7 +109,7 @@ router.get('/', function(req, res, body) {
  */
 router.get('/status', function(req, res, body) {
 	
-	ea.get(host, '/status', function(err, resp) {
+	ea.get('/status', function(err, resp) {
 		
 		common.setHeader(res);
 		callbackGET(res, err, resp);
@@ -123,7 +121,7 @@ router.get('/status', function(req, res, body) {
  */
 router.get('/status/errors', function(req, res, body) {
 	
-	ea.get(host, '/status/errors', function(err, resp) {
+	ea.get('/status/errors', function(err, resp) {
 		
 		common.setHeader(res);
 		callbackGET(res, err, resp);
@@ -135,7 +133,7 @@ router.get('/status/errors', function(req, res, body) {
  */
 router.get('/rules', function(req, res, body) {
 	
-	ea.get(host, '/rules', function(err, resp) {
+	ea.get('/rules', function(err, resp) {
 		
 		common.setHeader(res);
 		callbackGET(res, err, resp);
@@ -149,7 +147,7 @@ router.post('/rules/:id', function(req, res, body) {
 	
 	let form = req.body.form;//"{ yaml:'/opt/elastalert/rules/001.yml'}";
 	
-	ea.post(host, '/rules/' + req.params.id, form, function(err, resp) {
+	ea.post('/rules/' + req.params.id, form, function(err, resp) {
 		
 		common.setHeader(res);
 		callbackPOST(res, err, resp);
@@ -161,7 +159,7 @@ router.post('/rules/:id', function(req, res, body) {
  */
 router.get('/rules/:id', function(req, res, body) {
 	
-	ea.get(host, '/rules/' + req.params.id, function(err, resp) {
+	ea.get('/rules/' + req.params.id, function(err, resp) {
 		
 		common.setHeader(res);
 		
@@ -197,7 +195,7 @@ router.get('/rules/:id', function(req, res, body) {
  */
 router.delete('/rules/:id', function(req, res, body) {
 	
-	ea.delete(host, '/rules/' + req.params.id, function(err, resp) {
+	ea.delete('/rules/' + req.params.id, function(err, resp) {
 		
 		common.setHeader(res);
 		callbackDELETE(res, err, resp);
@@ -209,7 +207,7 @@ router.delete('/rules/:id', function(req, res, body) {
  */
 router.get('/templates', function(req, res, body) {
 	
-	ea.get(host, '/templates', function(err, resp) {
+	ea.get('/templates', function(err, resp) {
 		
 		common.setHeader(res);
 		callbackGET(res, err, resp);
@@ -221,7 +219,7 @@ router.get('/templates', function(req, res, body) {
  */
 router.get('/templates/:id', function(req, res, body) {
 	
-	ea.get(host, '/templates/' + req.params.id, function(err, resp) {
+	ea.get('/templates/' + req.params.id, function(err, resp) {
 		
 		common.setHeader(res);
 	    
@@ -258,7 +256,7 @@ router.post('/templates/:id', function(req, res, body) {
 	
 	let form = req.body.form;
 	
-	ea.post(host, '/templates/' + req.params.id, form, function(err, resp) {
+	ea.post('/templates/' + req.params.id, form, function(err, resp) {
 		
 		common.setHeader(res);
 		callbackPOST(res, err, resp);
@@ -271,7 +269,7 @@ router.post('/templates/:id', function(req, res, body) {
 router.delete('/templates/:id', function(req, res, body) {
 	
 	let form;
-	ea.delete(host, '/templates/' + req.params.id, function(err, resp) {
+	ea.delete('/templates/' + req.params.id, function(err, resp) {
 		
 		common.setHeader(res);
 		callbackDELETE(res, err, resp);
@@ -283,7 +281,7 @@ router.delete('/templates/:id', function(req, res, body) {
  */
 router.get('/config', function(req, res, body) {
 	
-	ea.get(host, '/config', function(err, resp) {
+	ea.get('/config', function(err, resp) {
 		
 		common.setHeader(res);
 		callbackGET(res, err, resp);

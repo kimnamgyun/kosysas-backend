@@ -6,9 +6,16 @@
 
 var request = require('../common/restapi.js');
 var json = require('../utils/json.js')
+var cfg = require('../../conf/config.json');
 
-module.exports.get = function(host, api, callback) {
+let config = {
+	eaIP: cfg.eaIP,
+	eaport: cfg.eaPort
+}
+
+module.exports.get = function(api, callback) {
 	
+	let host = config.eaIP + ":" + config.eaport;
 	var urlString = "http://" + host + api;
 	
 	request('GET', urlString, null, function(err, res) {
@@ -24,8 +31,9 @@ module.exports.get = function(host, api, callback) {
 	});
 }
 
-module.exports.post = function(host, api, form, callback) {
+module.exports.post = function(api, form, callback) {
 	
+	let host = config.eaIP + ":" + config.eaport;
 	var urlString = "http://" + host + api;
 	
 	request('POST', urlString, form, function(err, res) {
@@ -41,8 +49,9 @@ module.exports.post = function(host, api, form, callback) {
 	});
 }
 
-module.exports.delete = function(host, api, callback) {
+module.exports.delete = function(api, callback) {
 	
+	let host = config.eaIP + ":" + config.eaport;
 	var urlString = "http://" + host + api;
 	
 	request('DELETE', urlString, null, function(err, res) {

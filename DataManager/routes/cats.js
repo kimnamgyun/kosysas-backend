@@ -3,7 +3,7 @@ var router = express.Router();
 var json = require('../service/utils/json.js');
 var cerebro = require('../service/es/functions/cerebro.js');
 var async = require('async');
-var common = require('common.js');
+var common = require('./common.js');
 
 router.get('/', function(req, res, next) {
 	
