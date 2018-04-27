@@ -49,7 +49,7 @@ module.exports.freeQuery = function(es, idx, searchData, callback) {
 		index: idx,		
 		body : searchData	
 	}).then(function(resp) {
-		callback(resp.hits)
+		callback(resp)
 	}, function(err) {
 		callback(err);
 		//console.log(err);

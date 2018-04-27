@@ -233,4 +233,27 @@ router.get('/nodes', function(req, res, next) {
 	]);
 });
 
+/**
+ * 	GET Index List
+ * @param req
+ * @param res
+ * @param body
+ * @returns
+ */
+router.get('/indices', function(req, res, body) {
+	
+	common.setHeader(res);
+	cerebro.aliases(function(err, resp) {
+				
+		let resultObj = json.createErrObject('0');
+		let obj = json.createJsonObject();
+		let arr = json.getKeyArray(resp);
+		
+		json.addValue(obj, 'indices', arr);
+		json.addValue(resultObj, 'data', obj);
+		
+		res.send(resultObj);
+	});
+});
+
 module.exports = router;

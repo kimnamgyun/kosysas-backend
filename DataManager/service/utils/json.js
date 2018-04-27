@@ -118,6 +118,18 @@ exports.editValue = function(jsonObject, key, value) {
 	}
 }
 
+exports.getKeyArray = function(jsonObject) {
+	
+	let arr = new Array();
+	
+	for(var key in jsonObject) {
+		
+		arr.push(key);
+	}
+	
+	return arr;
+}
+
 // JsonObject를 돌며 각 key 와 value 값을 출력한다.
 exports.roundJsonObject = function(jsonObject) {
 	

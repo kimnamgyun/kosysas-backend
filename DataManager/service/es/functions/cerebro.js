@@ -5,6 +5,14 @@
 
 var request = require('../../common/restapi.js');
 var json = require('../../utils/json.js');
+var cfg = require('../../../conf/config.json');
+
+let config = {
+  ip: cfg.esIP,
+  port: cfg.esPort,
+  user: cfg.esUserName, 
+  password: cfg.esUserPasswd
+}
 
 /**
  * 			
@@ -34,4 +42,23 @@ module.exports.cat = function(host, apiName, callback) {
 		callback(err, json.stringToJsonObject(resp.body));
 	});
 	*/
+}
+
+/**
+ * 	GET IndexList
+ */
+module.exports.aliases = function(callback) {
+	
+	let host = config.ip + ":" + config.port;
+	let urlString = 'http://' + host + '/_aliases?pretty';
+	
+	request('GET', urlString, null, function(err, resp) {
+		
+		if(resp) {
+			callback(err, json.stringToJsonObject(resp.body));
+		}
+		else {
+			callback(err, null);
+		}
+	});
 }
