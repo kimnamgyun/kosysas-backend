@@ -13,7 +13,9 @@ var wazuhManager = require('./routes/wazuh/manager');
 var wazuhRules = require('./routes/wazuh/rules');
 var wazuhAgent = require('./routes/wazuh/agent');
 var elastAlert = require('./routes/elastalert');
-var elastAlert = require('./routes/elastalert');
+var elasticSearch = require('./routes/elasticsearch');
+/* Dash Board */
+var overview = require('./routes/dashboard/overview');
 
 var user = require('./service/user/userMgr');
 
@@ -55,8 +57,9 @@ app.use('/wazuh/manager', wazuhManager);
 app.use('/wazuh/rules', wazuhRules);
 app.use('/wazuh/agents', wazuhAgent);
 app.use('/ea/', elastAlert);
+app.use('/es/', elasticSearch);
 app.use('/user', user);
-
+app.use('/dashboard/overview', overview);
 
 
 // catch 404 and forward to error handler
