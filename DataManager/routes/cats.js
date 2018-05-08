@@ -206,21 +206,19 @@ router.get('/overview', function(req, res, next) {
  * @returns	node data ojbect
  */
 router.get('/nodes', function(req, res, next) {
-	
-	let host = 'http://192.168.0.203:9200';
-	
+		
 	let allocation;
 	let nodes;
 	
 	async.waterfall([
 		function(cb) {
-			cerebro.cat(host, 'allocation', function(err, resp){
+			cerebro.cat('allocation', function(err, resp){
 				allocation = resp;
 				cb(null);
 			});
 		},
 		function(cb) {
-			cerebro.cat(host, 'nodes', function(err, resp){
+			cerebro.cat('nodes', function(err, resp){
 				nodes = resp;
 				cb(null);
 			});
