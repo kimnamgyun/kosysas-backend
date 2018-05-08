@@ -101,9 +101,7 @@ router.get('/', function(req, res, next) {
  * @returns		overview jsonObject Data
  */
 router.get('/overview', function(req, res, next) {
-	
-	let host = 'http://192.168.0.203:9200';
-	
+		
 	let errObj = null;
 	let nodes = null;
 	let indices = null;
@@ -114,35 +112,35 @@ router.get('/overview', function(req, res, next) {
 	common.setHeader(res);
 	async.waterfall([
 		function(cb) {
-			cerebro.cat(host, 'count', function(err, resp){
+			cerebro.cat('count', function(err, resp){
 				if(json.getValue(err, 'error') != '0') errObj = err;
 				count = resp;
 				cb(null);
 			});
 		},
 		function(cb) {
-			cerebro.cat(host, 'nodes', function(err, resp){
+			cerebro.cat('nodes', function(err, resp){
 				if(json.getValue(err, 'error') != '0') errObj = err;
 				nodes = resp;
 				cb(null);
 			});
 		},		
 		function(cb) {
-			cerebro.cat(host, 'indices', function(err, resp){
+			cerebro.cat('indices', function(err, resp){
 				if(json.getValue(err, 'error') != '0') errObj = err;
 				indices = resp;
 				cb(null);
 			});
 		},
 		function(cb) {
-			cerebro.cat(host, 'shards', function(err, resp){
+			cerebro.cat('shards', function(err, resp){
 				if(json.getValue(err, 'error') != '0') errObj = err;
 				shards = resp;
 				cb(null);
 			});
 		},
 		function(cb) {
-			cerebro.cat(host, 'allocation', function(err, resp){
+			cerebro.cat('allocation', function(err, resp){
 				if(json.getValue(err, 'error') != '0') errObj = err;
 				allocation = resp;
 				cb(null);
