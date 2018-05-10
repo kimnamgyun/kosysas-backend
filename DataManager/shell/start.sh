@@ -1,3 +1,6 @@
 #!/bin/sh
 
-node ../www &
+pwd = $(pwd)
+cd ..
+node www &
+cd ${pwd}

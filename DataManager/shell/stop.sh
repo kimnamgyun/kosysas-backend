@@ -1,15 +1,13 @@
 #!/bin/sh
 
-ps = $(ps -ef | grep 'node www$')
+ps=$(ps -ef | grep 'node www$')
 
-#echo process info : ${ps}
+pid=$(echo ${ps} | cut -d " " -f2)
 
-pid = $(echo ${ps} | cut -d " " -f2)
-
-if( [ -n"${pid}" ]
+if [ -n "${pid}" ]
 then
-	result = $(kill -9 ${pid})
-	echo process is killed
+	result=$(kill -9 ${pid})
+	echo "process" ${pid} "is killed"
 else
-	echo process not found
+	echo "process not found"
 fi

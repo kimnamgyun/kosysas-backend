@@ -1,7 +1,6 @@
 #!/bin/sh
 
-pwd = $(pwd)
-cd ..
-cd ..
+path=$(pwd)
+cd ${path%/*}
 git pull origin master
-cd ${pwd}
+cd ${path}
