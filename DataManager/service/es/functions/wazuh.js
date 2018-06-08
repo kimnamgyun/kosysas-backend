@@ -14,12 +14,11 @@ let config = {
 		port: cfg.wazuhPort
 	}
 
-
 module.exports.get = function(api, callback){
 	
 	let host = config.ip + ":" + config.port;
-	var urlString = "http://" + config.id + ":" + config.pw + "@" + host + api;
-	
+	var urlString = "https://" + config.id + ":" + config.pw + "@" + host + api;
+
 	request('GET', urlString, null, function(err, res) {
 		
 		if(res) {

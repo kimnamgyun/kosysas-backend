@@ -288,4 +288,24 @@ router.get('/config', function(req, res, body) {
 	});
 });
 
+var preID = null;
+/*
+ * 	GET ElastAlert Result For Alarm
+ */
+router.post('/results', function(req, res, body) {
+	
+	let result = req.body;
+	let id = result._id;
+	
+	// 중복 데이터 체크
+	if(preID != id) {
+		
+		console.log(result);
+		
+		preID = id;
+	}
+	
+	res.send('200');
+});
+
 module.exports = router;

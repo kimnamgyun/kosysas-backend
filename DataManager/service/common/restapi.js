@@ -4,6 +4,7 @@
  */
 
 var request = require('request');
+var https = require('https');
 var json = require('../utils/json.js');
 
 /**
