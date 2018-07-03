@@ -13,3 +13,11 @@ module.exports.setHeader = function(res) {
     res.header("Pragma", "no-cache");
     res.header("Expires", 0)
 }
+
+/*
+ * 		Elasticsearch Query Maker
+ * 
+ */
+module.exports.makeQuery = function(idx) {
+	
+}
