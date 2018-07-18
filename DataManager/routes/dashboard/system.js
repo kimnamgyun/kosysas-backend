@@ -20,7 +20,7 @@ var common = require('../common.js');
  */
 router.get('/cpu', function(req, res, body) {
 	
-	let query = '{"size":0,"query":{"match":{"metricset.name":"cpu"}},"aggs":{"group_by_hostname":{"terms":{"field":"beat.hostname","size":1,"order":{"avg_usage":"asc"}},"aggs":{"avg_usage":{"avg":{"field":"system.cpu.idle.pct"}}}}}}';
+	let query = '{"size":0,"query":{"match":{"metricset.name":"cpu"}},"aggs":{"group_by_hostname":{"terms":{"field":"host","size":1,"order":{"avg_usage":"asc"}},"aggs":{"avg_usage":{"avg":{"field":"system.cpu.idle.pct"}}}}}}';
 	let resultObj = json.createErrObject('0');
 	
 	common.setHeader(res);
@@ -49,7 +49,7 @@ router.get('/cpu', function(req, res, body) {
  */
 router.get('/memory', function(req, res, body) {
 	
-	let query = '{"size":0,"query":{"match":{"metricset.name":"memory"}},"aggs":{"group_by_hostname":{"terms":{"field":"beat.hostname","size":1,"order":{"avg_usage":"asc"}},"aggs":{"avg_usage":{"avg":{"field":"system.memory.used.pct"}}}}}}';
+	let query = '{"size":0,"query":{"match":{"metricset.name":"memory"}},"aggs":{"group_by_hostname":{"terms":{"field":"host","size":1,"order":{"avg_usage":"asc"}},"aggs":{"avg_usage":{"avg":{"field":"system.memory.used.pct"}}}}}}';
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
 	
