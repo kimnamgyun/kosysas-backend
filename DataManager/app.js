@@ -16,6 +16,7 @@ var elastAlert = require('./routes/elastalert');
 var elasticSearch = require('./routes/elasticsearch');
 /* Dash Board */
 var overview = require('./routes/dashboard/overview');
+var system = require('./routes/dashboard/system');
 
 var user = require('./service/user/userMgr');
 
@@ -60,6 +61,7 @@ app.use('/ea/', elastAlert);
 app.use('/es/', elasticSearch);
 app.use('/user', user);
 app.use('/dashboard/overview', overview);
+app.use('/dashboard/system', system);
 
 
 // catch 404 and forward to error handler

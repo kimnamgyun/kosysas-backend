@@ -65,7 +65,7 @@ exports.addValue = function(jsonObject, key, value) {
 		return false;
 	}
 	else {
-		if(value) {
+		if(value || value == 0) {
 			jsonObject[key] = value;
 			return true;
 		}

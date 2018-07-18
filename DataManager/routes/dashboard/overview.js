@@ -66,66 +66,7 @@ router.get('/alertCount', function(req, res, body) {
 	]);	
 });
 
-/*
- * 	GET CPU usage
- */
-router.get('/cpu', function(req, res, body) {
-	
-	let query = '{"query":{"match":{"metricset.name":"cpu"}},"size":1,"sort":[{"@timestamp":{"order":"desc"}}]}';
-	let resultObj = json.createErrObject('0');
-	let obj = json.createJsonObject();
-	
-	common.setHeader(res);
-	searchFunctions.freeQuery(client, 'metricbeat-*', query, function(resp) {
-		
-		let uPct = resp.hits.hits[0]._source.system.cpu.user.pct;
-		let sPct = resp.hits.hits[0]._source.system.cpu.system.pct;
-		let nPct = resp.hits.hits[0]._source.system.cpu.nice.pct;
-		
-		//console.log(resp.hits[0]._source.system.cpu);
-		// 하나라도 undefined면 에러
-		if(uPct == undefined || sPct == undefined || nPct == undefined) {
-			
-			json.editValue(resultObj, 'error', '002');
-			json.addValue(obj, 'cpu', '0');
-		}
-		else {
-			//console.log(uPct, sPct, nPct);
-			json.addValue(obj, 'cpu', uPct + sPct + nPct);
-		}
-		
-		json.addValue(resultObj, 'data', obj);
-		res.send(resultObj);
-	});
-});
 
-/*
- * 	GET memory usage
- */
-router.get('/memory', function(req, res, body) {
-	
-	let query = '{"query":{"match":{"metricset.name":"memory"}},"size":1,"sort":[{"@timestamp":{"order":"desc"}}]}';
-	let resultObj = json.createErrObject('0');
-	let obj = json.createJsonObject();
-	
-	common.setHeader(res);
-	searchFunctions.freeQuery(client, 'metricbeat-*', query, function(resp) {
-		
-		let value = resp.hits.hits[0]._source.system.memory.used.pct;
-		if(value == undefined || value == null) {
-			
-			json.editValue(resultObj, 'error', '002');
-			json.addValue(obj, 'memory', '0');
-		}
-		else {
-		
-			json.addValue(obj, 'memory', value);
-		}
-		
-		json.addValue(resultObj, 'data', obj);
-		res.send(resultObj);
-	});
-});
 
 /*
  * 	GET disk usage
@@ -216,13 +157,61 @@ router.get('/sourceIPTopHit', function(req, res, body) {
 	});
 });
 
-/*
- * 	GET Group Top 5
+/**
+ * 		GET Metric 알람
+ * @param req
+ * @param res
+ * @param body
+ * @returns
  */
-router.get('/groupTopHit', function(req, res, body) {
+router.get('/alertMetricCount', function(req, res, body) {
 	
-	let query = '{"size":0,"aggs":{"group_by_state":{"terms":{"field":"rule.groups","size":5}}}}';
+});
+
+/**
+ * 		GET 침입탐지 : 12 레벨 알람
+ * @param req
+ * @param res
+ * @param body
+ * @returns
+ */
+router.get('/alertLevelCount', function(req, res, body) {
 	
+	let query = '{"query":{"term":{"rule.level":{"value":"12"}}}}';
+	
+	let resultObj = json.createErrObject('0');
+	let obj = json.createJsonObject();
+	
+	common.setHeader(res);
+	searchFunctions.freeQuery(client, 'wazuh-alert-*', query, function(resp) {
+		
+		let value = (resp.hits.total * 1);
+		
+		if(value == undefined || value == null) {
+			
+			json.editValue(resultObj, 'error', '002');
+			json.addValue(obj, 'alertLevelCount', '0');
+		}
+		else {
+		
+			json.addValue(obj, 'alertLevelCount', value);
+		}
+		
+		json.addValue(resultObj, 'data', obj);
+		res.send(resultObj);		
+	});
+});
+
+router.get('/authFailed', function(req, res, body) {
+	
+});
+
+router.get('/authSuccess', function(req, res, body) {
+	
+});
+
+
+router.get('/agentTopHit', function(req, res, bdoy) {
 	
 });
 
