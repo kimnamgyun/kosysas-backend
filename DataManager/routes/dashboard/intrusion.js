@@ -1,3 +1,10 @@
+/**
+ * 
+ * 		침입탐지
+ * 		/dashboard/intrusion
+ * 		20180523 정종원
+ */
+
 var express = require('express');
 var router = express.Router();
 var client = require('../../service/es/elasticsearch.js');
