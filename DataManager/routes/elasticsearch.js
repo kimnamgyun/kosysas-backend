@@ -36,9 +36,9 @@ router.get('/index/list', function(req, res, body) {
  * @param body
  * @returns
  */
-router.get('/index/delete', function(req, res, body) {
+router.get('/index/delete/:name', function(req, res, body) {
 	
-	let idx = 'heartbeat-6.2.3-2018.07.01';
+	let idx = req.params.name;//'heartbeat-6.2.3-2018.07.01';
 	common.setHeader(res);
 	commonFunctions.deleteIdx(idx, function(err, resp) {
 		
@@ -57,6 +57,48 @@ router.get('/index/delete', function(req, res, body) {
 			
 			json.addValue(obj, 'result', 'fail');			// 삭제 실패
 			json.addValue(obj, 'reason', value.reason);
+		}
+		
+		json.addValue(resultObj, 'data', obj);
+		
+		res.send(resultObj);
+	});
+});
+
+/**
+ * 		Exist Index
+ * @param req
+ * @param res
+ * @param body
+ * @returns
+ */
+router.get('/index/exist/:name', function(req, res, body) {
+	
+	let idx = req.params.name;
+	
+	common.setHeader(res);
+	commonFunctions.existIdx(idx, function(err, resp) {
+		
+		console.log(err);
+		console.log(resp);
+		
+		let resultObj = json.createErrObject('0');
+		let obj = json.createJsonObject();
+		let value = resp.error;
+				
+		if((value == null || value == undefined) && json.jsonObjectToString(resp) != '{}')	{
+			
+			json.addValue(obj, 'result', 'success');		// 삭제 성공
+		}
+		else {
+			
+			json.addValue(obj, 'result', 'fail');			// 삭제 실패
+			if(json.jsonObjectToString(resp) == '{}') {
+				json.addValue(obj, 'reason', 'no such index');
+			}
+			else {
+				json.addValue(obj, 'reason', value.reason);
+			}
 		}
 		
 		json.addValue(resultObj, 'data', obj);

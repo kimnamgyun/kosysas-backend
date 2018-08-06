@@ -51,3 +51,23 @@ module.exports.deleteIdx = function(idx, callback) {
 		}
 	});
 }
+
+/**
+ * 	EXIST Index
+ */
+module.exports.existIdx = function(idx, callback) {
+	
+	let host = config.ip + ":" + config.port;
+	let urlString = 'http://' + host + '/'+ idx + '?pretty';
+	
+	request ('GET', urlString, null, function(err, resp) {
+		
+		//console.log(resp);
+		if(resp) {
+			callback(err, json.stringToJsonObject(resp.body));
+		}
+		else {
+			callback(err, null);
+		}
+	})
+}

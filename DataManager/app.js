@@ -18,6 +18,7 @@ var elasticSearch = require('./routes/elasticsearch');
 var overview = require('./routes/dashboard/overview');
 var intrusion = require('./routes/dashboard/intrusion');
 var system = require('./routes/dashboard/system');
+var vuln = require('./routes/dashboard/vulnerability');
 
 var user = require('./service/user/userMgr');
 
@@ -64,6 +65,7 @@ app.use('/user', user);
 app.use('/dashboard/overview', overview);
 app.use('/dashboard/intrusion', intrusion);
 app.use('/dashboard/system', system);
+app.use('/dashboard/vuln', vuln);
 
 
 // catch 404 and forward to error handler
