@@ -24,7 +24,7 @@ router.get('/chart', function(req, res, body) {
 	// period 필요할듯
 	let interval = "month";
 	
-	let query = '{"size":0,"query":{"match_all":{}},"post_filter":{"range":{"@timestamp":{"gte":"now-1y","lte":"now"}}},"aggs":{"fullLog_per_time":{"date_histogram":{"field":"@timestamp","interval":"month","order":{"_key":"desc"}}}}}';
+	let query = '{"size":0,"query":{"match_all":{}},"post_filter":{' + common.getTimeRange(req.query) + '},"aggs":{"fullLog_per_time":{"date_histogram":{"field":"@timestamp","interval":"month","order":{"_key":"desc"}}}}}';
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
 	
@@ -57,7 +57,7 @@ router.get('/text', function(req, res, body) {
 	let from = 0 * 50;
 	let size = from + 50;
 	// 페이징 기능 추가
-	let query = '{"from":0,"size":50,"query":{"match_all":{}},"post_filter":{"range":{"@timestamp":{"gte":"now-1y","lte":"now"}}}}';
+	let query = '{"from":0,"size":50,"query":{"match_all":{}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
 	

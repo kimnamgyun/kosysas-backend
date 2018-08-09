@@ -21,7 +21,7 @@ var common = require('../common.js');
  */
 router.get('/metricCount', function(req, res, body) {
 	
-	let query = '{"size":0,"post_filter":{"range":{"@timestamp":{"gte":"now-1y","lte":"now"}}}}';
+	let query = '{"size":0,"post_filter":{' + common.getTimeRange(req.query) + '}}';
 	
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
@@ -45,7 +45,7 @@ router.get('/metricCount', function(req, res, body) {
  */
 router.get('/lv12Count', function(req, res, body) {
 	
-	let query = '{"size":0,"post_filter":{"range":{"@timestamp":{"gte":"now-1y","lte":"now"}}},"query":{"match":{"rule.level":"12"}}}';
+	let query = '{"size":0,"post_filter":{' + common.getTimeRange(req.query) + '},"query":{"match":{"rule.level":"12"}}}';
 	
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
@@ -69,7 +69,7 @@ router.get('/lv12Count', function(req, res, body) {
  */
 router.get('/authFailed', function(req, res, body) {
 	
-	let query = '{"size":0,"post_filter":{"range":{"@timestamp":{"gte":"now-1y","lte":"now"}}},"query":{"bool":{"must":[{"match":{"decoder.name":"sshd"}},{"match":{"rule.id":"5716"}}]}}}';
+	let query = '{"size":0,"post_filter":{' + common.getTimeRange(req.query) + '},"query":{"bool":{"must":[{"match":{"decoder.name":"sshd"}},{"match":{"rule.id":"5716"}}]}}}';
 	
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
@@ -93,7 +93,7 @@ router.get('/authFailed', function(req, res, body) {
  */
 router.get('/authSuccess', function(req, res, body) {
 	
-	let query = '{"size":0,"post_filter":{"range":{"@timestamp":{"gte":"now-1y","lte":"now"}}},"query":{"bool":{"must":[{"match":{"decoder.name":"sshd"}},{"match":{"rule.id":"5715"}}]}}}';
+	let query = '{"size":0,"post_filter":{' + common.getTimeRange(req.query) + '},"query":{"bool":{"must":[{"match":{"decoder.name":"sshd"}},{"match":{"rule.id":"5715"}}]}}}';
 	
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
@@ -117,7 +117,7 @@ router.get('/authSuccess', function(req, res, body) {
  */
 router.get('/alertPerManager', function(req, res, body) {
 	
-	let query = '{"size":0,"post_filter":{"range":{"@timestamp":{"gte":"now-1y","lte":"now"}}},"aggs":{"alertCount_per_manager":{"terms":{"field":"manager.name","size":10}}}}';
+	let query = '{"size":0,"post_filter":{' + common.getTimeRange(req.query) + '},"aggs":{"alertCount_per_manager":{"terms":{"field":"manager.name","size":10}}}}';
 	
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
