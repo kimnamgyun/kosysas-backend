@@ -29,8 +29,17 @@ router.get('/metricCount', function(req, res, body) {
 	common.setHeader(res);
 	searchFunctions.freeQuery(client, 'wazuh-alerts-*', query, function(resp) {
 		
-		let value = resp.hits.total;
-		json.addValue(obj, 'count', value);
+		let count;
+		try {
+			count = resp.hits.total;
+			json.addValue(obj, 'count', count);
+		}
+		catch (e) {
+			//console.log(e);
+			json.addValue(obj, 'msg', 'No JSON Data');
+			json.editValue(resultObj, 'error', '002');
+		}
+				
 		json.addValue(resultObj, 'data', obj);
 		res.send(resultObj);
 	});
@@ -53,8 +62,17 @@ router.get('/lv12Count', function(req, res, body) {
 	common.setHeader(res);
 	searchFunctions.freeQuery(client, 'wazuh-alerts-*', query, function(resp) {
 		
-		let value = resp.hits.total;
-		json.addValue(obj, 'count', value);
+		let count;
+		try {
+			count = resp.hits.total;
+			json.addValue(obj, 'count', count);
+		}
+		catch (e) {
+			//console.log(e);
+			json.addValue(obj, 'msg', 'No JSON Data');
+			json.editValue(resultObj, 'error', '002');
+		}
+				
 		json.addValue(resultObj, 'data', obj);
 		res.send(resultObj);
 	});
@@ -77,8 +95,17 @@ router.get('/authFailed', function(req, res, body) {
 	common.setHeader(res);
 	searchFunctions.freeQuery(client, 'wazuh-alerts-*', query, function(resp) {
 		
-		let value = resp.hits.total;
-		json.addValue(obj, 'count', value);
+		let count;
+		try {
+			count = resp.hits.total;
+			json.addValue(obj, 'count', count);
+		}
+		catch (e) {
+			//console.log(e);
+			json.addValue(obj, 'msg', 'No JSON Data');
+			json.editValue(resultObj, 'error', '002');
+		}
+				
 		json.addValue(resultObj, 'data', obj);
 		res.send(resultObj);
 	});
@@ -101,8 +128,17 @@ router.get('/authSuccess', function(req, res, body) {
 	common.setHeader(res);
 	searchFunctions.freeQuery(client, 'wazuh-alerts-*', query, function(resp) {
 		
-		let value = resp.hits.total;
-		json.addValue(obj, 'count', value);
+		let count;
+		try {
+			count = resp.hits.total;
+			json.addValue(obj, 'count', count);
+		}
+		catch (e) {
+			//console.log(e);
+			json.addValue(obj, 'msg', 'No JSON Data');
+			json.editValue(resultObj, 'error', '002');
+		}
+				
 		json.addValue(resultObj, 'data', obj);
 		res.send(resultObj);
 	});
@@ -125,8 +161,17 @@ router.get('/alertPerManager', function(req, res, body) {
 	common.setHeader(res);
 	searchFunctions.freeQuery(client, 'wazuh-alerts-*', query, function(resp) {
 		
-		let value = resp.hits.total;
-		json.addValue(obj, 'count', value);
+		let count;
+		try {
+			count = resp.hits.total;
+			json.addValue(obj, 'count', count);
+		}
+		catch (e) {
+			//console.log(e);
+			json.addValue(obj, 'msg', 'No JSON Data');
+			json.editValue(resultObj, 'error', '002');
+		}
+				
 		json.addValue(resultObj, 'data', obj);
 		res.send(resultObj);
 	});

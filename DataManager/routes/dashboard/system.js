@@ -26,16 +26,28 @@ router.get('/cpu', function(req, res, body) {
 	common.setHeader(res);
 	searchFunctions.freeQuery(client, 'metricbeat-*', query, function(resp) {
 		
-		let count = resp.aggregations.group_by_hostname.buckets.length;
-		let value = resp.aggregations.group_by_hostname.buckets;
-		let arr = new Array();
 		
-		for(let i = 0; i < count; i++) {
+		let count;
+		let value;
+		try {
+			count = resp.aggregations.group_by_hostname.buckets.length;
+			value = resp.aggregations.group_by_hostname.buckets;
+			let arr = new Array();
 			
-			arr.push(value[i]);
+			for(let i = 0; i < count; i++) {
+				
+				arr.push(value[i]);
+			}
+			
+			json.addValue(resultObj, 'data', arr);
+		}
+		catch (e) {
+			//console.log(e);
+			json.addValue(obj, 'msg', 'No JSON Data');
+			json.addValue(resultObj, 'data', obj);
+			json.editValue(resultObj, 'error', '002');
 		}
 		
-		json.addValue(resultObj, 'data', arr);
 		res.send(resultObj);
 	});
 });
@@ -55,16 +67,27 @@ router.get('/memory', function(req, res, body) {
 	common.setHeader(res);
 	searchFunctions.freeQuery(client, 'metricbeat-*', query, function(resp) {
 		
-		let count = resp.aggregations.group_by_hostname.buckets.length;
-		let value = resp.aggregations.group_by_hostname.buckets;
-		let arr = new Array();
-		
-		for(let i = 0; i < count; i++) {
+		let count;
+		let value;
+		try {
+			count = resp.aggregations.group_by_hostname.buckets.length;
+			value = resp.aggregations.group_by_hostname.buckets;
+			let arr = new Array();
 			
-			arr.push(value[i]);
+			for(let i = 0; i < count; i++) {
+				
+				arr.push(value[i]);
+			}
+			
+			json.addValue(resultObj, 'data', arr);
+		}
+		catch (e) {
+			//console.log(e);
+			json.addValue(obj, 'msg', 'No JSON Data');
+			json.addValue(resultObj, 'data', obj);
+			json.editValue(resultObj, 'error', '002');
 		}
 		
-		json.addValue(resultObj, 'data', arr);
 		res.send(resultObj);
 	});
 });
@@ -85,16 +108,25 @@ router.get('/eventPerTime', function(req, res, body) {
 	common.setHeader(res);
 	searchFunctions.freeQuery(client, 'metricbeat-*', query, function(resp) {
 		
-		let count = 10;//resp.aggregations.group_by_hostname.buckets.length;
-		let value = resp.aggregations.event_per_time.buckets;
-		let arr = new Array();
-		
-		for(let i = 0; i < count; i++) {
+		let count = 10;
+		let value;
+		try {
+			value = resp.aggregations.event_per_time.buckets;
+			let arr = new Array();
 			
-			arr.push(value[i]);
+			for(let i = 0; i < count; i++) {
+				
+				arr.push(value[i]);
+			}
+			
+			json.addValue(resultObj, 'data', arr);
 		}
-		
-		json.addValue(resultObj, 'data', arr);
+		catch (e) {
+			//console.log(e);
+			json.addValue(obj, 'msg', 'No JSON Data');
+			json.addValue(resultObj, 'data', obj);
+			json.editValue(resultObj, 'error', '002');
+		}
 		res.send(resultObj);
 	});
 })
@@ -117,16 +149,27 @@ router.get('/eventCountPerCategory', function(req, res, body) {
 	common.setHeader(res);
 	searchFunctions.freeQuery(client, 'metricbeat-*', query, function(resp) {
 		
-		let count = resp.aggregations.group_by_eventname.buckets.length;
-		let value = resp.aggregations.group_by_eventname.buckets;
-		let arr = new Array();
-		
-		for(let i = 0; i < count; i++) {
+		let count;
+		let value;
+		try {
+			count = resp.aggregations.group_by_eventname.buckets.length;
+			value = resp.aggregations.group_by_eventname.buckets;
+			let arr = new Array();
 			
-			arr.push(value[i]);
+			for(let i = 0; i < count; i++) {
+				
+				arr.push(value[i]);
+			}
+			
+			json.addValue(resultObj, 'data', arr);
+		}
+		catch (e) {
+			//console.log(e);
+			json.addValue(obj, 'msg', 'No JSON Data');
+			json.addValue(resultObj, 'data', obj);
+			json.editValue(resultObj, 'error', '002');
 		}
 		
-		json.addValue(resultObj, 'data', arr);
 		res.send(resultObj);
 	});
 });

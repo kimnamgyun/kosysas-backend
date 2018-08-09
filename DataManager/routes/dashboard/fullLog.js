@@ -31,16 +31,27 @@ router.get('/chart', function(req, res, body) {
 	common.setHeader(res);
 	searchFunctions.freeQuery(client, '*', query, function(resp) {
 		
-		let count = resp.aggregations.fullLog_per_time.buckets.length;
-		let value = resp.aggregations.fullLog_per_time.buckets;
-		let arr = new Array();
-		
-		for(let i = 0; i < count; i++) {
+		let count;
+		let value;
+		try {
+			count = resp.aggregations.fullLog_per_time.buckets.length;
+			value = resp.aggregations.fullLog_per_time.buckets;
+			let arr = new Array();
 			
-			arr.push(value[i]);
+			for(let i = 0; i < count; i++) {
+				
+				arr.push(value[i]);
+			}
+			
+			json.addValue(resultObj, 'data', arr);
+		}
+		catch (e) {
+			//console.log(e);
+			json.addValue(obj, 'msg', 'No JSON Data');
+			json.addValue(resultObj, 'data', obj);
+			json.editValue(resultObj, 'error', '002');
 		}
 		
-		json.addValue(resultObj, 'data', arr);
 		res.send(resultObj);
 	});
 });
@@ -64,16 +75,27 @@ router.get('/text', function(req, res, body) {
 	common.setHeader(res);
 	searchFunctions.freeQuery(client, '*', query, function(resp) {
 		
-		let count = resp.hits.hits.length;
-		let value = resp.hits.hits;
-		let arr = new Array();
-		
-		for(let i = 0; i < count; i++) {
+		let count;
+		let value;
+		try {
+			count = resp.hits.hits.length;
+			value = resp.hits.hits;
+			let arr = new Array();
 			
-			arr.push(value[i]);
+			for(let i = 0; i < count; i++) {
+				
+				arr.push(value[i]);
+			}
+			
+			json.addValue(resultObj, 'data', arr);
+		}
+		catch (e) {
+			//console.log(e);
+			json.addValue(obj, 'msg', 'No JSON Data');
+			json.addValue(resultObj, 'data', obj);
+			json.editValue(resultObj, 'error', '002');
 		}
 		
-		json.addValue(resultObj, 'data', arr);
 		res.send(resultObj);
 	});
 });
