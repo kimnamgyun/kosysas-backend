@@ -15,9 +15,15 @@ module.exports.setHeader = function(res) {
 }
 
 /*
- * 		Elasticsearch Query Maker
+ * 		
  * 
  */
-module.exports.makeQuery = function(idx) {
+module.exports.getTimeRange = function(query) {
 	
+	let gte = query.gte;
+	let lte = query.lte;
+	
+	let range = '"range":{"@timestamp":{"gte":"' + gte + '","lte":"' + lte + '"}}}';
+	
+	return range;
 }
