@@ -131,12 +131,40 @@ router.get('/status/errors', function(req, res, body) {
 /*
  * 	GET ElastAlert Rules
  */
-router.get('/rules', function(req, res, body) {
+router.get('/rules/:cr', function(req, res, body) {
 	
+	let cr = req.params.cr;
 	ea.get('/rules', function(err, resp) {
 		
 		common.setHeader(res);
-		callbackGET(res, err, resp);
+		
+		if(resp) {
+			
+			let resultObject = json.createErrObject('0');
+			
+			if(resp.hasOwnProperty('error')) {
+				json.editValue(resultObject, 'error', '003');
+			}
+			
+			let crArray = new Array();
+			let noArray = new Array();
+			let tArray = resp.rules;
+			
+			for(let i = 0; i < tArray.length; i ++){
+				
+				let temp = tArray[i];
+				
+				temp.indexOf('cr_') != -1 ? crArray.push(temp) : noArray.push(temp);
+			}
+			
+			cr == 'yes' ? json.addValue(resultObject, 'data', crArray) : json.addValue(resultObject, 'data', noArray);	
+			
+			res.send(resultObject);
+		}
+		else {
+			
+			res.send(err);
+		}
 	});
 });
 
