@@ -11,10 +11,6 @@ var json = require('../../service/utils/json.js');
 var common = require('../common.js');
 var async = require('async');
 
-router.get('/', function(req, res, body) {
-	
-	res.render('index', { title: 'elasticsearch' });
-});
 
 /*
  * 	GET elastalert count + wazuh alert count
