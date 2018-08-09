@@ -27,3 +27,9 @@ module.exports.getTimeRange = function(query) {
 	
 	return range;
 }
+
+module.exports.getValue = function(value) {
+	
+	if(value == undefined) return null;
+	else return value;
+}
