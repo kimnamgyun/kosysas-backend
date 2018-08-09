@@ -14,10 +14,6 @@ router.get('/', function(req, res, next) {
 		console.log("-- Client Status : [ ", status, " ] --")
 		console.log("-- Client Health --\n", resp)	
 	});
-	
-	client.count({index: 'metricbeat-*', type: 'doc'}, function(err, resp, status) {
-		console.log(resp);
-	});
 });
 
 /*
@@ -45,6 +41,42 @@ router.get('/search', function(req, res, next) {
 		}
 		json.addValue(resultObject, "data", array);
 		
+		res.send(resultObject);
+	});
+});
+
+/**
+ * 		백엔드 서버 생존 체크
+ * @param req
+ * @param res
+ * @param body
+ * @returns
+ */
+router.get('/check', function(req, res, body) {
+	
+	let resultObject = json.createErrObject('0');
+	let obj = json.createJsonObject();
+	
+	common.setHeader(res);
+	
+	client.cluster.health({}, function(err, resp, status) {
+		console.log("-- Client Error : [ ", err, " ] --")
+		console.log("-- Client Status : [ ", status, " ] --")
+		console.log("-- Client Health --\n", resp)	
+		
+		// 엘라스틱서치가 정상적인 상태일 경우에만 살아있다는 응답을 보낸다.
+		if(status == '200') {
+			
+			json.addValue(obj, 'result', 'success');
+		}
+		else {
+			
+			json.addValue(obj, 'result', 'fail');
+			json.addValue(obj, 'ES-Status', status);
+			json.addValue(obj, 'message', 'Check Elasticsearch');
+		}
+		
+		json.addValue(resultObject, 'data', obj);
 		res.send(resultObject);
 	});
 });
