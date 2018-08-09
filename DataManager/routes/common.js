@@ -25,6 +25,8 @@ module.exports.getTimeRange = function(query) {
 	
 	let range = '"range":{"@timestamp":{"gte":"' + gte + '","lte":"' + lte + '"}}}';
 	
+	console.log(range);
+	
 	return range;
 }
 
