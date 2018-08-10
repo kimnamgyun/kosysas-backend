@@ -27,19 +27,11 @@ router.get('/cpu', function(req, res, body) {
 	common.setHeader(res);
 	searchFunctions.freeQuery(client, 'metricbeat-*', query, function(resp) {
 				
-		let count;
-		let value;
 		try {
-			count = resp.aggregations.group_by_hostname.buckets.length;
-			value = resp.aggregations.group_by_hostname.buckets;
-			let arr = new Array();
+			let count = resp.aggregations.group_by_hostname.buckets.length;
+			let value = resp.aggregations.group_by_hostname.buckets;
 			
-			for(let i = 0; i < count; i++) {
-				
-				arr.push(value[i]);
-			}
-			
-			json.addValue(resultObj, 'data', arr);
+			json.addValue(resultObj, 'data', common.queryResultArr(count, value));
 		}
 		catch (e) {
 			//console.log(e);
@@ -69,19 +61,11 @@ router.get('/memory', function(req, res, body) {
 	common.setHeader(res);
 	searchFunctions.freeQuery(client, 'metricbeat-*', query, function(resp) {
 		
-		let count;
-		let value;
 		try {
-			count = resp.aggregations.group_by_hostname.buckets.length;
-			value = resp.aggregations.group_by_hostname.buckets;
-			let arr = new Array();
+			let count = resp.aggregations.group_by_hostname.buckets.length;
+			let value = resp.aggregations.group_by_hostname.buckets;
 			
-			for(let i = 0; i < count; i++) {
-				
-				arr.push(value[i]);
-			}
-			
-			json.addValue(resultObj, 'data', arr);
+			json.addValue(resultObj, 'data', common.queryResultArr(count, value));
 		}
 		catch (e) {
 			//console.log(e);
@@ -103,26 +87,19 @@ router.get('/memory', function(req, res, body) {
  */
 router.get('/eventPerTime', function(req, res, body) {
 	
-	let query = '{"size":0,"aggs":{"event_per_time":{"date_histogram":{"field":"@timestamp","interval":"hour","order":{"_key":"desc"}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
-	
+	let query = '{"size":0,"aggs":{"event_per_time":{"date_histogram":{"field":"@timestamp","interval":"' + common.getInterval(req.query) + '","order":{"_key":"desc"}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
+
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
 	
 	common.setHeader(res);
 	searchFunctions.freeQuery(client, 'metricbeat-*', query, function(resp) {
 		
-		let count = 10;
-		let value;
-		try {
-			value = resp.aggregations.event_per_time.buckets;
-			let arr = new Array();
+		try {		
+			let count = 10;
+			let value = resp.aggregations.event_per_time.buckets;
 			
-			for(let i = 0; i < count; i++) {
-				
-				arr.push(value[i]);
-			}
-			
-			json.addValue(resultObj, 'data', arr);
+			json.addValue(resultObj, 'data', common.queryResultArr(count, value));
 		}
 		catch (e) {
 			//console.log(e);
@@ -152,19 +129,11 @@ router.get('/eventCountPerCategory', function(req, res, body) {
 	common.setHeader(res);
 	searchFunctions.freeQuery(client, 'metricbeat-*', query, function(resp) {
 		
-		let count;
-		let value;
 		try {
-			count = resp.aggregations.group_by_eventname.buckets.length;
-			value = resp.aggregations.group_by_eventname.buckets;
-			let arr = new Array();
+			let count = resp.aggregations.group_by_eventname.buckets.length;
+			let value = resp.aggregations.group_by_eventname.buckets;
 			
-			for(let i = 0; i < count; i++) {
-				
-				arr.push(value[i]);
-			}
-			
-			json.addValue(resultObj, 'data', arr);
+			json.addValue(resultObj, 'data', common.queryResultArr(count, value));
 		}
 		catch (e) {
 			//console.log(e);

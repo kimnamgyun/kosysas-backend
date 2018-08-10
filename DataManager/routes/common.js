@@ -20,8 +20,8 @@ module.exports.setHeader = function(res) {
  */
 module.exports.getTimeRange = function(query) {
 	
-	let gte = query.gte;
-	let lte = query.lte;
+	let gte = query.gte != null ? query.gte : "2018-01-01T00:00:00.000Z";
+	let lte = query.lte != null ? query.lte : "2018-08-31T00:00:00.000Z";
 	
 	let range = '"range":{"@timestamp":{"gte":"' + gte + '","lte":"' + lte + '"}}';
 	
@@ -33,16 +33,36 @@ module.exports.getTimeRange = function(query) {
 /*
  * 		날짜 검색의 기간에 따라 쿼리에 들어갈 인터벌을 결정하는 함수
  */
-module.exports.getPeriod = function(query) {
+module.exports.getInterval = function(query) {
 	
-	let gte = query.gte;
-	let lte = query.lte;
+	let gte = query.gte.substr(0, 10).split('-');
+	let lte = query.lte.substr(0, 10).split('-');
+	let score = 0;
+	let interval;
 	
-	console.log(lte - gte);
+	// 0 : year, 1 : month, 2: day
+	// year는 365점, month 30점, day 1점
+	// 각 점수를 가산하여 총 기간을 구해, 해당 기간만큼 인터벌을 결정한다.
+	score = ((lte[0] - gte[0]) * 365) + ((lte[1] - gte[1]) * 30) + ((lte[2] - gte[2]));
+	
+	if(score <= 10) interval = "day";
+	else if(score > 10 && score <= 70) interval = "week";
+	else if(score > 70 && score <= 300) interval = "month";
+	else if(score > 300) interval = "quarter"
+
+	return interval;
 }
 
-module.exports.getValue = function(value) {
+/*
+ * 		쿼리 결과 : 배열형 데이터 처리 함수
+ */
+module.exports.queryResultArr = function(count, value) {
 	
-	if(value == undefined) return null;
-	else return value;
+	let arr = new Array();
+	for(let i = 0; i < count; i++) {
+		
+		if(value[i] != null) arr.push(value[i]);
+	}
+	
+	return arr;
 }
