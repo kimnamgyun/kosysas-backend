@@ -154,7 +154,8 @@ router.get('/rules/:cr', function(req, res, body) {
 				
 				let temp = tArray[i];
 				
-				temp.indexOf('cr_') != -1 ? crArray.push(temp) : noArray.push(temp);
+				// 파일 이름 앞에 cr_가 들어가있다면, 해당 파일은 연관성분석용 파일이다.
+				temp.toLowerCase().indexOf('cr_') != -1 ? crArray.push(temp) : noArray.push(temp);
 			}
 			
 			cr == 'yes' ? json.addValue(resultObject, 'data', crArray) : json.addValue(resultObject, 'data', noArray);	
