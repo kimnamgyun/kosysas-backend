@@ -20,7 +20,7 @@ module.exports.setHeader = function(res) {
  */
 module.exports.getTimeRange = function(query) {
 	
-	let gte = query.gte != null ? query.gte : "2018-01-01T00:00:00.000Z";
+	let gte = query.gte != null ? query.gte : "2018-08-01T00:00:00.000Z";
 	let lte = query.lte != null ? query.lte : "2018-08-31T00:00:00.000Z";
 	
 	let range = '"range":{"@timestamp":{"gte":"' + gte + '","lte":"' + lte + '"}}';
@@ -35,10 +35,13 @@ module.exports.getTimeRange = function(query) {
  */
 module.exports.getInterval = function(query) {
 	
-	let gte = query.gte.substr(0, 10).split('-');
-	let lte = query.lte.substr(0, 10).split('-');
+	let gte = query.gte != null ? query.gte : "2018-08-01T00:00:00.000Z";
+	let lte = query.lte != null ? query.lte : "2018-08-31T00:00:00.000Z";	
 	let score = 0;
 	let interval;
+	
+	gte = gte.substr(0, 10).split('-');
+	lte = lte.substr(0, 10).split('-');
 	
 	// 0 : year, 1 : month, 2: day
 	// year는 365점, month 30점, day 1점

@@ -1,5 +1,5 @@
 /**
- * 		Dashboard.js
+ * 		개요
  * 		20180417 정종원
  * 
  */
@@ -12,54 +12,135 @@ var common = require('../common.js');
 var async = require('async');
 
 
-/*
- * 	GET elastalert count + wazuh alert count
+/**
+ * 		분석 : 알람 개수 ( elastalert_status count )
+ * @param req
+ * @param res
+ * @param body
+ * @returns
  */
-router.get('/alertCount', function(req, res, body) {
+router.get('/analysisAlertCount', function(req, res, body) {
 	
-	let eaQuery = '{"query":{"match_all":{}}}';
-	let wQuery = '{"query":{"match_all":{}}}';
+	let wQuery = '{"size":0,"query":{"match_all":{}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
+	let resultObj = json.createErrObject('0');
+	let obj = json.createJsonObject();
+	
+	common.setHeader(res);	
+	searchFunctions.freeQuery(client, 'elastalert_status', wQuery, function(resp) {
+		
+		try {
+			let value = resp.hits.total;		
+			json.addValue(obj, 'alertCount', value);
+		}
+		catch (e) {
+			//console.log(e);
+			json.addValue(obj, 'msg', 'No JSON Data');
+			json.addValue(resultObj, 'data', obj);
+			json.editValue(resultObj, 'error', '002');
+		}
+
+		json.addValue(resultObj, 'data', obj);
+		res.send(resultObj);
+	});
+});
+
+/**
+ * 		분석 : 시간별 알람 개수 ( elastalert_status count )
+ * @param req
+ * @param res
+ * @param body
+ * @returns
+ */
+router.get('/analysisAlertCountPerTime', function(req, res, body) {
+
+	let wQuery = '{"size":0,"query":{"match_all":{}},"aggs":{"alert_per_time":{"date_histogram":{"field":"@timestamp","interval":"' + common.getInterval(req.query) + '","order":{"_key":"desc"}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
 	
 	common.setHeader(res);
-	async.waterfall([
-		function(cb) {
-			searchFunctions.freeQuery(client, 'wazuh-alerts-*', wQuery, function(resp) {
-				
-				let value = json.getValue(resp.hits, 'total');
-				if(value == undefined || value == null) {
-					json.editValue(resultObj, 'err', '002');
-					json.addValue(obj, 'wazuh_count', '0');
-				}
-				else {
-					json.addValue(obj, 'wazuh_count', value);
-				}
-				cb(null);
-			});
-		},
-		function(cb) {
-			searchFunctions.freeQuery(client, 'elastalert_status', wQuery, function(resp) {
-				
-				let value = json.getValue(resp.hits, 'total');
-				if(value == undefined || value == null) {
-					json.editValue(resultObj, 'error', '002');
-					json.addValue(obj, 'elastalert_count', '0');
-				}
-				else {
-					json.addValue(obj, 'elastalert_count', value);
-				}
-				cb(null);
-			});			
-		},
-		function(cb) {
+	searchFunctions.freeQuery(client, 'elastalert_status', wQuery, function(resp) {
+		
+		try {
+			let count = resp.aggregations.alert_per_time.buckets.length;
+			let value = resp.aggregations.alert_per_time.buckets;
 			
-			json.addValue(resultObj, 'data', obj);
-			res.send(resultObj);
-			
-			cb(null);
+			json.addValue(resultObj, 'data', common.queryResultArr(count, value));
 		}
-	]);	
+		catch (e) {
+			// console.log(e);
+			json.addValue(obj, 'msg', 'No JSON Data');
+			json.addValue(resultObj, 'data', obj);
+			json.editValue(resultObj, 'error', '002');
+		}
+		
+		res.send(resultObj);
+	});	
+});
+
+/**
+ * 		침입탐지 : Top 5 에이전트
+ * @param req
+ * @param res
+ * @param body
+ * @returns
+ */
+router.get('/threatTop5Agent', function(req, res, body) {
+	
+	// field : name 이용해서 Top 5 쿼리 짤 것
+	let query = '{"size":0,"aggs":{"threat_agent":{"terms":{"field":"name","size":5}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
+	let resultObj = json.createErrObject('0');
+	let obj = json.createJsonObject();
+	
+	searchFunctions.freeQuery(client, 'wazuh-monitoring-*', query, function(resp) {
+		
+		try {
+			let count = resp.aggregations.threat_agent.buckets.length;
+			let value = resp.aggregations.threat_agent.buckets;
+			
+			json.addValue(resultObj, 'data', common.queryResultArr(count, value));
+		}
+		catch (e) {
+			// console.log(e);
+			json.addValue(obj, 'msg', 'No JSON Data');
+			json.addValue(resultObj, 'data', obj);
+			json.editValue(resultObj, 'error', '002');
+		}
+		
+		res.send(resultObj);
+	});	
+});
+
+/**
+ * 		침입탐지 : 시간 별 알람 개수 ( Wazuh Alert )
+ * @param req
+ * @param res
+ * @param body
+ * @returns
+ */
+router.get('/threatAlertCountPerTime', function(req, res, body) {
+	
+	let wQuery = '{"size":0,"query":{"match_all":{}},"aggs":{"alert_per_time":{"date_histogram":{"field":"@timestamp","interval":"' + common.getInterval(req.query) + '","order":{"_key":"desc"}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
+	let resultObj = json.createErrObject('0');
+	let obj = json.createJsonObject();
+	
+	common.setHeader(res);
+	searchFunctions.freeQuery(client, 'wazuh-alerts-*', wQuery, function(resp) {
+		
+		try {
+			let count = resp.aggregations.alert_per_time.buckets.length;
+			let value = resp.aggregations.alert_per_time.buckets;
+			
+			json.addValue(resultObj, 'data', common.queryResultArr(count, value));
+		}
+		catch (e) {
+			// console.log(e);
+			json.addValue(obj, 'msg', 'No JSON Data');
+			json.addValue(resultObj, 'data', obj);
+			json.editValue(resultObj, 'error', '002');
+		}
+		
+		res.send(resultObj);
+	});	
 });
 
 

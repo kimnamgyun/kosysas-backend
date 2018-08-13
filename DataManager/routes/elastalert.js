@@ -129,11 +129,14 @@ router.get('/status/errors', function(req, res, body) {
 });
 
 /*
- * 	GET ElastAlert Rules
+ * 	GET ElastAlert Rules with search
  */
-router.get('/rules/:cr', function(req, res, body) {
+router.get('/rules/:cr/:page/:rulename', function(req, res, body) {
 	
 	let cr = req.params.cr;
+	let page = req.params.page;
+	let rulename = req.params.rulename;
+	
 	ea.get('/rules', function(err, resp) {
 		
 		common.setHeader(res);
@@ -149,6 +152,7 @@ router.get('/rules/:cr', function(req, res, body) {
 			let crArray = new Array();
 			let noArray = new Array();
 			let tArray = resp.rules;
+			let result = new Array();
 			
 			for(let i = 0; i < tArray.length; i ++){
 				
@@ -158,8 +162,71 @@ router.get('/rules/:cr', function(req, res, body) {
 				temp.toLowerCase().indexOf('cr_') != -1 ? crArray.push(temp) : noArray.push(temp);
 			}
 			
-			cr == 'yes' ? json.addValue(resultObject, 'data', crArray) : json.addValue(resultObject, 'data', noArray);	
+			cr == 'yes' ? tArray = crArray : tArray = noArray;	
 			
+			for(let i = 0; i < tArray.length; i++) {
+				
+				let temp = tArray[i];
+				
+				// 검색하려는 이름 검색
+				if(temp.toLowerCase().indexOf(rulename) != -1) result.push(temp);
+			}
+			
+			let length = result.length;
+			let start = page * 10;
+			let end = (start + 9) < length ? (start + 9) : (length - start);
+			
+			json.addValue(resultObject, 'data', result.slice(start, end));
+			res.send(resultObject);
+		}
+		else {
+			
+			res.send(err);
+		}
+	});
+});
+
+/*
+ * 		GET ElastAlert Rules without search
+ */
+router.get('/rules/:cr/:page', function(req, res, body) {
+	
+	let cr = req.params.cr;
+	let page = req.params.page;
+	
+	ea.get('/rules', function(err, resp) {
+		
+		common.setHeader(res);
+		
+		if(resp) {
+			
+			let resultObject = json.createErrObject('0');
+			
+			if(resp.hasOwnProperty('error')) {
+				json.editValue(resultObject, 'error', '003');
+			}
+			
+			let crArray = new Array();
+			let noArray = new Array();
+			let tArray = resp.rules;
+			let result = new Array();
+						
+			for(let i = 0; i < tArray.length; i ++){
+				
+				let temp = tArray[i];
+				
+				// 파일 이름 앞에 cr_가 들어가있다면, 해당 파일은 연관성분석용 파일이다.
+				temp.toLowerCase().indexOf('cr_') != -1 ? crArray.push(temp) : noArray.push(temp);
+			}
+			
+			cr == 'yes' ? result = crArray : result = noArray;
+			//json.addValue(resultObject, 'data', crArray) : json.addValue(resultObject, 'data', noArray);	
+			
+			let length = result.length;
+			let start = page * 10;
+			let end = (start + 9) < length ? (start + 9) : (length - start);
+			
+			json.addValue(resultObject, 'data', result.slice(start, end));
 			res.send(resultObject);
 		}
 		else {
@@ -329,7 +396,7 @@ router.post('/results', function(req, res, body) {
 	// 중복 데이터 체크
 	if(preID != id) {
 		
-		console.log(result);
+		// console.log(result);
 		// 이곳에서 데이터를 정제하여, FrontEnd 쪽으로 보내주면 된다.
 		
 		preID = id;
