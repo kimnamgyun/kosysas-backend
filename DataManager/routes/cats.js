@@ -176,14 +176,19 @@ router.get('/overview', function(req, res, next) {
 					json.editValue(resultObj, 'error', '002');
 				}
 				
-				temp = json.getValue(allocation[0], 'disk.indices')
+				temp = json.getValue(allocation[0], 'disk.used')
 				if(temp) { json.addValue(obj, "disk", temp); }
+				else {					
+					json.editValue(resultObj, 'error', '002');
+				}
+				temp =json.getValue(allocation[0], 'disk.percent');
+				if(temp) { json.addValue(obj, "disk_percent", temp); }
 				else {					
 					json.editValue(resultObj, 'error', '002');
 				}
 	
 				json.addValue(resultObj, 'data', obj);
-				
+				//console.log(resultObj);
 				res.send(resultObj);
 			}
 			else {
