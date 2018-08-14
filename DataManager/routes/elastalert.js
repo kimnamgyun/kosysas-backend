@@ -173,7 +173,7 @@ router.get('/rules/:cr/:page/:rulename', function(req, res, body) {
 			}
 			
 			let length = result.length;
-			let start = page * 10;
+			let start = (page - 1) * 10;
 			let end = (start + 9) < length ? (start + 9) : (length - start);
 			
 			json.addValue(resultObject, 'data', result.slice(start, end));
@@ -223,7 +223,7 @@ router.get('/rules/:cr/:page', function(req, res, body) {
 			//json.addValue(resultObject, 'data', crArray) : json.addValue(resultObject, 'data', noArray);	
 			
 			let length = result.length;
-			let start = page * 10;
+			let start = (page - 1) * 10;
 			let end = (start + 9) < length ? (start + 9) : (length - start);
 			
 			json.addValue(resultObject, 'data', result.slice(start, end));
