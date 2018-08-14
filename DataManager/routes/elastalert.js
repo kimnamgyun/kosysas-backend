@@ -144,6 +144,7 @@ router.get('/rules/:cr/:page/:rulename', function(req, res, body) {
 		if(resp) {
 			
 			let resultObject = json.createErrObject('0');
+			let obj = json.createJsonObject();
 			
 			if(resp.hasOwnProperty('error')) {
 				json.editValue(resultObject, 'error', '003');
@@ -164,6 +165,7 @@ router.get('/rules/:cr/:page/:rulename', function(req, res, body) {
 			
 			cr == 'yes' ? tArray = crArray : tArray = noArray;	
 			
+			tArray.sort();
 			for(let i = 0; i < tArray.length; i++) {
 				
 				let temp = tArray[i];
@@ -173,10 +175,12 @@ router.get('/rules/:cr/:page/:rulename', function(req, res, body) {
 			}
 			
 			let length = result.length;
-			let start = (page - 1) * 10;
+			let start = (page - 1) <= 0 ? 0 : (page - 1) * 10;
 			let end = (start + 9) < length ? (start + 9) : (length - start);
 			
-			json.addValue(resultObject, 'data', result.slice(start, end));
+			json.addValue(obj, 'total', length);
+			json.addValue(obj, 'buckets', result.slice(start, end))
+			json.addValue(resultObject, 'data', obj);
 			res.send(resultObject);
 		}
 		else {
@@ -201,6 +205,7 @@ router.get('/rules/:cr/:page', function(req, res, body) {
 		if(resp) {
 			
 			let resultObject = json.createErrObject('0');
+			let obj = json.createJsonObject();
 			
 			if(resp.hasOwnProperty('error')) {
 				json.editValue(resultObject, 'error', '003');
@@ -220,13 +225,16 @@ router.get('/rules/:cr/:page', function(req, res, body) {
 			}
 			
 			cr == 'yes' ? result = crArray : result = noArray;
+			result.sort();
 			//json.addValue(resultObject, 'data', crArray) : json.addValue(resultObject, 'data', noArray);	
 			
 			let length = result.length;
-			let start = (page - 1) * 10;
+			let start = (page - 1) <= 0 ? 0 : (page - 1) * 10;
 			let end = (start + 9) < length ? (start + 9) : (length - start);
 			
-			json.addValue(resultObject, 'data', result.slice(start, end));
+			json.addValue(obj, 'total', length);
+			json.addValue(obj, 'buckets', result.slice(start, end))
+			json.addValue(resultObject, 'data', obj);
 			res.send(resultObject);
 		}
 		else {
