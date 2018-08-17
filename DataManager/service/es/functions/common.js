@@ -71,3 +71,23 @@ module.exports.existIdx = function(idx, callback) {
 		}
 	})
 }
+
+/**
+ * 	MAPPING
+ */
+module.exports.mapping = function(idx, callback) {
+	
+	let host = config.ip + ":" + config.port;
+	let urlString = 'http://' + host + '/'+ idx + '/_mapping?pretty';
+	
+	request ('GET', urlString, null, function(err, resp) {
+		
+		//console.log(resp);
+		if(resp) {
+			callback(err, json.stringToJsonObject(resp.body));
+		}
+		else {
+			callback(err, null);
+		}
+	})
+}
