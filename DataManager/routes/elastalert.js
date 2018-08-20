@@ -404,8 +404,32 @@ router.post('/results', function(req, res, body) {
 	// 중복 데이터 체크
 	if(preID != id) {
 		
-		console.log(result);
-		// 이곳에서 데이터를 정제하여, FrontEnd 쪽으로 보내주면 된다.
+		try {
+			console.log(result);
+			let resultObj = json.createErrObject('0');
+			let obj = json.createJsonObject();
+			
+			json.addValue(obj, '@timestamp', result.@timestamp);
+			json.addValue(obj, 'rule_name', result.rule_name);
+			json.addValue(obj, 'host', result.host);
+			json.addValue(obj, 'hits', result.num_hits);
+			json.addValue(obj, 'match', result.num_matches);
+			
+			json.addValue(resultObj, 'data', obj);
+			
+			// 이곳에서 데이터를 정제하여, FrontEnd 쪽으로 보내주면 된다.
+			// @timestamp
+			// rule_name
+			// host
+			// num_hits
+			// num_matches
+			
+			console.log(resultObj);
+		}
+		catch(e) {
+			
+			console.log(e);
+		}
 		
 		preID = id;
 	}
