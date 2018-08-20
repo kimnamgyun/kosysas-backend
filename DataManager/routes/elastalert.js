@@ -425,6 +425,8 @@ router.post('/results', function(req, res, body) {
 			// num_matches
 			
 			console.log(resultObj);
+			
+			// 알람 결과를 프론트로 전송한다.
 		}
 		catch(e) {
 			

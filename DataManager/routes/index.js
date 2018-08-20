@@ -4,6 +4,7 @@ var client = require('../service/es/elasticsearch.js');
 var searchFunctions = require('../service/es/functions/search.js');
 var json = require('../service/utils/json.js');
 var common = require('./common.js');
+var cfg = require('../conf/config.json');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -80,5 +81,71 @@ router.get('/check', function(req, res, body) {
 		res.send(resultObject);
 	});
 });
+
+let config = {
+  name: cfg.lsname,
+  start: cfg.lsstart,
+  end: cfg.lsend
+};
+
+
+/**
+ * 		GET License Information (Dummy)
+ * @param req
+ * @param res
+ * @param body
+ * @returns
+ */
+router.get('/license/info', function(req, res, body) {
+	
+	let resultObj = json.createErrObject('0');
+	let obj = json.createJsonObject();
+	
+	common.setHeader(res);
+			
+	try {		
+		json.addValue(obj, 'name', config.name);
+		json.addValue(obj, 'start', config.start);
+		json.addValue(obj, 'end', config.end);
+		
+		json.addValue(resultObj, 'data', obj);
+	}
+	catch (e) {
+		//console.log(e);
+		json.addValue(obj, 'msg', 'No JSON Data');
+		json.addValue(resultObj, 'data', obj);
+		json.editValue(resultObj, 'error', '002');
+	}
+	res.send(resultObj);
+});
+
+/**
+ * 		GET Valid License
+ * @param req
+ * @param res
+ * @param body
+ * @returns
+ */
+router.get('/license/login/:date', function(req, res, body) {
+	
+	let resultObj = json.createErrObject('0');
+	let obj = json.createJsonObject();
+	let date = req.params.date;
+	
+	common.setHeader(res);
+		
+	try {		
+		json.addValue(obj, 'msg', 'success');
+		
+		json.addValue(resultObj, 'data', obj);
+	}
+	catch (e) {
+		//console.log(e);
+		json.addValue(obj, 'msg', 'No JSON Data');
+		json.addValue(resultObj, 'data', obj);
+		json.editValue(resultObj, 'error', '002');
+	}
+	res.send(resultObj);
+})
 
 module.exports = router;
