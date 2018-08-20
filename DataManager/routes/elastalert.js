@@ -404,7 +404,7 @@ router.post('/results', function(req, res, body) {
 	// 중복 데이터 체크
 	if(preID != id) {
 		
-		// console.log(result);
+		console.log(result);
 		// 이곳에서 데이터를 정제하여, FrontEnd 쪽으로 보내주면 된다.
 		
 		preID = id;
