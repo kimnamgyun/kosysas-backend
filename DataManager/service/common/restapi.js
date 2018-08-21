@@ -7,6 +7,9 @@ var request = require('request');
 var https = require('https');
 var json = require('../utils/json.js');
 
+// https 이용시 sign ERROR를 해결하기 위한 코드
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
 /**
  * 		restful api 통신을 위한 모듈
  * 		method		: GET, POST, DELETE, PUT

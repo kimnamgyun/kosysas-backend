@@ -11,7 +11,7 @@ var common = require('../common.js');
 function callback(res, err, resp) {
 
 	//console.log(err);
-	//console.log(resp);
+	//console.log(resp.data.os);
 	if(resp) {
 		
 		let resultObject = json.createErrObject('0');
@@ -37,10 +37,43 @@ function callback(res, err, resp) {
  */
 router.get('/', function(req, res, next) {
 	
+	let resultObj = json.createErrObject('0');
+	let obj = json.createJsonObject();
+	
 	wazuh.get('/agents?pretty', function (err, resp) { 
 		
 		common.setHeader(res);
-		callback(res, err, resp);
+		
+		try {
+			let count = resp.data.totalItems;
+			let value = resp.data.items;
+			let result = new Array();
+			
+			for(let i = 0; i < count; i++){
+				
+				let temp = json.createJsonObject();
+				json.addValue(temp, 'status', value[i].status);
+				json.addValue(temp, 'id', value[i].id);
+				json.addValue(temp, 'name', value[i].name);
+				json.addValue(temp, 'ip', value[i].ip);
+				json.addValue(temp, 'system', value[i].os.platform);
+				json.addValue(temp, 'version', value[i].version.split(' ')[1]);
+				
+				result.push(temp);
+			}
+			
+			json.addValue(resultObj, 'data', result);
+		}
+		catch (e) {
+			//console.log(e);
+			json.addValue(obj, 'msg', 'No JSON Data');
+			json.addValue(resultObj, 'data', obj);
+			json.editValue(resultObj, 'error', '002');
+		}
+				
+		res.send(resultObj);
+		
+		//callback(res, err, resp);
 	});  
 });
 

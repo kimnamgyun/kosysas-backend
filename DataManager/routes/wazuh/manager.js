@@ -50,10 +50,34 @@ router.get('/configuration', function(req, res, next) {
  */
 router.get('/info', function(req, res, next) {
 	
+	let resultObj = json.createErrObject('0');
+	let obj = json.createJsonObject();
+	
 	wazuh.get('/manager/info?pretty', function (err, resp) {
-		
+			
 		common.setHeader(res);
-		callback(res, err, resp);
+		
+		try {
+			let value = resp.data;
+			
+			json.addValue(obj, 'type', value.type);
+			json.addValue(obj, 'max_agents', value.max_agents);
+			json.addValue(obj, 'rule_version', value.ruleset_version);
+			json.addValue(obj, 'openssl', value.openssl_support);
+			json.addValue(obj, 'version', value.version);
+			
+			json.addValue(resultObj, 'data', obj);
+		}
+		catch (e) {
+			//console.log(e);
+			json.addValue(obj, 'msg', 'No JSON Data');
+			json.addValue(resultObj, 'data', obj);
+			json.editValue(resultObj, 'error', '002');
+		}
+				
+		res.send(resultObj);
+		
+		//callback(res, err, resp);
 	});  
 });
 
