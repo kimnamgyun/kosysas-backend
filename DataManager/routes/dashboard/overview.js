@@ -119,7 +119,7 @@ router.get('/threatTop5Agent', function(req, res, body) {
  */
 router.get('/threatAlertCountPerTime', function(req, res, body) {
 	
-	let wQuery = '{"size":0,"query":{"match_all":{}},"aggs":{"alert_per_time":{"date_histogram":{"field":"@timestamp","interval":"' + common.getInterval(req.query) + '","order":{"_key":"desc"}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
+	let wQuery = '{"size":0,"query":{' + common.getTimeRange(req.query) + '},"aggs":{"alert_per_time":{"date_histogram":{"field":"@timestamp","interval":"' + common.getInterval(req.query) + '","order":{"_key":"desc"}}}}}';
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
 	
@@ -144,6 +144,7 @@ router.get('/threatAlertCountPerTime', function(req, res, body) {
 });
 
 
+// -------------------------------------------------------------------- 안씀
 
 /*
  * 	GET disk usage
@@ -277,19 +278,6 @@ router.get('/alertLevelCount', function(req, res, body) {
 		json.addValue(resultObj, 'data', obj);
 		res.send(resultObj);		
 	});
-});
-
-router.get('/authFailed', function(req, res, body) {
-	
-});
-
-router.get('/authSuccess', function(req, res, body) {
-	
-});
-
-
-router.get('/agentTopHit', function(req, res, bdoy) {
-	
 });
 
 module.exports = router;
