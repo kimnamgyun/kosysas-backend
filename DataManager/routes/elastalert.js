@@ -245,6 +245,41 @@ router.get('/rules/:cr/:page', function(req, res, body) {
 });
 
 /*
+ * 		룰 이름이 존재하는지 여부 체크
+ */
+router.get('/rulecheck/:name', function(req, res, body) {
+	
+	let name = req.params.name;
+	
+	ea.get('/rules', function(err, resp) {
+		
+		common.setHeader(res);
+		
+		if(resp) {
+			
+			let resultObject = json.createErrObject('0');
+			let obj = json.createJsonObject();
+			
+			if(resp.hasOwnProperty('error')) {
+				json.editValue(resultObject, 'error', '003');
+			}
+			
+			let arr = resp.rules;
+			
+			// 리스트에 해당 이름이 존재한다면 fail, 존재하지 않으면 success
+			arr.indexOf(name) != -1 ? json.addValue(obj, 'msg', 'fail') : json.addValue(obj, 'msg', 'success');
+			
+			json.addValue(resultObject, 'data', obj);
+			res.send(resultObject);
+		}
+		else {
+			
+			res.send(err);
+		}
+	});
+});
+
+/*
  * 	POST ElastAlert Rules by id
  */
 router.post('/rules/:id', function(req, res, body) {
