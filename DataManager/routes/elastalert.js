@@ -460,7 +460,7 @@ router.post('/results', function(req, res, body) {
 			// num_hits
 			// num_matches
 			
-			console.log(resultObj);
+			//console.log(resultObj);
 			
 			// 알람 결과를 프론트로 전송한다.
 			
@@ -468,7 +468,7 @@ router.post('/results', function(req, res, body) {
 			
 			request('post', url, resultObj, function(err, resp) {
 				
-				console.log(resp);
+				console.log(resp.body);
 			});
 		}
 		catch(e) {
