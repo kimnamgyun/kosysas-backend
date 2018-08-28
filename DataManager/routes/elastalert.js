@@ -10,6 +10,7 @@ var router = express.Router();
 var json = require('../service/utils/json.js');
 var ea = require('../service/ea/ea.js');
 var common = require('./common.js');
+var request = require('../service/common/restapi.js');
 
 /*
  * 		callback 처리 함수 for GET
@@ -462,6 +463,13 @@ router.post('/results', function(req, res, body) {
 			console.log(resultObj);
 			
 			// 알람 결과를 프론트로 전송한다.
+			
+			let url = 'http://211.252.86.169:8080/api/analysis/alarm/outer';
+			
+			request('post', url, resultObj, function(err, resp) {
+				
+				console.log(resp);
+			});
 		}
 		catch(e) {
 			
