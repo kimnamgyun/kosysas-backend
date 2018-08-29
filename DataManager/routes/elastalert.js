@@ -287,10 +287,12 @@ router.get('/rulecheck/:name', function(req, res, body) {
 router.post('/rules/:id', function(req, res, body) {
 	
 	let form = req.body.data;//"{ yaml:'/opt/elastalert/rules/001.yml'}";
+	let obj = json.createJsonObject();
+	json.addValue(obj, 'yaml', form);
+	console.log(obj);
+	json.createJsonObject(0);
 	
-	console.log(req.body);
-	
-	ea.post('/rules/' + req.params.id, form, function(err, resp) {
+	ea.post('/rules/' + req.params.id, obj, function(err, resp) {
 		
 		common.setHeader(res);
 		callbackPOST(res, err, resp);
