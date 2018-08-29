@@ -449,7 +449,6 @@ router.post('/results', function(req, res, body) {
 	if(preID != id) {
 		
 		try {
-			console.log(result);
 			let resultObj = json.createErrObject('0');
 			let obj = json.createJsonObject();
 			
