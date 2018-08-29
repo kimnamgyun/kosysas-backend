@@ -288,7 +288,7 @@ router.get('/rulePost/:id', function(req, res, body) {
 	
 	let form = req.body.form;//"{ yaml:'/opt/elastalert/rules/001.yml'}";
 	
-	console.log(form);
+	console.log(req.body);
 	
 	ea.post('/rules/' + req.params.id, form, function(err, resp) {
 		
