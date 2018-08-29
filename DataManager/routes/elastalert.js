@@ -61,7 +61,7 @@ function callbackPOST(res, err, resp) {
 		}
 		json.addValue(resultObject, 'data', tmp);
 		
-		//console.log(resultObject);
+		console.log(resultObject);
 		res.send(resultObject);
 	}
 	else {
