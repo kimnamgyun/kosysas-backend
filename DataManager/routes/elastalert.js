@@ -11,6 +11,7 @@ var json = require('../service/utils/json.js');
 var ea = require('../service/ea/ea.js');
 var common = require('./common.js');
 var request = require('../service/common/restapi.js');
+var config = require('../conf/config.json');
 
 /*
  * 		callback 처리 함수 for GET
@@ -287,6 +288,8 @@ router.post('/rules/:id', function(req, res, body) {
 	
 	let form = req.body.form;//"{ yaml:'/opt/elastalert/rules/001.yml'}";
 	
+	console.log(form);
+	
 	ea.post('/rules/' + req.params.id, form, function(err, resp) {
 		
 		common.setHeader(res);
@@ -429,6 +432,11 @@ router.get('/config', function(req, res, body) {
 });
 
 var preID = null;
+var cfg = {
+		
+		ip: config.frontIP,
+		port: config.frontPort
+};
 /*
  * 	GET ElastAlert Result For Alarm
  */
@@ -464,7 +472,8 @@ router.post('/results', function(req, res, body) {
 			
 			// 알람 결과를 프론트로 전송한다.
 			
-			let url = 'http://211.252.86.169:8080/api/analysis/alarm/outer';
+			let host = cfg.ip + ':' + cfg.port;
+			let url = 'http://' + host + '/api/analysis/alarm/outer';
 			
 			request('post', url, resultObj, function(err, resp) {
 				
