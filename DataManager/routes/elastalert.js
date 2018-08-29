@@ -44,8 +44,8 @@ function callbackGET(res, err, resp) {
  */
 function callbackPOST(res, err, resp) {
 	
-	//console.log(err);
-	//console.log(resp);
+	console.log(err);
+	console.log(resp);
 	
 	if(resp) {
 		
