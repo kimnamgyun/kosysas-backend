@@ -284,9 +284,9 @@ router.get('/rulecheck/:name', function(req, res, body) {
 /*
  * 	POST ElastAlert Rules by id
  */
-router.post('/rules/:id', function(req, res, body) {
+router.get('/rulePost/:id', function(req, res, body) {
 	
-	let form = req.body.form.data;//"{ yaml:'/opt/elastalert/rules/001.yml'}";
+	let form = req.body.form;//"{ yaml:'/opt/elastalert/rules/001.yml'}";
 	
 	console.log(form);
 	

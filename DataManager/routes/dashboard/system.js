@@ -146,4 +146,26 @@ router.get('/eventCountPerCategory', function(req, res, body) {
 	});
 });
 
+/**
+ * 		GET 호스트 별 도커 정보
+ * @param req
+ * @param res
+ * @param body
+ * @returns
+ */
+router.get('/dockerConPerHost', function(req, res, body) {
+	
+});
+
+/**
+ * 		GET 도커 컨테이너 리스트
+ * @param req
+ * @param res
+ * @param body
+ * @returns
+ */
+router.get('/dockerCon', function(req, res, body) {
+	
+});
+
 module.exports = router;
