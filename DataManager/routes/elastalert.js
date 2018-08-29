@@ -286,7 +286,7 @@ router.get('/rulecheck/:name', function(req, res, body) {
  */
 router.get('/rulePost/:id', function(req, res, body) {
 	
-	let form = req.body.form;//"{ yaml:'/opt/elastalert/rules/001.yml'}";
+	let form = req.body.data;//"{ yaml:'/opt/elastalert/rules/001.yml'}";
 	
 	console.log(req.body);
 	
