@@ -178,7 +178,7 @@ router.get('/rules/:cr/:page/:rulename', function(req, res, body) {
 			
 			let length = result.length;
 			let start = (page - 1) <= 0 ? 0 : (page - 1) * 10;
-			let end = (start + 9) < length ? (start + 9) : (length - start);
+			let end = start + ((start + 10) < length ? 10 : (length - start));
 			
 			json.addValue(obj, 'total', length);
 			json.addValue(obj, 'buckets', result.slice(start, end))
@@ -232,7 +232,10 @@ router.get('/rules/:cr/:page', function(req, res, body) {
 			
 			let length = result.length;
 			let start = (page - 1) <= 0 ? 0 : (page - 1) * 10;
-			let end = (start + 9) < length ? (start + 9) : (length - start);
+			let end = start + ((start + 10) < length ? 10 : (length - start));
+			
+			//console.log(result);
+			//console.log(length + ', ' + start + ', ' + end);
 			
 			json.addValue(obj, 'total', length);
 			json.addValue(obj, 'buckets', result.slice(start, end))
