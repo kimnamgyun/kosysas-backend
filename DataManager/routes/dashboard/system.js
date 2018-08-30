@@ -155,6 +155,42 @@ router.get('/eventCountPerCategory', function(req, res, body) {
  */
 router.get('/dockerConPerHost', function(req, res, body) {
 	
+	let query = '{"size":0,"query":{"match_all":{}},"aggs":{"alert_per_time":{"terms":{"field":"beat.hostname","order":{"_count":"desc"},"size":5},"aggs":{"count":{"cardinality":{"field":"docker.container.id"}}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
+
+	let resultObj = json.createErrObject('0');
+	let obj = json.createJsonObject();
+	
+	common.setHeader(res);
+	searchFunctions.freeQuery(client, 'metricbeat-*', query, function(resp) {
+		
+		try {
+			let count = resp.aggregations.alert_per_time.buckets.length;
+			let value = resp.aggregations.alert_per_time.buckets;
+			
+			let arr = new Array();
+			for(let i = 0; i < count; i++) {
+				
+				if(value[i] != null) {
+					
+					let tmp = json.createJsonObject();
+					json.addValue(tmp, 'key', value[i].key);
+					json.addValue(tmp, 'count', value[i].count.value);
+					
+					arr.push(tmp);
+				}
+			}
+			
+			json.addValue(resultObj, 'data', arr);
+		}
+		catch (e) {
+			//console.log(e);
+			json.addValue(obj, 'msg', 'No JSON Data');
+			json.addValue(resultObj, 'data', obj);
+			json.editValue(resultObj, 'error', '002');
+		}
+		
+		res.send(resultObj);
+	});
 });
 
 /**
@@ -166,6 +202,45 @@ router.get('/dockerConPerHost', function(req, res, body) {
  */
 router.get('/dockerCon', function(req, res, body) {
 	
+	let query = '{"size":0,"query":{"match_all":{}},"aggs":{"name":{"terms":{"field":"docker.container.name","size":5,"order":{"_count":"desc"}},"aggs":{"cpu":{"max":{"field":"docker.cpu.total.pct"}},"disk":{"max":{"field":"docker.diskio.total"}},"memory":{"max":{"field":"docker.memory.usage.pct"}},"number_of_Containers":{"cardinality":{"field":"docker.container.id"}}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
+
+	let resultObj = json.createErrObject('0');
+	let obj = json.createJsonObject();
+	
+	common.setHeader(res);
+	searchFunctions.freeQuery(client, 'metricbeat-*', query, function(resp) {
+		
+		try {
+			let count = resp.aggregations.name.buckets.length;
+			let value = resp.aggregations.name.buckets;
+			
+			let arr = new Array();
+			for(let i = 0; i < count; i++) {
+				
+				if(value[i] != null) {
+					
+					let tmp = json.createJsonObject();
+					json.addValue(tmp, 'key', value[i].key);
+					json.addValue(tmp, 'cpu', value[i].cpu.value);
+					json.addValue(tmp, 'disk', value[i].disk.value);
+					json.addValue(tmp, 'memory', value[i].memory.value);
+					json.addValue(tmp, 'count', value[i].number_of_Containers.value);
+					
+					arr.push(tmp);
+				}
+			}
+			
+			json.addValue(resultObj, 'data', arr);
+		}
+		catch (e) {
+			console.log(e);
+			json.addValue(obj, 'msg', 'No JSON Data');
+			json.addValue(resultObj, 'data', obj);
+			json.editValue(resultObj, 'error', '002');
+		}
+		
+		res.send(resultObj);
+	});
 });
 
 module.exports = router;
