@@ -338,7 +338,7 @@ router.get('/rules/:id', function(req, res, body) {
 /*
  * 	DELETE ElastAlert Rules by id
  */
-router.delete('/rules/:id', function(req, res, body) {
+router.get('/rulesDel/:id', function(req, res, body) {
 	
 	ea.delete('/rules/' + req.params.id, function(err, resp) {
 		
