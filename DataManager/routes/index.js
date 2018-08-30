@@ -96,7 +96,7 @@ let config = {
  * @param body
  * @returns
  */
-router.get('/license/info', function(req, res, body) {
+router.get('/license/info/:id', function(req, res, body) {
 	
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
@@ -126,7 +126,7 @@ router.get('/license/info', function(req, res, body) {
  * @param body
  * @returns
  */
-router.get('/license/login/:date', function(req, res, body) {
+router.get('/license/login/:id', function(req, res, body) {
 	
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
