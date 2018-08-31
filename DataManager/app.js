@@ -14,6 +14,7 @@ var wazuhRules = require('./routes/wazuh/rules');
 var wazuhAgent = require('./routes/wazuh/agent');
 var elastAlert = require('./routes/elastalert');
 var elasticSearch = require('./routes/elasticsearch');
+var ioc = require('./routes/ioc');
 /* Dash Board */
 var overview = require('./routes/dashboard/overview');
 var intrusion = require('./routes/dashboard/intrusion');
@@ -63,6 +64,7 @@ app.use('/wazuh/agents', wazuhAgent);
 app.use('/ea/', elastAlert);
 app.use('/es/', elasticSearch);
 app.use('/user', user);
+app.use('/ioc', ioc);
 app.use('/dashboard/overview', overview);
 app.use('/dashboard/intrusion', intrusion);
 app.use('/dashboard/system', system);
