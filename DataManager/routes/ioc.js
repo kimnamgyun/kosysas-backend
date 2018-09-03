@@ -61,11 +61,12 @@ router.get('/updateInfo', function(req, res, body) {
  * @param body
  * @returns
  */
-router.get('/ipInfo', function(req, res, body) {
+router.get('/ipInfo/:page', function(req, res, body) {
 	
 	let query = '{"size":0,"query":{"match_all":{}},"aggs":{"ip_list":{"terms":{"field":"@timestamp","size":100,"order":{"_key":"desc"}},"aggs":{"message":{"terms":{"field":"message.keyword","size":100}}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
+	let page = req.params.page;
 	
 	common.setHeader(res);
 	searchFunctions.freeQuery(client, 'minemeld-http-*', query, function(resp) {
@@ -97,9 +98,22 @@ router.get('/ipInfo', function(req, res, body) {
 				}
 			}
 			
+			// page == 0, return all list
+			let length = arr.length;
+			if(page == 0) {
+				
+				json.addValue(obj, 'total', length);
+				json.addValue(obj, 'list', arr);
+			}
+			else {
+				let start = (page - 1) <= 0 ? 0 : (page - 1) * 20;
+				let end = start + ((start + 20) < length ? 20 : (length - start));
+				
+				json.addValue(obj, 'total', length);
+				json.addValue(obj, 'list', arr.slice(start, end));
+			}
+			
 			// 갯수가 많은 관계로 토탈을 넣어줌
-			json.addValue(obj, 'total', arr.length);
-			json.addValue(obj, 'list', arr);
 			json.addValue(resultObj, 'data', obj);
 		}
 		catch (e) {
