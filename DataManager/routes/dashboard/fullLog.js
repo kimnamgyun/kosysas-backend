@@ -64,7 +64,7 @@ router.get('/text', function(req, res, body) {
 	let from = (req.query.page != null ? req.query.page : 0) * 50;
 	let size = from + 49;
 	// 페이징 기능 추가
-	let query = '{"from":0,"size":50,"query":{"match_all":{}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
+	let query = '{"from":' + from + ',"size":' + size + ',"query":{"match_all":{}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
 	
