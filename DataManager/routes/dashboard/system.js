@@ -20,7 +20,8 @@ var common = require('../common.js');
  */
 router.get('/cpu', function(req, res, body) {
 	
-	let query = '{"size":0,"query":{"match":{"metricset.name":"cpu"}},"aggs":{"group_by_hostname":{"terms":{"field":"host","size":1,"order":{"avg_usage":"asc"}},"aggs":{"avg_usage":{"avg":{"field":"system.cpu.idle.pct"}}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
+	//let query = '{"size":0,"query":{"match":{"metricset.name":"cpu"}},"aggs":{"group_by_hostname":{"terms":{"field":"host","size":1,"order":{"avg_usage":"asc"}},"aggs":{"avg_usage":{"avg":{"field":"system.cpu.idle.pct"}}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
+	let query = '{"size":0,"query":{"match":{"metricset.name":"cpu"}},"aggs":{"group_by_hostname":{"terms":{"field":"host.keyword","size":1,"order":{"avg_usage":"asc"}},"aggs":{"avg_usage":{"avg":{"field":"system.cpu.idle.pct"}}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
 	
@@ -53,7 +54,8 @@ router.get('/cpu', function(req, res, body) {
  */
 router.get('/memory', function(req, res, body) {
 	
-	let query = '{"size":0,"query":{"match":{"metricset.name":"memory"}},"aggs":{"group_by_hostname":{"terms":{"field":"host","size":1,"order":{"avg_usage":"asc"}},"aggs":{"avg_usage":{"avg":{"field":"system.memory.used.pct"}}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
+	//let query = '{"size":0,"query":{"match":{"metricset.name":"memory"}},"aggs":{"group_by_hostname":{"terms":{"field":"host","size":1,"order":{"avg_usage":"asc"}},"aggs":{"avg_usage":{"avg":{"field":"system.memory.used.pct"}}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
+	let query = '{"size":0,"query":{"match":{"metricset.name":"memory"}},"aggs":{"group_by_hostname":{"terms":{"field":"host.keyword","size":1,"order":{"avg_usage":"asc"}},"aggs":{"avg_usage":{"avg":{"field":"system.memory.used.pct"}}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
 	
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
@@ -87,6 +89,7 @@ router.get('/memory', function(req, res, body) {
  */
 router.get('/eventPerTime', function(req, res, body) {
 	
+	//let query = '{"size":0,"aggs":{"event_per_time":{"date_histogram":{"field":"@timestamp","interval":"' + common.getInterval(req.query) + '","order":{"_key":"desc"}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
 	let query = '{"size":0,"aggs":{"event_per_time":{"date_histogram":{"field":"@timestamp","interval":"' + common.getInterval(req.query) + '","order":{"_key":"desc"}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
 
 	let resultObj = json.createErrObject('0');
@@ -121,7 +124,8 @@ router.get('/eventPerTime', function(req, res, body) {
  */
 router.get('/eventCountPerCategory', function(req, res, body) {
 	
-	let query = '{"size":0,"aggs":{"group_by_eventname":{"terms":{"field":"metricset.name"}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
+	//let query = '{"size":0,"aggs":{"group_by_eventname":{"terms":{"field":"metricset.name"}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
+	let query = '{"size":0,"aggs":{"group_by_eventname":{"terms":{"field":"metricset.name.keyword"}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
 	
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
@@ -155,7 +159,8 @@ router.get('/eventCountPerCategory', function(req, res, body) {
  */
 router.get('/dockerConPerHost', function(req, res, body) {
 	
-	let query = '{"size":0,"query":{"match_all":{}},"aggs":{"alert_per_time":{"terms":{"field":"beat.hostname","order":{"_count":"desc"},"size":5},"aggs":{"count":{"cardinality":{"field":"docker.container.id"}}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
+	//let query = '{"size":0,"query":{"match_all":{}},"aggs":{"alert_per_time":{"terms":{"field":"beat.hostname","order":{"_count":"desc"},"size":5},"aggs":{"count":{"cardinality":{"field":"docker.container.id"}}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
+	let query = '{"size":0,"query":{"match_all":{}},"aggs":{"alert_per_time":{"terms":{"field":"beat.hostname.keyword","order":{"_count":"desc"},"size":5},"aggs":{"count":{"cardinality":{"field":"docker.container.id.keyword"}}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
 
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
@@ -202,7 +207,8 @@ router.get('/dockerConPerHost', function(req, res, body) {
  */
 router.get('/dockerCon', function(req, res, body) {
 	
-	let query = '{"size":0,"query":{"match_all":{}},"aggs":{"name":{"terms":{"field":"docker.container.name","size":5,"order":{"_count":"desc"}},"aggs":{"cpu":{"max":{"field":"docker.cpu.total.pct"}},"disk":{"max":{"field":"docker.diskio.total"}},"memory":{"max":{"field":"docker.memory.usage.pct"}},"number_of_Containers":{"cardinality":{"field":"docker.container.id"}}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
+	//let query = '{"size":0,"query":{"match_all":{}},"aggs":{"name":{"terms":{"field":"docker.container.name","size":5,"order":{"_count":"desc"}},"aggs":{"cpu":{"max":{"field":"docker.cpu.total.pct"}},"disk":{"max":{"field":"docker.diskio.total"}},"memory":{"max":{"field":"docker.memory.usage.pct"}},"number_of_Containers":{"cardinality":{"field":"docker.container.id"}}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
+	let query = '{"size":0,"query":{"match_all":{}},"aggs":{"name":{"terms":{"field":"docker.container.name.keyword","size":5,"order":{"_count":"desc"}},"aggs":{"cpu":{"max":{"field":"docker.cpu.total.pct"}},"disk":{"max":{"field":"docker.diskio.total"}},"memory":{"max":{"field":"docker.memory.usage.pct"}},"number_of_Containers":{"cardinality":{"field":"docker.container.id.keyword"}}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
 
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
