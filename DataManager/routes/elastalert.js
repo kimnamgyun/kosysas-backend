@@ -481,7 +481,7 @@ router.post('/results', function(req, res, body) {
 			
 			request('post', url, resultObj, function(err, resp) {
 				
-				console.log(resp.body);
+				// console.log(resp.body);
 			});
 		}
 		catch(e) {
