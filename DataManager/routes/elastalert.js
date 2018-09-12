@@ -476,7 +476,7 @@ router.post('/results', function(req, res, body) {
 			
 			// 알람 결과를 프론트로 전송한다.
 			
-			console.log(obj);
+			//console.log(obj);
 			
 			let host = cfg.ip + ':' + cfg.port;
 			let url = 'http://' + host + '/api/analysis/alarm/outer';
