@@ -118,6 +118,7 @@ router.get('/fields/:idx', function(req, res, body) {
 	
 	let idx = req.params.idx;
 	
+	console.log(idx);
 	common.setHeader(res);
 	commonFunctions.mapping(idx, function(err, resp) {
 		
