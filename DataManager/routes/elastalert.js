@@ -458,7 +458,7 @@ router.post('/results', function(req, res, body) {
 			let obj = json.createJsonObject();
 			
 			json.addValue(obj, '@timestamp', json.getValue(result, '@timestamp'));
-			json.addValue(obj, 'rule_name', result.rule_name);
+			json.addValue(obj, 'name', result.rule_name);
 			json.addValue(obj, 'host', result.host);
 			json.addValue(obj, 'hits', result.num_hits);
 			json.addValue(obj, 'match', result.num_matches);
