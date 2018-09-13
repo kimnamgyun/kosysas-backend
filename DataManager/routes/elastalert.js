@@ -481,7 +481,7 @@ router.post('/results', function(req, res, body) {
 			let host = cfg.ip + ':' + cfg.port;
 			let url = 'http://' + host + '/api/analysis/alarm/outer';
 			
-			request('post', url, resultObj, function(err, resp) {  });
+			request('post', url, obj, function(err, resp) {  });
 		}
 		catch(e) {
 			
