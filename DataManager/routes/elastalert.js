@@ -476,7 +476,7 @@ router.post('/results', function(req, res, body) {
 			
 			//console.log(obj);
 			
-			if(name.indexOf('cr_') != -1) {
+			if(name.indexOf('cr_') == -1) {
 				
 				let host = cfg.ip + ':' + cfg.port;
 				let url = 'http://' + host + '/api/analysis/alarm/outer';
