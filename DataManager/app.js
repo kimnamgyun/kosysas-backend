@@ -34,7 +34,8 @@ app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-// logger -> GET, POST 로그를 화면에 출력
+// logger -> GET, POST 로그를  routes.log 파일에 출력
+// 기본경로 DataManager
 app.use(logger({
 	format: '[:date[iso]] :method :url :status :response-time ms',
 	stream: fs.createWriteStream('logs/routes.log', {'flags': 'w+'})
