@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var cors = require('cors');	// cors 옵션 적용
 
+var fs = require('fs');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var cats = require('./routes/cats');
@@ -33,7 +34,11 @@ app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+// logger -> GET, POST 로그를 화면에 출력
+app.use(logger({
+	format: '[:date[iso]] :method :url :status :response-time ms',
+	stream: fs.createWriteStream('logs/routes.log', {'flags': 'w+'})
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
