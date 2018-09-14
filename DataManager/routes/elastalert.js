@@ -449,35 +449,37 @@ router.post('/results', function(req, res, body) {
 	
 	let result = req.body;
 	let id = result._id;
+	let name = result.rule_name;
+	
 	
 	// 중복 데이터 체크
 	if(preID != id) {
 		
 		try {
 			
-			let obj = json.createJsonObject();
-			let name = result.rule_name;
-			
-			json.addValue(obj, 'timestamp', json.getValue(result, '@timestamp'));
-			json.addValue(obj, 'name', name);
-			json.addValue(obj, 'host', result.host);
-			json.addValue(obj, 'hits', result.num_hits);
-			json.addValue(obj, 'match', result.num_matches);
-			
-			
-			// 이곳에서 데이터를 정제하여, FrontEnd 쪽으로 보내주면 된다.
-			// @timestamp
-			// rule_name
-			// host
-			// num_hits
-			// num_matches
-			
-			// 알람 결과를 프론트로 전송한다.
-			
-			//console.log(obj);
-			
 			if(name.indexOf('cr_') == -1) {
 				
+				let obj = json.createJsonObject();
+				let name = result.rule_name;
+				
+				json.addValue(obj, 'timestamp', json.getValue(result, '@timestamp'));
+				json.addValue(obj, 'name', name);
+				json.addValue(obj, 'host', result.host);
+				json.addValue(obj, 'hits', result.num_hits);
+				json.addValue(obj, 'match', result.num_matches);
+				
+				
+				// 이곳에서 데이터를 정제하여, FrontEnd 쪽으로 보내주면 된다.
+				// @timestamp
+				// rule_name
+				// host
+				// num_hits
+				// num_matches
+				
+				// 알람 결과를 프론트로 전송한다.
+				
+				//console.log(obj);
+							
 				let host = cfg.ip + ':' + cfg.port;
 				let url = 'http://' + host + '/api/analysis/alarm/outer';
 				
