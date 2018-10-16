@@ -35,7 +35,7 @@ router.get('/metricCount', function(req, res, body) {
 			json.addValue(obj, 'count', count);
 		}
 		catch (e) {
-			//console.log(e);
+			console.log(e);
 			json.addValue(obj, 'msg', 'No JSON Data');
 			json.addValue(resultObj, 'data', obj);
 			json.editValue(resultObj, 'error', '002');
@@ -69,7 +69,7 @@ router.get('/lv12Count', function(req, res, body) {
 			json.addValue(obj, 'count', count);
 		}
 		catch (e) {
-			//console.log(e);
+			console.log(e);
 			json.addValue(obj, 'msg', 'No JSON Data');
 			json.addValue(resultObj, 'data', obj);
 			json.editValue(resultObj, 'error', '002');
@@ -103,7 +103,7 @@ router.get('/authFailed', function(req, res, body) {
 			json.addValue(obj, 'count', count);
 		}
 		catch (e) {
-			//console.log(e);
+			console.log(e);
 			json.addValue(obj, 'msg', 'No JSON Data');
 			json.addValue(resultObj, 'data', obj);
 			json.editValue(resultObj, 'error', '002');
@@ -137,7 +137,7 @@ router.get('/authSuccess', function(req, res, body) {
 			json.addValue(obj, 'count', count);
 		}
 		catch (e) {
-			//console.log(e);
+			console.log(e);
 			json.addValue(obj, 'msg', 'No JSON Data');
 			json.addValue(resultObj, 'data', obj);
 			json.editValue(resultObj, 'error', '002');
@@ -179,7 +179,7 @@ router.get('/alertPerManager', function(req, res, body) {
 			json.addValue(resultObj, 'data', result);
 		}
 		catch (e) {
-			//console.log(e);
+			console.log(e);
 			json.addValue(obj, 'msg', 'No JSON Data');
 			json.addValue(resultObj, 'data', obj);
 			json.editValue(resultObj, 'error', '002');
@@ -220,7 +220,7 @@ router.get('/alertPerSignature', function(req, res, body) {
 			json.addValue(resultObj, 'data', result);
 		}
 		catch (e) {
-			//console.log(e);
+			console.log(e);
 			json.addValue(obj, 'msg', 'No JSON Data');
 			json.addValue(resultObj, 'data', obj);
 			json.editValue(resultObj, 'error', '002');
@@ -269,7 +269,7 @@ router.get('/threatBasic', function(req, res, body) {
 			json.addValue(resultObj, 'data', result);
 		}
 		catch (e) {
-			//console.log(e);
+			console.log(e);
 			json.addValue(obj, 'msg', 'No JSON Data');
 			json.addValue(resultObj, 'data', obj);
 			json.editValue(resultObj, 'error', '002');
@@ -315,7 +315,7 @@ router.get('/threatFile', function(req, res, body) {
 			json.addValue(resultObj, 'data', result);
 		}
 		catch (e) {
-			//console.log(e);
+			console.log(e);
 			json.addValue(obj, 'msg', 'No JSON Data');
 			json.addValue(resultObj, 'data', obj);
 			json.editValue(resultObj, 'error', '002');
@@ -361,7 +361,7 @@ router.get('/threatAgent', function(req, res, body) {
 			json.addValue(resultObj, 'data', result);
 		}
 		catch (e) {
-			//console.log(e);
+			console.log(e);
 			json.addValue(obj, 'msg', 'No JSON Data');
 			json.addValue(resultObj, 'data', obj);
 			json.editValue(resultObj, 'error', '002');

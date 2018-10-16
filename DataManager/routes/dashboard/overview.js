@@ -33,7 +33,7 @@ router.get('/analysisAlertCount', function(req, res, body) {
 			json.addValue(obj, 'alertCount', value);
 		}
 		catch (e) {
-			//console.log(e);
+			console.log(e);
 			json.addValue(obj, 'msg', 'No JSON Data');
 			json.addValue(resultObj, 'data', obj);
 			json.editValue(resultObj, 'error', '002');
@@ -67,7 +67,7 @@ router.get('/analysisAlertCountPerTime', function(req, res, body) {
 			json.addValue(resultObj, 'data', common.queryResultArr(count, value));
 		}
 		catch (e) {
-			// console.log(e);
+			console.log(e);
 			json.addValue(obj, 'msg', 'No JSON Data');
 			json.addValue(resultObj, 'data', obj);
 			json.editValue(resultObj, 'error', '002');
@@ -101,7 +101,7 @@ router.get('/threatTop5Agent', function(req, res, body) {
 			json.addValue(resultObj, 'data', common.queryResultArr(count, value));
 		}
 		catch (e) {
-			// console.log(e);
+			console.log(e);
 			json.addValue(obj, 'msg', 'No JSON Data');
 			json.addValue(resultObj, 'data', obj);
 			json.editValue(resultObj, 'error', '002');
@@ -134,7 +134,7 @@ router.get('/threatAlertCountPerTime', function(req, res, body) {
 			json.addValue(resultObj, 'data', common.queryResultArr(count, value));
 		}
 		catch (e) {
-			// console.log(e);
+			console.log(e);
 			json.addValue(obj, 'msg', 'No JSON Data');
 			json.addValue(resultObj, 'data', obj);
 			json.editValue(resultObj, 'error', '002');

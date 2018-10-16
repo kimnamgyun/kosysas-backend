@@ -42,7 +42,7 @@ router.get('/chart', function(req, res, body) {
 			json.addValue(resultObj, 'data', arr);
 		}
 		catch (e) {
-			//console.log(e);
+			console.log(e);
 			json.addValue(obj, 'msg', 'No JSON Data');
 			json.addValue(resultObj, 'data', obj);
 			json.editValue(resultObj, 'error', '002');
@@ -85,7 +85,7 @@ router.get('/text', function(req, res, body) {
 			json.addValue(resultObj, 'data', arr);
 		}
 		catch (e) {
-			//console.log(e);
+			console.log(e);
 			json.addValue(obj, 'msg', 'No JSON Data');
 			json.addValue(resultObj, 'data', obj);
 			json.editValue(resultObj, 'error', '002');

@@ -35,7 +35,7 @@ router.get('/cpu', function(req, res, body) {
 			json.addValue(resultObj, 'data', common.queryResultArr(count, value));
 		}
 		catch (e) {
-			//console.log(e);
+			console.log(e);
 			json.addValue(obj, 'msg', 'No JSON Data');
 			json.addValue(resultObj, 'data', obj);
 			json.editValue(resultObj, 'error', '002');
@@ -70,7 +70,7 @@ router.get('/memory', function(req, res, body) {
 			json.addValue(resultObj, 'data', common.queryResultArr(count, value));
 		}
 		catch (e) {
-			//console.log(e);
+			console.log(e);
 			json.addValue(obj, 'msg', 'No JSON Data');
 			json.addValue(resultObj, 'data', obj);
 			json.editValue(resultObj, 'error', '002');
@@ -105,7 +105,7 @@ router.get('/eventPerTime', function(req, res, body) {
 			json.addValue(resultObj, 'data', common.queryResultArr(count, value));
 		}
 		catch (e) {
-			//console.log(e);
+			console.log(e);
 			json.addValue(obj, 'msg', 'No JSON Data');
 			json.addValue(resultObj, 'data', obj);
 			json.editValue(resultObj, 'error', '002');
@@ -140,7 +140,7 @@ router.get('/eventCountPerCategory', function(req, res, body) {
 			json.addValue(resultObj, 'data', common.queryResultArr(count, value));
 		}
 		catch (e) {
-			//console.log(e);
+			console.log(e);
 			json.addValue(obj, 'msg', 'No JSON Data');
 			json.addValue(resultObj, 'data', obj);
 			json.editValue(resultObj, 'error', '002');
@@ -188,7 +188,7 @@ router.get('/dockerConPerHost', function(req, res, body) {
 			json.addValue(resultObj, 'data', arr);
 		}
 		catch (e) {
-			//console.log(e);
+			console.log(e);
 			json.addValue(obj, 'msg', 'No JSON Data');
 			json.addValue(resultObj, 'data', obj);
 			json.editValue(resultObj, 'error', '002');
