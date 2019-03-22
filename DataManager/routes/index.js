@@ -136,15 +136,15 @@ router.get('/license/login/:id', function(req, res, body) {
 		
 	try {		
 		json.addValue(obj, 'msg', 'success');
-		
 		json.addValue(resultObj, 'data', obj);
 	}
 	catch (e) {
-		//console.log(e);
+		console.log(e);
 		json.addValue(obj, 'msg', 'No JSON Data');
 		json.addValue(resultObj, 'data', obj);
 		json.editValue(resultObj, 'error', '002');
 	}
+	console.log(resultObj);
 	res.send(resultObj);
 })
 

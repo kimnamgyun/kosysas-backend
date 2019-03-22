@@ -1,0 +1,10 @@
+{
+	"001": "test",
+	"002": "no json data",
+	"003": "test3",
+	"404": "page not found",
+	"500": "internal server error",
+	"502": "bad gateway",
+	"503": "service unavailable",
+	"504": "gateway timeout"
+}

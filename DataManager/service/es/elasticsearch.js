@@ -9,7 +9,7 @@ let config = {
 }
 
 var client = new elasticsearch.Client( {  
-  hosts: [config.ip + ":" + config.port
+  hosts: [config.user + ":" + config.password + "@" + config.ip + ":" + config.port
 	  // 'https://[username]:[password]@[server]:[port]/'
   ]
 });

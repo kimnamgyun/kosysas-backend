@@ -19,7 +19,7 @@ let config = {
  */
 module.exports.aliases = function(callback) {
 	
-	let host = config.ip + ":" + config.port;
+	let host = config.user + ":" + config.password + "@" + config.ip + ":" + config.port;
 	let urlString = 'http://' + host + '/_aliases?pretty';
 	
 	request('GET', urlString, null, function(err, resp) {

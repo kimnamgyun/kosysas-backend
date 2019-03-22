@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var cors = require('cors');	// cors 옵션 적용
+var errCode = require('./conf/errorCode.json');
 
 var fs = require('fs');
 var index = require('./routes/index');
@@ -43,7 +44,7 @@ app.use(logger({
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+
 
 /*
 app.set('view engine', 'ejs');
@@ -60,6 +61,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //이 밖에도, urlencoded request나 multipart request(파일 업로드)를 지원하려면 아래 부분을 추가하면 된다
 //app.use(bodyParser.urlencoded({ extended: true })); 
+
+// 여기부터 static 처리 항목 
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
@@ -79,11 +83,12 @@ app.use('/dashboard/fullLog', fullLog);
 
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.get(function(req, res, next) {
   var err = new Error('Not Found');
-  err.status = 404;
+  err.error = 404;
   next(err);
 });
+
 
 // error handler
 app.use(function(err, req, res, next) {
@@ -91,9 +96,10 @@ app.use(function(err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+  err.data["msg"] = errCode[err.error];
+  
+  //res.send(err);
+  //res.render('error');
 });
 
 module.exports = app;

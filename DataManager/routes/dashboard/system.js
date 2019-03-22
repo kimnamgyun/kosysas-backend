@@ -18,7 +18,7 @@ var common = require('../common.js');
  * @param body
  * @returns
  */
-router.get('/cpu', function(req, res, body) {
+router.get('/cpu', function(req, res, next) {
 	
 	//let query = '{"size":0,"query":{"match":{"metricset.name":"cpu"}},"aggs":{"group_by_hostname":{"terms":{"field":"host","size":1,"order":{"avg_usage":"asc"}},"aggs":{"avg_usage":{"avg":{"field":"system.cpu.idle.pct"}}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
 	let query = '{"size":0,"query":{"match":{"metricset.name":"cpu"}},"aggs":{"group_by_hostname":{"terms":{"field":"host.keyword","size":1,"order":{"avg_usage":"asc"}},"aggs":{"avg_usage":{"avg":{"field":"system.cpu.idle.pct"}}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
@@ -36,9 +36,9 @@ router.get('/cpu', function(req, res, body) {
 		}
 		catch (e) {
 			console.log(e);
-			json.addValue(obj, 'msg', 'No JSON Data');
 			json.addValue(resultObj, 'data', obj);
 			json.editValue(resultObj, 'error', '002');
+			next(resultObj);
 		}
 		
 		res.send(resultObj);

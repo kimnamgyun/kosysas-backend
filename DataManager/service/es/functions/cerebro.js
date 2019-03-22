@@ -19,7 +19,7 @@ let config = {
  */
 module.exports.cat = function(apiName, callback) {
 	
-	let host = config.ip + ":" + config.port;
+	let host = config.user + ":" + config.password + "@" + config.ip + ":" + config.port;
 	let urlString = 'http://' + host + '/_cat/' + apiName + '?format=json';
 	
 	request('GET', urlString, null, function(err, resp) {
