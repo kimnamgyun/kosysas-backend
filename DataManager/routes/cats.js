@@ -101,16 +101,17 @@ router.get('/overview', function(req, res, next) {
 	
 				json.addValue(resultObj, 'data', obj);
 				//console.log(resultObj);
-				res.send(resultObj);
+				//res.send(resultObj);
+				next(resultObj);
 			}
 			else {
 				
-				res.send(errObj);
+				json.addValue(errObj, 'error', '001');
+				next(errObj);
+				//res.send(errObj);
 			}
 		}
 	]);		
-	
-	//res.render("cerebro", {});
 });
 
 /**

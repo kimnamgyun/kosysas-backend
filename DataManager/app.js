@@ -81,25 +81,41 @@ app.use('/dashboard/system', system);
 app.use('/dashboard/vuln', vuln);
 app.use('/dashboard/fullLog', fullLog);
 
-
+/*
 // catch 404 and forward to error handler
-app.get(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.error = 404;
-  next(err);
+app.get('*', function(req, res, next) {
+	
+	var err = new Error('Not Found');
+	
+	//console.log(req.body);
+	console.log("-------");
+	if(req.body != {}) {
+		// next(err);
+		err.error = req.body.error;
+		//next(err);
+	}
+	else {
+		// render
+		err.error = 404;
+		//next(err);
+	}		
 });
-
+*/
 
 // error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.use(errorHandler);
 
-  err.data["msg"] = errCode[err.error];
-  
-  //res.send(err);
-  //res.render('error');
-});
+// Default Error Handler
+function errorHandler(err, req, res, next) {
+	
+	if(err.error != 0) {
+		console.error("---- Error occur!! ---- \n", err);
+		res.status(500).send('ErrorCode [' + err.error + '] : ' + errCode[err.error]);
+	}
+	else {
+		
+		res.status(200).send(err);
+	}
+}
 
 module.exports = app;
