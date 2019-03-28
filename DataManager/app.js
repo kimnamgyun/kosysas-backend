@@ -110,7 +110,8 @@ function errorHandler(err, req, res, next) {
 	
 	if(err.error != 0) {
 		console.error("---- Error occur!! ---- \n", err);
-		res.status(500).send('ErrorCode [' + err.error + '] : ' + errCode[err.error]);
+		res.status(500).send(err);
+		//res.status(500).send('ErrorCode [' + err.error + '] : ' + errCode[err.error]);
 	}
 	else {
 		

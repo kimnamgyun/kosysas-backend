@@ -8,13 +8,19 @@ var cfg = require('../conf/config.json');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-	res.render('index', { title: 'DBTest.!.!.!' });
+	
+	//res.render('index', { title: 'DBTest.!.!.!' });
 	
 	client.cluster.health({}, function(err, resp, status) {
 		console.log("-- Client Error : [ ", err, " ] --")
 		console.log("-- Client Status : [ ", status, " ] --")
 		console.log("-- Client Health --\n", resp)	
 	});
+	
+	let e = new Error();
+	e.error = '404';
+	
+	next(e);
 });
 
 /*
@@ -96,7 +102,7 @@ let config = {
  * @param body
  * @returns
  */
-router.get('/license/info/:id', function(req, res, body) {
+router.get('/license/info/:id', function(req, res, next) {
 	
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
@@ -116,7 +122,8 @@ router.get('/license/info/:id', function(req, res, body) {
 		json.addValue(resultObj, 'data', obj);
 		json.editValue(resultObj, 'error', '002');
 	}
-	res.send(resultObj);
+	//res.send(resultObj);
+	next(resultObj);
 });
 
 /**
@@ -126,7 +133,7 @@ router.get('/license/info/:id', function(req, res, body) {
  * @param body
  * @returns
  */
-router.get('/license/login/:id', function(req, res, body) {
+router.get('/license/login/:id', function(req, res, next) {
 	
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
@@ -145,7 +152,8 @@ router.get('/license/login/:id', function(req, res, body) {
 		json.editValue(resultObj, 'error', '002');
 	}
 	console.log(resultObj);
-	res.send(resultObj);
+	//res.send(resultObj);
+	next(resultObj);
 })
 
 module.exports = router;
