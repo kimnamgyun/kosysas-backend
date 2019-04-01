@@ -87,7 +87,7 @@ app.get('*', function(req, res, next) {
 	
 	var err = new Error('Not Found');
 	
-	console.log(req);
+	//console.log(req);
 	//console.log("-------");
 	if(req.body != " {} ") {
 		// next(err);
