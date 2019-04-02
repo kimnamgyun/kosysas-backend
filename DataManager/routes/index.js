@@ -18,7 +18,7 @@ router.get('/', function(req, res, next) {
 	});
 	
 	let e = new Error();
-	e.error = '404';
+	e.error = '0';
 	
 	next(e);
 });

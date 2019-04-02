@@ -34,7 +34,8 @@ app.set('views', path.join(__dirname, 'views'));  //__dirname 은 현재  app.js
 app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+
 // logger -> GET, POST 로그를  routes.log 파일에 출력
 // 기본경로 DataManager
 app.use(logger({
@@ -82,20 +83,13 @@ app.use('/dashboard/vuln', vuln);
 app.use('/dashboard/fullLog', fullLog);
 
 
-// catch 404 and forward to error handler
+// Get All Error
 app.get('*', function(req, res, next) {
-	
-	var err = new Error('Not Found');
-	
-	//console.log(req);
-	//console.log("-------");
-	if(req.body != " {} ") {
-		// next(err);
-		console.log("[",req.body,"]");
-		err.error = "500";
-		err.msg = errCode[err.error];
-		next(err);
-	}	
+
+	var err = new Error('Route not found');
+	err.error = "404";
+	err.msg = errCode[err.error];
+	next(err);
 });
 
 
@@ -107,7 +101,7 @@ function errorHandler(err, req, res, next) {
 		
 	if(err.error != 0) {
 		console.error("---- Error occur!! ---- \n", err);
-		res.status(500).send(err);
+		res.status(err.error).send(err);
 		//res.status(500).send('ErrorCode [' + err.error + '] : ' + errCode[err.error]);
 	}
 	else {
