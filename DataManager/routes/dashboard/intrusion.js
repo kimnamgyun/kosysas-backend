@@ -157,7 +157,7 @@ router.get('/authSuccess', function(req, res, body) {
  */
 router.get('/alertPerManager', function(req, res, body) {
 	
-	let query = '{"size":0,"post_filter":{' + common.getTimeRange(req.query) + '},"aggs":{"alertCount_per_manager":{"terms":{"field":"manager.name","size":10}}}}';
+	let query = '{"size":0,"post_filter":{' + common.getTimeRange(req.query) + '},"aggs":{"alertCount_per_manager":{"terms":{"field":"manager.name.keyword","size":10}}}}';
 	
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
@@ -165,6 +165,7 @@ router.get('/alertPerManager', function(req, res, body) {
 	common.setHeader(res);
 	searchFunctions.freeQuery(client, 'wazuh-alerts-*', query, function(resp) {
 		
+		console.log(query);
 		try {
 			let count = resp.aggregations.alertCount_per_manager.buckets.length;
 			let value = resp.aggregations.alertCount_per_manager.buckets;
@@ -198,7 +199,7 @@ router.get('/alertPerManager', function(req, res, body) {
  */
 router.get('/alertPerSignature', function(req, res, body) {
 	
-	let query = '{"size":0,"aggs":{"count_per_signature":{"terms":{"field":"rule.description","size":10}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
+	let query = '{"size":0,"aggs":{"count_per_signature":{"terms":{"field":"rule.description.keyword","size":10}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
 	
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
@@ -242,7 +243,7 @@ router.get('/threatBasic', function(req, res, body) {
 	// rule.id
 	// rule.description
 	// rule.levelr
-	let query = '{"size":0,"aggs":{"id":{"terms":{"field":"rule.id","size":5},"aggs":{"description":{"terms":{"field":"rule.description","size":1},"aggs":{"level":{"terms":{"field":"rule.level","size":1}}}}}}},"query":{"terms":{"rule.groups":["ossec","wazuh","syslog"]}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
+	let query = '{"size":0,"aggs":{"id":{"terms":{"field":"rule.id.keyword","size":5},"aggs":{"description":{"terms":{"field":"rule.description.keyword","size":1},"aggs":{"level":{"terms":{"field":"rule.level","size":1}}}}}}},"query":{"terms":{"rule.groups":["ossec","wazuh","syslog"]}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
 	
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
@@ -288,7 +289,7 @@ router.get('/threatBasic', function(req, res, body) {
  */
 router.get('/threatFile', function(req, res, body) {
 	
-	let query = '{"size":0,"aggs":{"id":{"terms":{"field":"rule.id","size":5},"aggs":{"description":{"terms":{"field":"rule.description","size":1},"aggs":{"level":{"terms":{"field":"rule.level","size":1}}}}}}},"query":{"bool":{"should":[{"bool":{"must":[{"term":{"rule.groups":{"value":"ossec"}}},{"term":{"rule.groups":{"value":"syscheck"}}}]}}]}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
+	let query = '{"size":0,"aggs":{"id":{"terms":{"field":"rule.id.keyword","size":5},"aggs":{"description":{"terms":{"field":"rule.description.keyword","size":1},"aggs":{"level":{"terms":{"field":"rule.level","size":1}}}}}}},"query":{"bool":{"should":[{"bool":{"must":[{"term":{"rule.groups":{"value":"ossec"}}},{"term":{"rule.groups":{"value":"syscheck"}}}]}}]}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
 	
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
@@ -334,7 +335,7 @@ router.get('/threatFile', function(req, res, body) {
  */
 router.get('/threatAgent', function(req, res, body) {
 	
-	let query = '{"size":0,"aggs":{"id":{"terms":{"field":"rule.id","size":5},"aggs":{"description":{"terms":{"field":"rule.description","size":1},"aggs":{"level":{"terms":{"field":"rule.level","size":1}}}}}}},"query":{"bool":{"should":[{"terms":{"rule.id":["501","502","503","504"]}},{"terms":{"rule.id":["201","202","203","204","205"]}}]}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
+	let query = '{"size":0,"aggs":{"id":{"terms":{"field":"rule.id.keyword","size":5},"aggs":{"description":{"terms":{"field":"rule.description.keyword","size":1},"aggs":{"level":{"terms":{"field":"rule.level","size":1}}}}}}},"query":{"bool":{"should":[{"terms":{"rule.id":["501","502","503","504"]}},{"terms":{"rule.id":["201","202","203","204","205"]}}]}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
 	
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
