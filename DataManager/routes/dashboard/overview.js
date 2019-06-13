@@ -91,7 +91,7 @@ router.get('/threatTop5Agent', function(req, res, body) {
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
 	
-	console.log(query);
+	//console.log(query);
 	common.setHeader(res);
 	searchFunctions.freeQuery(client, 'wazuh-alerts-*', query, function(resp) {
 		
