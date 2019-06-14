@@ -26,7 +26,7 @@ router.get('/analysisAlertCount', function(req, res, body) {
 	let obj = json.createJsonObject();
 	
 	common.setHeader(res);	
-	searchFunctions.freeQuery(client, 'elastalert_status', wQuery, function(resp) {
+	searchFunctions.freeQuery(client, 'elastalert_status*', wQuery, function(resp) {
 		
 		try {
 			let value = resp.hits.total;		
@@ -58,7 +58,7 @@ router.get('/analysisAlertCountPerTime', function(req, res, body) {
 	let obj = json.createJsonObject();
 	
 	common.setHeader(res);
-	searchFunctions.freeQuery(client, 'elastalert_status', wQuery, function(resp) {
+	searchFunctions.freeQuery(client, 'elastalert_status*', wQuery, function(resp) {
 		
 		try {
 			let count = resp.aggregations.alert_per_time.buckets.length;
