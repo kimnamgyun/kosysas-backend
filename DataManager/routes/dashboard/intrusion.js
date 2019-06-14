@@ -123,7 +123,7 @@ router.get('/authFailed', function(req, res, body) {
  */
 router.get('/authSuccess', function(req, res, body) {
 	
-	let query = '{"size":0,"post_filter":{' + common.getTimeRange(req.query) + '},"query":{"bool":{"must":[{"match":{"decoder.name":"sshd"}},{"match":{"rule.id":"5715"}}]}}}';
+	let query = '{"size":0,"query":{' + common.getTimeRange(req.query) + '},"query":{"bool":{"must":[{"match":{"decoder.name":"sshd"}},{"match":{"rule.id":"5715"}}]}}}';
 	
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
@@ -157,11 +157,12 @@ router.get('/authSuccess', function(req, res, body) {
  */
 router.get('/alertPerManager', function(req, res, body) {
 	
-	let query = '{"size":0,"post_filter":{' + common.getTimeRange(req.query) + '},"aggs":{"alertCount_per_manager":{"terms":{"field":"manager.name.keyword","size":10}}}}';
+	let query = '{"size":0,"query":{' + common.getTimeRange(req.query) + '},"aggs":{"alertCount_per_manager":{"terms":{"field":"manager.name.keyword","size":10}}}}';
 	
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
 	
+	console.log(query);
 	common.setHeader(res);
 	searchFunctions.freeQuery(client, 'wazuh-alerts-*', query, function(resp) {
 		
