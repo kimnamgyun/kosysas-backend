@@ -209,7 +209,7 @@ router.get('/dockerConPerHost', function(req, res, body) {
 router.get('/dockerCon', function(req, res, body) {
 	
 	//let query = '{"size":0,"query":{"match_all":{}},"aggs":{"name":{"terms":{"field":"docker.container.name","size":5,"order":{"_count":"desc"}},"aggs":{"cpu":{"max":{"field":"docker.cpu.total.pct"}},"disk":{"max":{"field":"docker.diskio.total"}},"memory":{"max":{"field":"docker.memory.usage.pct"}},"number_of_Containers":{"cardinality":{"field":"docker.container.id"}}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
-	let query = '{"size":0,"query":{"match_all":{}},"aggs":{"name":{"terms":{"field":"docker.container.name","size":5,"order":{"_count":"desc"}},"aggs":{"cpu":{"max":{"field":"docker.cpu.total.pct"}},"disk":{"max":{"field":"docker.diskio.total"}},"memory":{"max":{"field":"docker.memory.usage.pct"}},"number_of_Containers":{"cardinality":{"field":"docker.container.id.keyword"}}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
+	let query = '{"size":0,"query":{"match_all":{}},"aggs":{"name":{"terms":{"field":"docker.container.name","size":5,"order":{"_count":"desc"}},"aggs":{"cpu":{"max":{"field":"docker.cpu.total.pct"}},"disk":{"max":{"field":"docker.diskio.total"}},"memory":{"max":{"field":"docker.memory.usage.pct"}},"number_of_Containers":{"cardinality":{"field":"docker.container.id"}}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
 
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
