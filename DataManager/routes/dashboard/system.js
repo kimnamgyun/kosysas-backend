@@ -21,10 +21,11 @@ var common = require('../common.js');
 router.get('/cpu', function(req, res, next) {
 	
 	//let query = '{"size":0,"query":{"match":{"metricset.name":"cpu"}},"aggs":{"group_by_hostname":{"terms":{"field":"host","size":1,"order":{"avg_usage":"asc"}},"aggs":{"avg_usage":{"avg":{"field":"system.cpu.idle.pct"}}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
-	let query = '{"size":0,"query":{"match":{"metricset.name":"cpu"}},"aggs":{"group_by_hostname":{"terms":{"field":"host.keyword","size":1,"order":{"avg_usage":"asc"}},"aggs":{"avg_usage":{"avg":{"field":"system.cpu.idle.pct"}}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
+	let query = '{"size":0,"query":{"match":{"metricset.name":"cpu"}},"aggs":{"group_by_hostname":{"terms":{"field":"host.name","size":1,"order":{"avg_usage":"asc"}},"aggs":{"avg_usage":{"avg":{"field":"system.cpu.idle.pct"}}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
 	
+	//console.log(query);
 	common.setHeader(res);
 	searchFunctions.freeQuery(client, 'metricbeat-*', query, function(resp) {
 				
@@ -55,7 +56,7 @@ router.get('/cpu', function(req, res, next) {
 router.get('/memory', function(req, res, body) {
 	
 	//let query = '{"size":0,"query":{"match":{"metricset.name":"memory"}},"aggs":{"group_by_hostname":{"terms":{"field":"host","size":1,"order":{"avg_usage":"asc"}},"aggs":{"avg_usage":{"avg":{"field":"system.memory.used.pct"}}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
-	let query = '{"size":0,"query":{"match":{"metricset.name":"memory"}},"aggs":{"group_by_hostname":{"terms":{"field":"host.keyword","size":1,"order":{"avg_usage":"asc"}},"aggs":{"avg_usage":{"avg":{"field":"system.memory.used.pct"}}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
+	let query = '{"size":0,"query":{"match":{"metricset.name":"memory"}},"aggs":{"group_by_hostname":{"terms":{"field":"host.name","size":1,"order":{"avg_usage":"asc"}},"aggs":{"avg_usage":{"avg":{"field":"system.memory.used.pct"}}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
 	
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
@@ -125,7 +126,7 @@ router.get('/eventPerTime', function(req, res, body) {
 router.get('/eventCountPerCategory', function(req, res, body) {
 	
 	//let query = '{"size":0,"aggs":{"group_by_eventname":{"terms":{"field":"metricset.name"}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
-	let query = '{"size":0,"aggs":{"group_by_eventname":{"terms":{"field":"metricset.name.keyword"}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
+	let query = '{"size":0,"aggs":{"group_by_eventname":{"terms":{"field":"metricset.name"}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
 	
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
@@ -213,6 +214,7 @@ router.get('/dockerCon', function(req, res, body) {
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
 	
+	console.log(query);
 	common.setHeader(res);
 	searchFunctions.freeQuery(client, 'metricbeat-*', query, function(resp) {
 		
