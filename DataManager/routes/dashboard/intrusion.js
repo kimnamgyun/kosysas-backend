@@ -123,11 +123,12 @@ router.get('/authFailed', function(req, res, body) {
  */
 router.get('/authSuccess', function(req, res, body) {
 	
-	let query = '{"size":0,"query":{' + common.getTimeRange(req.query) + '},"query":{"bool":{"must":[{"match":{"decoder.name":"sshd"}},{"match":{"rule.id":"5715"}}]}}}';
+	let query = '{"size":0,"post_filter":{' + common.getTimeRange(req.query) + '},"query":{"bool":{"must":[{"match":{"decoder.name":"sshd"}},{"match":{"rule.id":"5715"}}]}}}';
 	
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
 	
+	console.log(query);
 	common.setHeader(res);
 	searchFunctions.freeQuery(client, 'wazuh-alerts-*', query, function(resp) {
 		
@@ -162,7 +163,7 @@ router.get('/alertPerManager', function(req, res, body) {
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
 	
-	console.log(query);
+	//console.log(query);
 	common.setHeader(res);
 	searchFunctions.freeQuery(client, 'wazuh-alerts-*', query, function(resp) {
 		
@@ -200,7 +201,7 @@ router.get('/alertPerManager', function(req, res, body) {
  */
 router.get('/alertPerSignature', function(req, res, body) {
 	
-	let query = '{"size":0,"aggs":{"count_per_signature":{"terms":{"field":"rule.description.keyword","size":10}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
+	let query = '{"size":0,"aggs":{"count_per_signature":{"terms":{"field":"rule.description.keyword","size":10}}},"query":{' + common.getTimeRange(req.query) + '}}';
 	
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
