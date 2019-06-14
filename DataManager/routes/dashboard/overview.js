@@ -87,15 +87,16 @@ router.get('/analysisAlertCountPerTime', function(req, res, body) {
 router.get('/threatTop5Agent', function(req, res, body) {
 	
 	// field : name 이용해서 Top 5 쿼리 짤 것
-	let query = '{"size":0,"aggs":{"threat_agent":{"terms":{"field":"name","size":5}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
+	let query = '{"size":0,"aggs":{"threat_agent":{"terms":{"field":"agent.name.keyword","size":5}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
 	
-	//console.log(query);
+	console.log(query);
 	common.setHeader(res);
 	searchFunctions.freeQuery(client, 'wazuh-alerts-*', query, function(resp) {
 		
 		try {
+			console.log(resp);
 			let count = resp.aggregations.threat_agent.buckets.length;
 			let value = resp.aggregations.threat_agent.buckets;
 			

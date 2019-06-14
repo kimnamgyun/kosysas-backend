@@ -21,7 +21,7 @@ module.exports.setHeader = function(res) {
 module.exports.getTimeRange = function(query) {
 	
 	let gte = query.gte != null ? query.gte : "2019-06-01T00:00:00.000Z";
-	let lte = query.lte != null ? query.lte : "2019-06-31T00:00:00.000Z";
+	let lte = query.lte != null ? query.lte : "2019-06-30T00:00:00.000Z";
 	
 	let range = '"range":{"@timestamp":{"gte":"' + gte + '","lte":"' + lte + '"}}';
 	
@@ -36,7 +36,7 @@ module.exports.getTimeRange = function(query) {
 module.exports.getInterval = function(query) {
 	
 	let gte = query.gte != null ? query.gte : "2019-06-01T00:00:00.000Z";
-	let lte = query.lte != null ? query.lte : "2019-06-31T00:00:00.000Z";	
+	let lte = query.lte != null ? query.lte : "2019-06-30T00:00:00.000Z";	
 	let score = 0;
 	let interval;
 	
