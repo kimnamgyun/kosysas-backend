@@ -161,11 +161,12 @@ router.get('/eventCountPerCategory', function(req, res, body) {
 router.get('/dockerConPerHost', function(req, res, body) {
 	
 	//let query = '{"size":0,"query":{"match_all":{}},"aggs":{"alert_per_time":{"terms":{"field":"beat.hostname","order":{"_count":"desc"},"size":5},"aggs":{"count":{"cardinality":{"field":"docker.container.id"}}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
-	let query = '{"size":0,"query":{"match_all":{}},"aggs":{"alert_per_time":{"terms":{"field":"beat.name","order":{"_count":"desc"},"size":5},"aggs":{"count":{"cardinality":{"field":"docker.container.id.keyword"}}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
+	let query = '{"size":0,"query":{"match_all":{}},"aggs":{"alert_per_time":{"terms":{"field":"beat.name","order":{"_count":"desc"},"size":5},"aggs":{"count":{"cardinality":{"field":"docker.container.id"}}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
 
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
 	
+	console.log(query);
 	common.setHeader(res);
 	searchFunctions.freeQuery(client, 'metricbeat-*', query, function(resp) {
 		
