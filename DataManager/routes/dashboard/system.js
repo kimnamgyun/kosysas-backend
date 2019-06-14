@@ -126,7 +126,7 @@ router.get('/eventPerTime', function(req, res, body) {
 router.get('/eventCountPerCategory', function(req, res, body) {
 	
 	//let query = '{"size":0,"aggs":{"group_by_eventname":{"terms":{"field":"metricset.name"}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
-	let query = '{"size":0,"aggs":{"group_by_eventname":{"terms":{"field":"metricset.name"}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
+	let query = '{"size":0,"aggs":{"group_by_eventname":{"terms":{"field":"metricset.name"}}},"query":{' + common.getTimeRange(req.query) + '}}';
 	
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
