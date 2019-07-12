@@ -5,6 +5,7 @@ var searchFunctions = require('../service/es/functions/search.js');
 var json = require('../service/utils/json.js');
 var common = require('./common.js');
 var cfg = require('../conf/config.json');
+var ewp = require('../service/ewp/ewp.js');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -154,6 +155,36 @@ router.get('/license/login/:id', function(req, res, next) {
 	console.log(resultObj);
 	//res.send(resultObj);
 	next(resultObj);
+})
+
+
+/**
+ * 		EWP 연동 테스트
+ * @param req
+ * @param res
+ * @param next
+ * @returns
+ */
+router.get('/ewp/login', function(req, res, next) {
+	
+	let resultObj = json.createErrObject('0');
+	let obj = json.createJsonObject();
+	
+	common.setHeader(res);
+	
+	let data = json.createJsonObject();
+	json.addValue(data, 'account_id', 'kimng@kosyas.com');
+	json.addValue(data, 'email', 'kimng@kosyas.com');
+	json.addValue(data, 'password', 'kimng@kosyas.com24');
+	
+	ewp.post('/api/v1/authentication_token', data, function(err, resp){
+		
+		console.log("test", resp);
+		
+		json.addValue(resultObj, 'data', resp);
+	})
+	
+	res.send(resultObj.data);
 })
 
 module.exports = router;

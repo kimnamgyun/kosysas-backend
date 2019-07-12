@@ -1,0 +1,58 @@
+doctype html
+html(lang= 'eb')
+	head
+		title C-SIMS Config Page
+		
+	body
+		h1 C-SIMS Config Page
+	
+		form(action='/config/save' method='post')
+			b Application
+			p port : 
+				input(type="text" name="port" value="#{port}")
+				
+			b Elasticsearch Setting
+			p ES ID :	
+				input(type="text" name="esid" value="#{esid}")
+			p ES PW :	
+				input(type="password" name="espw" value="#{espw}")
+			p ES IP :	
+				input(type="text" name="esip" value="#{esip}")
+			p ES Port :	
+				input(type="text" name="esport" value="#{esport}")
+				
+			b Alert Setting
+			p EA IP :	
+				input(type="text" name="eaip" value="#{eaip}")
+			p EA Port : 
+				input(type="text" name="eaport" value="#{eaport}")
+				
+			b Wazuh Setting
+			p wazuh ID : 
+				input(type="text" name="wid" value="#{wid}")
+			p wazuh PW : 
+				input(type="text" name="wpw" value="#{wpw}")
+			p wazuh IP : 
+				input(type="text" name="wip" value="#{wip}")
+			p wazuh Port : 
+				input(type="text" name="wport" value="#{wport}")
+			
+			b Front Setting
+			p Front IP : 
+				input(type="text" name="fip" value="#{fip}")
+			p Front Port : 
+				input(type="text" name="fport" value="#{fport}")
+			
+			b EWP Setting
+			p EWP IP : 
+				input(type="text" name="ewpip" value="#{ewpip}")
+			p EWP account : 
+				input(type="text" name="ewpaccount" value="#{ewpaccount}")
+			p EWP email :
+				input(type="text" name="ewpmail" value="#{ewpmail}")
+			p EWP PW : 
+				input(type="text" name="ewppw" value="#{ewppw}")
+				
+			input(type="submit" name="save" value="save Setting" )
+			
+		

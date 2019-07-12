@@ -9,6 +9,7 @@ var errCode = require('./conf/errorCode.json');
 
 var fs = require('fs');
 var index = require('./routes/index');
+var config = require('./routes/config');
 var users = require('./routes/users');
 var cats = require('./routes/cats');
 var wazuhManager = require('./routes/wazuh/manager');
@@ -17,6 +18,7 @@ var wazuhAgent = require('./routes/wazuh/agent');
 var elastAlert = require('./routes/elastalert');
 var elasticSearch = require('./routes/elasticsearch');
 var ioc = require('./routes/ioc');
+
 /* Dash Board */
 var overview = require('./routes/dashboard/overview');
 var intrusion = require('./routes/dashboard/intrusion');
@@ -67,6 +69,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
+app.use('/config', config);
 app.use('/users', users);
 app.use('/cats', cats);
 app.use('/wazuh/manager', wazuhManager);
