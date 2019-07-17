@@ -11,7 +11,7 @@ var json = require('../utils/json.js');
 var cfg = require('../../conf/config.json');
 
 var header = {
-		'Authorization': 'Bearer',
+		'authorization': "Bearer " + cfg.api_token,
 		'Content-Type': 'application/json;charset=UTF-8'
 };
 
@@ -20,12 +20,16 @@ var header = {
  */
 module.exports.get = function(url, data, callback) {
 	
-	let host = '13.125.179.22';//config.ip + ":" + config.port;
+	let host = 'elastic-workload-protector.secludit.com';
+	//let host = '13.125.179.22';//config.ip + ":" + config.port;
 	let urlString = 'https://' + host + url;	
+	
+	console.log(header);
+	console.log(urlString);
 	
 	let options = {
 			url: urlString,
-			header: header,
+			headers: header,
 			method: 'GET',
 			timeout: 10000,
 			ecdhCurve: 'P-521:P-384:P-256'				// ECDH Curve for EWP Website
@@ -45,7 +49,7 @@ module.exports.get = function(url, data, callback) {
 		else {
 			
 			let errObj = json.createErrObject('0');		// no error
-			//console.log(res);
+			//console.log(resp);
 			callback(errObj, json.stringToJsonObject(resp.body));						// return response string;
 		}		
 	});
@@ -56,14 +60,15 @@ module.exports.get = function(url, data, callback) {
  */
 module.exports.post = function(url, data, callback) {
 	
-	let host = '13.125.179.22';//config.ip + ":" + config.port;
+	let host = 'elastic-workload-protector.secludit.com';
+	//let host = '13.125.179.22';//config.ip + ":" + config.port;
 	let urlString = 'https://' + host + url;
 	console.log(urlString);
 	console.log(data);
 
 	let options = {
 			url: urlString,
-			header: header,
+			headers: header,
 			method: 'POST',
 			form: data,
 			timeout: 10000,
@@ -82,7 +87,7 @@ module.exports.post = function(url, data, callback) {
 		else {
 			
 			let errObj = json.createErrObject('0');		// no error
-			//console.log(res);
+			//console.log(resp);
 			callback(errObj, json.stringToJsonObject(resp.body));						// return response string;
 		}		
 	});
@@ -94,6 +99,25 @@ module.exports.post = function(url, data, callback) {
 module.exports.del = function(callback) {
 	
 	
+}
+
+login = function() {
+	
+	let data = json.createJsonObject();
+	
+	json.addValue(data, 'email', 'kimng@kosyas.com');
+	json.addValue(data, 'password', 'tpzmf2017!');
+	//json.addValue(data, 'accountid', 'kimng@kosyas.com');
+	//json.addValue(data, 'account_id', '08e0a677-f7fa-4ee4-8ec7-30c4fb4f4623');
+	//json.addValue(data, 'password', 'kimng@kosyas.com24');
+	
+	this.post('/api/v1/authentication_token', data, function(err, resp){
+		
+		console.log(resp);
+		
+		resp.access_token;
+		//json.addValue(resultObj, 'data', resp);
+	})
 }
 
 /*

@@ -173,11 +173,22 @@ router.get('/ewp/login', function(req, res, next) {
 	common.setHeader(res);
 	
 	let data = json.createJsonObject();
-	json.addValue(data, 'account_id', 'kimng@kosyas.com');
+	//json.addValue(data, 'accountid', 'kimng@kosyas.com');
+	//json.addValue(data, 'account_id', '08e0a677-f7fa-4ee4-8ec7-30c4fb4f4623');
 	json.addValue(data, 'email', 'kimng@kosyas.com');
-	json.addValue(data, 'password', 'kimng@kosyas.com24');
+	json.addValue(data, 'password', 'tpzmf2017!');
+	//json.addValue(data, 'password', 'kimng@kosyas.com24');
 	
-	ewp.post('/api/v1/authentication_token', data, function(err, resp){
+	
+	/*ewp.post('/api/v1/authentication_token', data, function(err, resp){
+		
+		console.log("test", resp);
+		
+		json.addValue(resultObj, 'data', resp);
+	})*/
+	
+	
+	ewp.get('/api/v1/servers', null, function(err, resp) {
 		
 		console.log("test", resp);
 		

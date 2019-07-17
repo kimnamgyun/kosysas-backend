@@ -32,7 +32,8 @@ router.get('/', function(req, res, next) {
 		ewpip: cfg.server_ip,
 		ewpaccount: cfg.ewpAccountID,
 		ewpmail: cfg.ewpEmail,
-		ewppw: cfg.ewpPassword
+		ewppw: cfg.ewpPassword,
+		ewptoken: cfg.api_token
 	});
 });
 
@@ -70,6 +71,7 @@ router.post('/save', function(req, res, next) {
 	cfg.ewpAccountID = data.ewpaccount;
 	cfg.ewpEmail = data.ewpmail;
 	cfg.ewpPassword = data.ewppw;
+	cfg.api_token = data.ewptoken;
 	
 	
 	fs.writeFile('conf/config.json', json.jsonObjectToString(cfg), 'utf8', function(err) {
