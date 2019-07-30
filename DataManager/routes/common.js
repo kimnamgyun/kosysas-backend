@@ -69,3 +69,8 @@ module.exports.queryResultArr = function(count, value) {
 	
 	return arr;
 }
+
+module.exports.dateCalculate = function(date) {
+	
+	// 날짜 처리 함수
+}

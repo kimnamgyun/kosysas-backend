@@ -26,6 +26,7 @@ var system = require('./routes/dashboard/system');
 var vuln = require('./routes/dashboard/vulnerability');
 var fullLog = require('./routes/dashboard/fullLog');
 
+var ewp = require('./routes/ewp');
 var user = require('./service/user/userMgr');
 
 var app = express();
@@ -84,6 +85,7 @@ app.use('/dashboard/intrusion', intrusion);
 app.use('/dashboard/system', system);
 app.use('/dashboard/vuln', vuln);
 app.use('/dashboard/fullLog', fullLog);
+app.use('/ewp', ewp);
 
 
 // Get All Error

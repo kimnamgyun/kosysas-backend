@@ -23,10 +23,7 @@ module.exports.get = function(url, data, callback) {
 	let host = 'elastic-workload-protector.secludit.com';
 	//let host = '13.125.179.22';//config.ip + ":" + config.port;
 	let urlString = 'https://' + host + url;	
-	
-	console.log(header);
-	console.log(urlString);
-	
+		
 	let options = {
 			url: urlString,
 			headers: header,
@@ -63,8 +60,6 @@ module.exports.post = function(url, data, callback) {
 	let host = 'elastic-workload-protector.secludit.com';
 	//let host = '13.125.179.22';//config.ip + ":" + config.port;
 	let urlString = 'https://' + host + url;
-	console.log(urlString);
-	console.log(data);
 
 	let options = {
 			url: urlString,
@@ -101,6 +96,7 @@ module.exports.del = function(callback) {
 	
 }
 
+// Login get Access Token
 login = function() {
 	
 	let data = json.createJsonObject();
@@ -113,7 +109,7 @@ login = function() {
 	
 	this.post('/api/v1/authentication_token', data, function(err, resp){
 		
-		console.log(resp);
+		//console.log(resp);
 		
 		resp.access_token;
 		//json.addValue(resultObj, 'data', resp);
