@@ -54,7 +54,7 @@ router.get('/servers', function(req, res, next) {
 					json.addValue(tmp, 'status', srv.status);
 					// 마지막 상태 추가 필요
 					await getReportData(srv.id).then(function(date) {
-						json.addValue(tmp, 'date', date);
+						json.addValue(tmp, 'date', common.dateCalculate(date));
 					})
 					await getRisk(srv.cloud_provider_id).then(function(risk) {
 						json.addValue(tmp, 'risk', risk);
@@ -153,6 +153,13 @@ router.get('/reports', function(req, res, next) {
 	});
 });
 
+/**
+ * 		GET Report with id
+ * @param req
+ * @param res
+ * @param next
+ * @returns
+ */
 router.get('/report/:id', function(req, res, next) {
 	
 	let from = (req.query.page != null ? req.query.page : 0) * 10;
@@ -169,7 +176,7 @@ router.get('/report/:id', function(req, res, next) {
 		try {
 			let val = resp;
 			
-			json.addValue(obj, 'date', val.start_scan);		
+			json.addValue(obj, 'date', common.dateCalculate(val.start_scan));		
 			
 			if (val.nr_errors != 0) json.addValue(obj, 'lv', 'Critical');
 			else if(vArr.nr_warnings != 0) json.addValue(obj, 'lv', 'Warning');
@@ -212,6 +219,13 @@ router.get('/report/:id', function(req, res, next) {
 	});
 })
 
+/**
+ * 		Get Download report with id
+ * @param req
+ * @param res
+ * @param next
+ * @returns
+ */
 router.get('/report/download/:id', function(req, res, next) {
 	
 	let resultObj = json.createErrObject('0');

@@ -73,4 +73,9 @@ module.exports.queryResultArr = function(count, value) {
 module.exports.dateCalculate = function(date) {
 	
 	// 날짜 처리 함수
+	// dump 2019-07-17T16:03:15.000Z
+	let vArr = date.split('T');
+	let value = vArr[0] + ' ' + vArr[1].substring(0, 8);
+	
+	return value;
 }
