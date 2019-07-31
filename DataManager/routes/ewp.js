@@ -83,7 +83,7 @@ router.get('/servers', function(req, res, next) {
 });
 
 /**
- * 		GET Reports List
+ * 		GET Reports List (paging)
  * @param req
  * @param res
  * @param next
@@ -154,7 +154,7 @@ router.get('/reports', function(req, res, next) {
 });
 
 /**
- * 		GET Report with id
+ * 		GET Report with id (paging)
  * @param req
  * @param res
  * @param next
