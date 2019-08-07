@@ -7,6 +7,7 @@
 
 var debug = require('debug')('dbtest:server');
 var http = require('http');
+var https = require('https');
 var cfg = require('./conf/config.json');
 var app = require('./app');
 

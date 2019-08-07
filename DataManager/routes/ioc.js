@@ -44,10 +44,22 @@ router.get('/updateInfo', function(req, res, body) {
 			json.addValue(resultObj, 'data', arr);
 		}
 		catch (e) {
-			//console.log(e);
-			json.addValue(obj, 'msg', 'No JSON Data');
-			json.addValue(resultObj, 'data', obj);
-			json.editValue(resultObj, 'error', '002');
+			// console.log(e);
+			// Set Dummy Data
+			let arr = new Array();
+			for( let i = 0; i< 20; i++) {
+				
+				let tObj = json.createJsonObject();
+				
+				json.addValue(tObj, 'key', 'dummy_' + i);
+				json.addValue(tObj, 'count', i);
+				
+				arr.push(tObj);
+			}
+			json.addValue(resultObj, 'data', arr);
+			//json.addValue(obj, 'msg', 'No JSON Data');
+			//json.addValue(resultObj, 'data', obj);
+			//json.editValue(resultObj, 'error', '002');
 		}
 		
 		res.send(resultObj);
@@ -118,9 +130,26 @@ router.get('/ipInfo/:page', function(req, res, body) {
 		}
 		catch (e) {
 			//console.log(e);
-			json.addValue(obj, 'msg', 'No JSON Data');
+			// dummy data  추후 삭제
+			let arr = new Array();
+			
+			for(let i = 0; i < 10 ; i++) {
+				
+				let tObj = json.createJsonObject();
+				
+				json.addValue(tObj, 'time', '2019-08-07 04:49:10');
+				json.addValue(tObj, 'start', '10.0.56.' + (i + 1));
+				json.addValue(tObj, 'end', '10.0.56.' + ((i + 1) * 2));
+				
+				arr.push(tObj);
+			}
+			
+			json.addValue(obj, 'total', 10);
+			json.addValue(obj, 'list', arr);
 			json.addValue(resultObj, 'data', obj);
-			json.editValue(resultObj, 'error', '002');
+			//json.addValue(obj, 'msg', 'No JSON Data');
+			//json.addValue(resultObj, 'data', obj);
+			//json.editValue(resultObj, 'error', '002');
 		}
 		
 		res.send(resultObj);	
