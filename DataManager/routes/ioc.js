@@ -51,7 +51,7 @@ router.get('/updateInfo', function(req, res, body) {
 				
 				let tObj = json.createJsonObject();
 				
-				json.addValue(tObj, 'key', 'dummy_' + i);
+				json.addValue(tObj, 'key', '2019-08-07 04:49:10');
 				json.addValue(tObj, 'count', i);
 				
 				arr.push(tObj);
