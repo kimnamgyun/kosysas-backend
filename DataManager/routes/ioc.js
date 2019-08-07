@@ -47,7 +47,7 @@ router.get('/updateInfo', function(req, res, body) {
 			// console.log(e);
 			// Set Dummy Data
 			let arr = new Array();
-			for( let i = 0; i< 20; i++) {
+			for( let i = 0; i < 9 ; i++) {
 				
 				let tObj = json.createJsonObject();
 				
@@ -133,7 +133,7 @@ router.get('/ipInfo/:page', function(req, res, body) {
 			// dummy data  추후 삭제
 			let arr = new Array();
 			
-			for(let i = 0; i < 10 ; i++) {
+			for(let i = 0; i < 9 ; i++) {
 				
 				let tObj = json.createJsonObject();
 				
