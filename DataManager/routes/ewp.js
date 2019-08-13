@@ -26,6 +26,8 @@ var promise = require('promise');
  */
 router.get('/servers', function(req, res, next) {
 	
+	let from = (req.query.page != null ? req.query.page : 0) * 10;
+	
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
 	
@@ -41,9 +43,10 @@ router.get('/servers', function(req, res, next) {
 			let servers = resp.servers;
 			let results = new Array();				// 정제한 서버를 정보를 담을 배열
 			
-			json.addValue(obj, 'count', size);
+			json.addValue(obj, 'page', req.query.page != null ? req.query.page : 0);
+			json.addValue(obj, 'totalRows', size);
 			
-			async function test() {
+			async function getServers() {
 				
 				for(let i = 0; i < size; i++) {
 					
@@ -69,7 +72,7 @@ router.get('/servers', function(req, res, next) {
 				json.addValue(resultObj, 'data', obj);
 				res.send(resultObj);
 			}
-			test();			
+			getServers();			
 		}
 		catch (e) {
 		
@@ -106,7 +109,8 @@ router.get('/reports', function(req, res, next) {
 		async function reports() {
 			
 			let count = resp.length;
-			json.addValue(obj, 'count', count);
+			json.addValue(obj, 'page', req.query.page != null ? req.query.page : 0);
+			json.addValue(obj, 'totalRows', count);
 			
 			count = (count - from) <= 10 ? count : from + 10;
 			
@@ -133,6 +137,7 @@ router.get('/reports', function(req, res, next) {
 				
 				arr.push(tmp);
 			}
+			
 			
 			json.addValue(obj, 'reports', arr);
 			json.addValue(resultObj, 'data', obj);
@@ -189,8 +194,9 @@ router.get('/report/:id', function(req, res, next) {
 			json.addValue(obj, 'n_warn', val.nr_warnings);
 			json.addValue(obj, 'n_infos', val.nr_infos);
 			
-			let count = val.vulnerabilities.length;			
-			json.addValue(obj, 'vul_count', count);
+			let count = val.vulnerabilities.length;
+			json.addValue(obj, 'page', req.query.page != null ? req.query.page : 0);
+			json.addValue(obj, 'totalRows', count);
 			count = (count - from) <= 10 ? count : from + 10;
 			
 			for(let i = from; i < count; i++ ){
