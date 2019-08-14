@@ -26,7 +26,7 @@ var promise = require('promise');
  */
 router.get('/servers', function(req, res, next) {
 	
-	let from = (req.query.page != null ? req.query.page : 0) * 10;
+	let from = (req.query.page != null ? (req.query.page - 1) : 0) * 10;
 	
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
@@ -94,7 +94,7 @@ router.get('/servers', function(req, res, next) {
  */
 router.get('/reports', function(req, res, next) {
 	
-	let from = (req.query.page != null ? req.query.page : 0) * 10;
+	let from = (req.query.page != null ? (req.query.page - 1) : 0) * 10;
 	
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
@@ -167,7 +167,7 @@ router.get('/reports', function(req, res, next) {
  */
 router.get('/report/:id', function(req, res, next) {
 	
-	let from = (req.query.page != null ? req.query.page : 0) * 10;
+	let from = (req.query.page != null ? (req.query.page - 1) : 0) * 10;
 	
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
