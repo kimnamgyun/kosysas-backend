@@ -2,6 +2,8 @@
 	"001": "test",
 	"002": "no json data",
 	"003": "test3",
+	"004": "Create auth token failed",
+	"005": "Not valid token",
 	"404": "page not found",
 	"500": "internal server error",
 	"502": "bad gateway",

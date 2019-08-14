@@ -1,0 +1,22 @@
+doctype html
+html(lang= 'eb')
+	head
+		title C-SIMS Authentication Token Page
+		
+	body
+		h1 C-SIMS Config Page
+	
+		form(action='/config/token/create' method='post')
+			b Create Token
+			p User ID : 
+				input(type="text" name="id" value="#{id}")
+			p User Password :	
+				input(type="password" name="pw" value="#{pw}")
+			p User name :	
+				input(type="text" name="name" value="#{name}")
+			p User e-mail :	
+				input(type="text" name="email" value="#{email}")
+			p Authentication Token :	
+				input(type="text" name="token" value="#{token}")
+				
+			input(type="submit" name="token" value="Create Token" )

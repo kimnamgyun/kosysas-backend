@@ -9,6 +9,8 @@ var fs = require('fs');
 var express = require('express');
 var router = express.Router();
 var cfg = require('../conf/config.json');
+var token = require('../conf/token.json');
+var tokenMgr = require('./auth/tokenManager.js');
 var json = require('../service/utils/json.js');
 
 /*
@@ -80,6 +82,41 @@ router.post('/save', function(req, res, next) {
 	});
 	// config 화면으로 redirecting
 	res.redirect('/config');
+});
+
+router.get('/token', function(req, res, next) {
+	res.render('token', {
+		id: token.id,
+		pw: token.pw,
+		name: token.name,
+		email: token.email,
+		token: token.token,
+	});
+});
+
+router.post('/token/create', function(req, res, next) {
+	
+	let data = req.body
+	
+	token.id = data.id;
+	token.pw = data.pw;
+	token.name = data.name;
+	token.email = data.email;
+	
+	let obj = tokenMgr.createToken(data.id, data.pw, data.name, data.email);
+	if(obj.type) {
+		
+		token.token = obj.data;		
+	}
+	else {
+		token.token = null;
+	}	
+	
+	fs.writeFile('conf/token.json', json.jsonObjectToString(token), 'utf8', function(err) {
+		if(err) console.log(err);
+		else console.log("Token Save Complete");
+	});	
+	res.redirect('/config/token');
 });
 
 module.exports = router;
