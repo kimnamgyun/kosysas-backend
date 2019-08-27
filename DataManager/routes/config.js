@@ -84,6 +84,13 @@ router.post('/save', function(req, res, next) {
 	res.redirect('/config');
 });
 
+/**
+ * 		GET Token 생성 정보 입력
+ * @param req
+ * @param res
+ * @param next
+ * @returns
+ */
 router.get('/token', function(req, res, next) {
 	res.render('token', {
 		id: token.id,
@@ -94,6 +101,13 @@ router.get('/token', function(req, res, next) {
 	});
 });
 
+/**
+ * 		POST Token 생성
+ * @param req
+ * @param res
+ * @param next
+ * @returns
+ */
 router.post('/token/create', function(req, res, next) {
 	
 	let data = req.body
@@ -116,7 +130,135 @@ router.post('/token/create', function(req, res, next) {
 		if(err) console.log(err);
 		else console.log("Token Save Complete");
 	});	
+	
 	res.redirect('/config/token');
 });
+
+/**
+ * 		GET 토큰 생성 ( 외부 API 용 )
+ * @param req
+ * @param res
+ * @param next
+ * @returns
+ */
+router.get('/token/sign', function(req, res, next) {
+	
+	let isValid = false;
+	let id		= "admin@kosyas.com";
+	let pw		= "111!!!qqqQQQ";	
+	let name	= "kosyas";
+	let email	= "admin@kosyas.com";
+	
+	let obj = tokenMgr.createToken(id, pw, name, email);
+	if(obj.type) isValid = true;
+	
+	if(isValid) {
+		
+		token.token = obj.data;
+		fs.writeFile('conf/token.json', json.jsonObjectToString(token), 'utf8', function(err) {
+			if(err) console.log(err);
+			else console.log("Token Save Complete");
+		});	
+		
+		res.send({
+			error: '0',
+			data: {
+				valid: 'true',
+				msg: 'Token sign success'
+			}
+		});
+	}
+	else {
+		res.send({
+			error: '007',
+			data: {
+				valid: 'false',
+				msg: 'Token sign failed'
+			}
+		});
+	}
+});
+
+/**
+ * 		GET Token
+ * @param req
+ * @param res
+ * @param next
+ * @returns
+ */
+router.get('/token/get', function(req, res, next) {
+	
+	let isValid = false;
+	let token = null;
+	let user = (req.query.user != null ? req.query.user : null);
+	let name = (req.query.name != null ? req.query.name : null);
+	let email = (req.query.email != null ? req.query.email : null);
+	
+	//
+	fs.readFile('conf/token.json', 'utf8', function(err, data) {
+		
+		if(err) console.log(err);
+		else {
+			console.log(data);
+			token = json.stringToJsonObject(data).token;
+			
+			// 적합한 사용자 체크 ( 임시 )
+			if(token) {
+				if(user != null && name != null && email != null) isValid = true;
+			}
+			
+			if(isValid) {
+				res.send({
+					error: '0',
+					data: {
+						valid: 'true',
+						value: token,
+						msg: 'Token authentication success'
+					}
+				});
+			}
+			else {
+				res.send({
+					error: '006',
+					data: {
+						valid: 'false',
+						value: 'null',
+						msg: 'Not Valid Token'
+					}
+				});
+			}
+		}
+	});
+});
+
+/**
+ * 		GET Token Verify
+ * @param req
+ * @param res
+ * @param next
+ * @returns
+ */
+router.get('/token/verify', function(req, res, next) {
+	
+	if(tokenMgr.authToken(req.headers)) {
+		
+		res.send({
+			error: '0',
+			data: {
+				valid: 'true',
+				msg: 'Token authentication success'
+			}
+		});
+	}
+	else {
+		res.send({
+			error: '005',
+			data: {
+				valid: 'false',
+				msg: 'Not Valid Token'
+			}
+		});
+	}
+})
 
 module.exports = router;

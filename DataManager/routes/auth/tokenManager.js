@@ -32,10 +32,10 @@ tokenManager.createToken = function(id, pw, name, email) {
 			email: email
 		}
 		
-		let token = jwt.sign(User, conf.key, { expiresIn: 60 * 60 });
-		console.log(token);
+		let token = jwt.sign(User, conf.key, { expiresIn: 60 * 60 * 24 });
+		//console.log(token);
 		
-		console.log(jwt.verify(token, conf.key));
+		//console.log(jwt.verify(token, conf.key));
 		return {
 			type: true,
 			data: token
@@ -54,9 +54,7 @@ tokenManager.deleteToken = function() {
  */
 tokenManager.authToken = function(header) {
 	
-	console.log(header);
-	var bearerHeader = header["authorization"];
-	console.log(bearerHeader);
+	var bearerHeader = header["authorization"];	
 	if(typeof bearerHeader !== 'undefined') {
 		var bearer = bearerHeader.split(' ');
 		var token = bearer[1];
