@@ -67,13 +67,13 @@ tokenManager.authToken = function(header) {
 			if(!decode.id) return false;
 			if(!decode.password) return false;
 			if(!decode.name) return false;
-			if(!decode.email) return false;
-			console.log("tokenManager.authToken : " + "success");
+			if(!decode.email) return false;	
 		}
 		catch(e) {
 			console.log("tokenManager.authToken : " + e);
 			return false;
 		}
+		console.log("tokenManager.authToken : " + "success");
 		return true;
 	}
 	else {
