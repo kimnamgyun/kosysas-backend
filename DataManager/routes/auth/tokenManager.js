@@ -62,7 +62,7 @@ tokenManager.authToken = function(header) {
 		//console.log(bearerHeader);
 		//console.log(token);
 		try{
-			let decode = jwt.verify(token, "simon");
+			let decode = jwt.verify(token, "simo");
 			
 			if(!decode.id) return false;
 			if(!decode.password) return false;
