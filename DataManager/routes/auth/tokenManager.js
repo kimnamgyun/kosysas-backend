@@ -62,12 +62,12 @@ tokenManager.authToken = function(header) {
 		//console.log(bearerHeader);
 		//console.log(token);
 		try{
-			let decode = jwt.verify(token, "simo");
+			let decode = jwt.verify(token, "simon");
 			
+			if(!decode.seq) return false;
 			if(!decode.id) return false;
-			if(!decode.password) return false;
-			if(!decode.name) return false;
-			if(!decode.email) return false;	
+			if(!decode.nm) return false;
+			if(!decode.lvl) return false;	
 		}
 		catch(e) {
 			console.log("tokenManager.authToken : " + e);
