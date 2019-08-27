@@ -73,7 +73,7 @@ tokenManager.authToken = function(header) {
 			console.log("tokenManager.authToken : " + e);
 			return false;
 		}
-		console.log("tokenManager.authToken : " + "success");
+		//console.log("tokenManager.authToken : " + "success");
 		return true;
 	}
 	else {
