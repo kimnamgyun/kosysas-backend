@@ -29,6 +29,8 @@ var fullLog = require('./routes/dashboard/fullLog');
 var ewp = require('./routes/ewp');
 var user = require('./service/user/userMgr');
 
+var auth = require('./routes/auth/tokenManager.js');
+
 var app = express();
 app.use(cors());
 
@@ -48,6 +50,42 @@ app.use(logger({
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+app.use(function(req, res, next) {
+	
+	//res.header("Cache-Control", "no-cache, no-store, must-revalidate");
+    //res.header("Pragma", "no-cache");
+    //res.header("Expires", 0)
+    
+    // Authentication    
+    //res.header('Access-Control-Allow-Origin', '*');
+    //res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    //res.header('Access-Control-Allow-Headers', 'content-type, authorization'); //1
+
+	// 토큰 인증 하는 부분
+	/**
+	 * 		Header Options
+	 * 		header = {
+	 *		'authorization': "Bearer " + Token,
+	 *		'Content-Type': 'application/json;charset=UTF-8'}
+	 */
+	// 백엔드 설정 url error 처리
+	// 불필요 시 잠시 주석처리해서 next(); 만 실행되게 한다.
+	//console.log(req.url.split('/'));
+	var url = req.url.split('/');
+	if(url[1] == 'config' || url[1] == 'license') next();
+	else if(auth.authToken(req.headers)) next();
+    else {
+    	var obj = {
+    	    	err: "005",
+    	    	data: {
+    	    		msg: "Not valid token"
+    	    	}
+    	    };
+    	    res.send(obj);
+    }    
+});
+
 
 
 /*
