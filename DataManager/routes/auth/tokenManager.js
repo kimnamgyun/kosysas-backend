@@ -58,9 +58,10 @@ tokenManager.authToken = function(header) {
 	if(typeof bearerHeader !== 'undefined') {
 		var bearer = bearerHeader.split(' ');
 		var token = bearer[1];
+		console.log(bearerHeader);
 		console.log(token);
 		try{
-			let decode = jwt.verify(token, conf.key);
+			let decode = jwt.verify(token, "simon");
 			
 			if(!decode.id) return false;
 			if(!decode.password) return false;
