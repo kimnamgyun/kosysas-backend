@@ -16,7 +16,7 @@ var common = require('./common.js');
  */
 router.get('/updateInfo', function(req, res, body) {
 	
-	let query = '{"size":0,"query":{"match_all":{}},"aggs":{"ioc":{"date_histogram":{"field":"@timestamp","interval":"' + common.getInterval(req.query) + '"}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
+	let query = '{"size":0,"aggs":{"ioc":{"date_histogram":{"field":"@timestamp","interval":"' + common.getInterval(req.query) + '"}}},"query":{' + common.getTimeRange(req.query) + '}}';
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
 	

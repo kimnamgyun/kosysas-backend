@@ -53,7 +53,7 @@ router.get('/analysisAlertCount', function(req, res, body) {
  */
 router.get('/analysisAlertCountPerTime', function(req, res, body) {
 
-	let wQuery = '{"size":0,"query":{"match_all":{}},"aggs":{"alert_per_time":{"date_histogram":{"field":"@timestamp","interval":"' + common.getInterval(req.query) + '","order":{"_key":"desc"}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
+	let wQuery = '{"size":0,"query":{'+ common.getTimeRange(req.query) +'},"aggs":{"alert_per_time":{"date_histogram":{"field":"@timestamp","interval":"' + common.getInterval(req.query) + '","order":{"_key":"desc"}}}}}';
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
 	

@@ -24,9 +24,7 @@ module.exports.getTimeRange = function(query) {
 	let lte = query.lte != null ? query.lte : "2019-06-30T00:00:00.000Z";
 	
 	let range = '"range":{"@timestamp":{"gte":"' + gte + '","lte":"' + lte + '"}}';
-	
-	//console.log(range);
-	
+		
 	return range;
 }
 
@@ -51,8 +49,8 @@ module.exports.getInterval = function(query) {
 	if(score <= 10) interval = "day";
 	else if(score > 10 && score <= 70) interval = "week";
 	else if(score > 70 && score <= 300) interval = "month";
-	else if(score > 300) interval = "quarter"
-
+	else if(score > 300) interval = "quarter";
+	
 	return interval;
 }
 

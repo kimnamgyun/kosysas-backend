@@ -91,11 +91,12 @@ router.get('/memory', function(req, res, body) {
 router.get('/eventPerTime', function(req, res, body) {
 	
 	//let query = '{"size":0,"aggs":{"event_per_time":{"date_histogram":{"field":"@timestamp","interval":"' + common.getInterval(req.query) + '","order":{"_key":"desc"}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
-	let query = '{"size":0,"aggs":{"event_per_time":{"date_histogram":{"field":"@timestamp","interval":"' + common.getInterval(req.query) + '","order":{"_key":"desc"}}}},"post_filter":{' + common.getTimeRange(req.query) + '}}';
+	let query = '{"size":0,"aggs":{"event_per_time":{"date_histogram":{"field":"@timestamp","interval":"' + common.getInterval(req.query) + '","order":{"_key":"desc"}}}},"query":{' + common.getTimeRange(req.query) + '}}';
 
 	let resultObj = json.createErrObject('0');
 	let obj = json.createJsonObject();
 	
+	console.log(query);
 	common.setHeader(res);
 	searchFunctions.freeQuery(client, 'metricbeat-*', query, function(resp) {
 		
