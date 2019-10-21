@@ -374,4 +374,51 @@ router.get('/threatAgent', function(req, res, body) {
 	});
 });
 
+/**
+ * 	GET 패킷 비트 패킷 취약점
+ * @param req
+ * @param res
+ * @param body
+ * @returns
+ */
+router.get('/threatPacket', function(req, res, body) {
+	
+	let query = '{"size":0,"aggs":{"id":{"terms":{"field":"@timestamp","size":5},"aggs":{"dip":{"terms":{"field":"dest.ip.keyword","size":1}},"dport":{"terms":{"field":"dest.port","size":1}},"sip":{"terms":{"field":"source.ip.keyword","size":1}},"sport":{"terms":{"field":"source.port","size":1}}}}},"query":{' + common.getTimeRange(req.query) + '}}';
+	
+	let resultObj = json.createErrObject('0');
+	let obj = json.createJsonObject();
+	
+	common.setHeader(res);
+	searchFunctions.freeQuery(client, 'packetbeat-*', query, function(resp) {
+		
+		try {
+			let count = resp.aggregations.id.buckets.length;
+			let value = resp.aggregations.id.buckets;
+			let result = new Array();
+			
+			for(let i = 0; i < count; i++){
+				
+				let temp = json.createJsonObject();
+				json.addValue(temp, 'time', value[i].key_as_string);
+				json.addValue(temp, 'dip', value[i].dip.buckets[0].key);
+				json.addValue(temp, 'dport', value[i].dport.buckets[0].key);
+				json.addValue(temp, 'sip', value[i].sip.buckets[0].key);
+				json.addValue(temp, 'sport', value[i].sport.buckets[0].key);
+							
+				result.push(temp);
+			}
+			
+			json.addValue(resultObj, 'data', result);
+		}
+		catch (e) {
+			console.log(e);
+			json.addValue(obj, 'msg', 'No JSON Data');
+			json.addValue(resultObj, 'data', obj);
+			json.editValue(resultObj, 'error', '002');
+		}
+				
+		res.send(resultObj);
+	});
+});
+
 module.exports = router;
